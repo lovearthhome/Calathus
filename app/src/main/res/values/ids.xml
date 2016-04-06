@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tool_bar" type="id" />
+    <item name="tab_layout" type="id" />
+    <item name="view_pager" type="id" />
+    <item name="draw_layout" type="id" />
+    <item name="nav_view" type="id" />
+</resources>
