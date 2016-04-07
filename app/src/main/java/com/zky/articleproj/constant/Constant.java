@@ -6,5 +6,5 @@ package com.zky.articleproj.constant;
 public class Constant {
 
     public static final String baseUrl = "http://api.wikicivi.com/articles";
-    public static int dua_id = 41;
+    public static long dua_id = 41;
 }

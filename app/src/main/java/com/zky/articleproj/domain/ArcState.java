@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class ArcState {
 
-    public int dua_id;
+    public long dua_id;
     public String action;
     public List<Map<String, Object>> events;
 

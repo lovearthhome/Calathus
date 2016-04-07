@@ -11,6 +11,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.yimingyu.android.core.MyCallBack;
 import com.yimingyu.android.lib.duasdk.Dua;
 import com.zky.articleproj.R;
 import com.zky.articleproj.base.BaseActivity;
@@ -81,7 +82,18 @@ public class LoginActivity extends BaseActivity {
                     mPasswordView.setText("请输入密码");
                     return;
                 }
-//                dua.login();
+
+                dua.getDuaId(new MyCallBack() {
+                    @Override
+                    public void onSuccess(String s) {
+                        Constant.dua_id = Long.parseLong(s);
+                    }
+
+                    @Override
+                    public void onError(String s) {
+
+                    }
+                });
             }
         });
     }

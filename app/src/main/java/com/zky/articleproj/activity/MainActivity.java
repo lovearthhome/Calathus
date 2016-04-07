@@ -1,4 +1,4 @@
-package com.zky.articleproj;
+package com.zky.articleproj.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -13,18 +13,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.yimingyu.android.lib.duasdk.Dua;
-import com.zky.articleproj.activity.LoginActivity;
+import com.yimingyu.android.core.MyCallBack;
+import com.yimingyu.android.lib.duasdk.DuaTest;
+import com.zky.articleproj.R;
 import com.zky.articleproj.base.BaseActivity;
-import com.zky.articleproj.fragment.Index2Fragment;
+import com.zky.articleproj.fragment.IndexFragment;
 
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
@@ -51,13 +50,25 @@ public class MainActivity extends BaseActivity {
     private List<Fragment> pagers;
     private ImageView user_icon;
 
-    private Dua dua;
+    private DuaTest duaTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        dua = new Dua(this);
+        duaTest = DuaTest.getInstance(this);
+
+        duaTest.getCurrentDuaId(new MyCallBack() {
+            @Override
+            public void onSuccess(String s) {
+                System.out.println("--------" + s);
+            }
+
+            @Override
+            public void onError(String s) {
+
+            }
+        });
 
         headView = mNavigationView.getHeaderView(0);
         user_icon = (ImageView) headView.findViewById(R.id.user_icon);
@@ -84,7 +95,7 @@ public class MainActivity extends BaseActivity {
 
         pagers = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            pagers.add(new Index2Fragment());
+            pagers.add(new IndexFragment());
         }
     }
 
@@ -118,12 +129,12 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        dua.duaAwake();
+        //dua.duaAwake();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        dua.duaSleep();
+        // dua.duaSleep();
     }
 }

@@ -74,6 +74,7 @@ public class IndexResponse {
     }
 
     public static class ResultBean {
+        public int typeId;
         private String inc;
         private Object brief;
         private String star;

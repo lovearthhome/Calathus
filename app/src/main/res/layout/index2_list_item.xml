@@ -10,9 +10,10 @@
         style="@style/ListTitieStyle"
         android:text="无题" />
 
-    <TextView
-        android:id="@+id/tv_index1_content"
+    <ImageView
+        android:id="@+id/iv_gif"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="360dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY" />
 </LinearLayout>
-
