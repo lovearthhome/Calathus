@@ -1,6 +1,8 @@
 package com.zky.articleproj.adapter.holder.zhaoliang;
 
+import android.app.Activity;
 import android.content.Context;
+import android.hardware.SensorManager;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -8,6 +10,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.squareup.seismic.ShakeDetector;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
 
@@ -16,10 +19,13 @@ import org.json.JSONObject;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import tyrantgit.explosionfield.ExplosionField;
+
+
 /**
  * Created by zhaoliang on 16/4/7.
  */
-public class Tmpl102ListViewHolder extends BaseHolder {
+public class Tmpl102ListViewHolder extends BaseHolder implements ShakeDetector.Listener {
 
 
     @ViewInject(R.id.joke_title)
@@ -38,15 +44,22 @@ public class Tmpl102ListViewHolder extends BaseHolder {
     private FrameLayout ans_covering;
 
     private Animation animation;
+    private ExplosionField mExplosionField;
 
     @Event({R.id.btn_show_ans})
     private void click(View view) {
         System.out.println("-----------查看答案");
-        ans_covering.startAnimation(animation);
+        //ans_covering.startAnimation(animation);
+        mExplosionField.explode(ans_covering);
     }
 
-    public Tmpl102ListViewHolder(View itemView) {
+    public Tmpl102ListViewHolder(View itemView, SensorManager sensorManager) {
         super(itemView);
+
+        mExplosionField = ExplosionField.attach2Window((Activity) itemView.getContext());
+
+        ShakeDetector sd = new ShakeDetector(this);
+        sd.start(sensorManager);
 
         animation = new RotateAnimation(0, 360);
         animation.setDuration(1000);
@@ -69,5 +82,10 @@ public class Tmpl102ListViewHolder extends BaseHolder {
     @Override
     public int setLayoutFile() {
         return R.layout.index4_list_item;
+    }
+
+    @Override
+    public void hearShake() {
+        mExplosionField.explode(ans_covering);
     }
 }

@@ -1,6 +1,7 @@
 package com.zky.articleproj.adapter.adapter.base;
 
 import android.content.Context;
+import android.hardware.SensorManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.xutils.x;
 
+
 /**
  * Created by zhaoliang on 16/4/6.
  */
@@ -23,9 +25,14 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
     public Context context;
     public JSONArray jsonArray;
 
+    SensorManager sensorManager;
+
+
     public BaseAdapter(Context context, JSONArray jsonArray) {
         this.context = context;
         this.jsonArray = jsonArray;
+
+        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
     }
 
     @Override
@@ -66,7 +73,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
                 holder = new IndexListViewHolder(v);
                 break;
             case 102:
-                holder = new Tmpl102ListViewHolder(v);
+                holder = new Tmpl102ListViewHolder(v, sensorManager);
                 break;
             /*case 1:
                 holder = new Index2ListViewHolder(v);
@@ -80,4 +87,5 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
         }
         return holder;
     }
+
 }
