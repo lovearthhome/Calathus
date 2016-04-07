@@ -4,9 +4,52 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/my_button"
+    <TextView
+        android:id="@+id/joke_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="新的Button" />
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/joke_ask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/joke_ans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/joke_why"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/joke_ans" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/ans_covering"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_orange_light">
+
+            <Button
+                android:id="@+id/btn_show_ans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_showans"
+                android:text="查看答案" />
+        </FrameLayout>
+
+    </FrameLayout>
+
 </LinearLayout>

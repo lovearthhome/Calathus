@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
 import com.zky.articleproj.adapter.holder.zhaoliang.IndexListViewHolder;
+import com.zky.articleproj.adapter.holder.zhaoliang.Tmpl102ListViewHolder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,6 +65,9 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
             case 100:
                 holder = new IndexListViewHolder(v);
                 break;
+            case 102:
+                holder = new Tmpl102ListViewHolder(v);
+                break;
             /*case 1:
                 holder = new Index2ListViewHolder(v);
                 break;
@@ -71,7 +75,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
                 holder = new Index3ListViewHolder(v);
                 break;
             case 3:
-                holder = new Index4ListViewHolder(v);
+                holder = new Tmpl102ListViewHolder(v);
                 break;*/
         }
         return holder;
