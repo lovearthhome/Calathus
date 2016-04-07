@@ -114,7 +114,7 @@ public class IndexFragment extends BaseFragment {
         getArtPrama.action = "get_articles";
         // getArtPrama.cato = 100000;
         getArtPrama.order = "create_time desc";
-        getArtPrama.fields = new String[]{"inc", "brief", "star", "comt", "content", "title", "good", "bad", "shar"};
+        getArtPrama.fields = new String[]{"inc", "star", "comt", "content", "title", "good", "bad", "shar"};
         getArtPrama.rows = 7;
 
         Map<String, Object> filters = new HashMap<>();
@@ -122,6 +122,7 @@ public class IndexFragment extends BaseFragment {
         // filters.put("title", "");
         // filters.put("create_time[<]", 0);
         filters.put("cato", 100000);
+        filters.put("tmpl", 100);
 
         getArtPrama.filter = filters;
 

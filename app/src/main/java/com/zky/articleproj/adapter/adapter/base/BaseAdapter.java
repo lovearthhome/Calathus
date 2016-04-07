@@ -8,9 +8,6 @@ import android.view.ViewGroup;
 
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
-import com.zky.articleproj.adapter.holder.zhaoliang.Index2ListViewHolder;
-import com.zky.articleproj.adapter.holder.zhaoliang.Index3ListViewHolder;
-import com.zky.articleproj.adapter.holder.zhaoliang.Index4ListViewHolder;
 import com.zky.articleproj.adapter.holder.zhaoliang.IndexListViewHolder;
 
 import org.json.JSONArray;
@@ -64,10 +61,10 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
      */
     private BaseHolder switchView(int viewType, View v, BaseHolder holder) {
         switch (viewType) {
-            case 0:
+            case 100:
                 holder = new IndexListViewHolder(v);
                 break;
-            case 1:
+            /*case 1:
                 holder = new Index2ListViewHolder(v);
                 break;
             case 2:
@@ -75,7 +72,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
                 break;
             case 3:
                 holder = new Index4ListViewHolder(v);
-                break;
+                break;*/
         }
         return holder;
     }
