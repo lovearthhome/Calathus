@@ -122,7 +122,7 @@ public class IndexFragment extends BaseFragment {
         // filters.put("title", "");
         // filters.put("create_time[<]", 0);
         filters.put("cato", 100000);
-        filters.put("tmpl", 102);
+        filters.put("tmpl", 101);
 
         getArtPrama.filter = filters;
 
