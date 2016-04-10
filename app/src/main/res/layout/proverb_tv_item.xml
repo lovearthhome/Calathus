@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/proverb_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="歇后语" />
+
+    <TextView
+        android:id="@+id/proverb_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="header" />
+    <include
+        android:id="@+id/scratch_card"
+        layout="@layout/scratch_card" />
+</LinearLayout>

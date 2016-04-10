@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/question_answer_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="标题" />
+    <TextView
+        android:id="@+id/question_html"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="问题" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/options_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/option_content">
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/answer_html"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="答案" />
+
+    <TextView
+        android:id="@+id/why_html"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="原因" />
+</LinearLayout>

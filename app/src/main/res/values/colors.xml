@@ -6,5 +6,6 @@
     <color name="colorPrimaryDark">#FF4081</color>
     <color name="colorAccent">#FF4081</color>
     <color name="conver_tv_bg_color">#FFFAF0</color>
+	<color name="view_color">#aaaaaa</color>
     <color name="white">#fff</color>
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="lotter">
+        <attr name="lotter_widget" format="dimension"/>
+        <attr name="lotter_height" format="dimension"/>
+    </declare-styleable>
+
+</resources>
