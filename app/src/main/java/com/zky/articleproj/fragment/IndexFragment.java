@@ -52,7 +52,7 @@ public class IndexFragment extends BaseFragment {
     private LinearLayoutManager linearLayoutManager;
     private IndexListAdapter adapter;
 
-    private int cato = 102001;
+    private String channel = "";
     private int tmpl = 200;
 
     Handler mHandler = new Handler() {
@@ -85,7 +85,7 @@ public class IndexFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            cato = getArguments().getInt("cato");
+            channel = getArguments().getString("cato");
             // tmpl = getArguments().getInt("tmpl");
         }
     }
@@ -133,7 +133,7 @@ public class IndexFragment extends BaseFragment {
         //filters.put("media", 1);
         // filters.put("title", "");
         // filters.put("create_time[<]", 0);
-        filters.put("cato", cato);
+        // filters.put("cato", cato);
         //filters.put("tmpl", tmpl);
 
         getArtPrama.filter = filters;
@@ -186,10 +186,10 @@ public class IndexFragment extends BaseFragment {
         }
     }
 
-    public static IndexFragment newInstance(int coto) {
+    public static IndexFragment newInstance(String chanel) {
         IndexFragment fragment = new IndexFragment();
         Bundle args = new Bundle();
-        args.putInt("cato", coto);
+        args.putString("cato", chanel);
         fragment.setArguments(args);
         return fragment;
     }

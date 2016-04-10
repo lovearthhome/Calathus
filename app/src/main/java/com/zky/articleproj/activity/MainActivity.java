@@ -93,8 +93,8 @@ public class MainActivity extends BaseActivity {
 
     class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String tabTitles[] = new String[]{"笑话", "趣图", "名画", "美女"};
-        private final int cato[] = {100000, 102001, 102002, 102003};
+        private final String tabTitles[] = new String[]{"开心", "达人", "美女", "帅哥", "电影", "音乐", "时尚", "游戏", "科学", "文化", "体育", "旅游", "艺术"};
+        private final String channel[] = {"Happy", "Daren", "Beauty", "Handsome", "Movie", "Music", "Fasion", "Game", "Science", "Culture", "Sport", "Travel", "Art"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -102,7 +102,7 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return IndexFragment.newInstance(cato[position]);
+            return IndexFragment.newInstance(channel[position]);
         }
 
         @Override
