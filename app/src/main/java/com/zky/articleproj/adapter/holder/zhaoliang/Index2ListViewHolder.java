@@ -1,6 +1,7 @@
 package com.zky.articleproj.adapter.holder.zhaoliang;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.zky.articleproj.adapter.holder.base.BaseHolder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 /**
@@ -27,6 +29,15 @@ public class Index2ListViewHolder extends BaseHolder {
     @ViewInject(R.id.iv_gif)
     public ImageView iv_gif;
 
+    private String image_url = "";
+
+    @Event(R.id.iv_gif)
+    private void click(View view) {
+        Intent intent = new Intent("com.zky.articleproj.activity.ImageZoomActivity");
+        intent.putExtra("image_url", image_url);
+        context.startActivity(intent);
+    }
+
     public Index2ListViewHolder(View itemView) {
         super(itemView);
     }
@@ -38,7 +49,9 @@ public class Index2ListViewHolder extends BaseHolder {
             /*
             内容信息
             */
-        Picasso.with(context).load(imageurl[(int) (Math.random() * imageurl.length)]).into(holder.iv_gif);
+        tvTitle.setText(jsonObject.getString("title"));
+        image_url = jsonObject.getString("content");
+        Picasso.with(context).load(image_url).into(holder.iv_gif);
 
     }
 

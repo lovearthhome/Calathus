@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
 import com.zky.articleproj.adapter.holder.yimingyu.ConversationsListViewHolder;
+import com.zky.articleproj.adapter.holder.zhaoliang.Index2ListViewHolder;
 import com.zky.articleproj.adapter.holder.zhaoliang.IndexListViewHolder;
 import com.zky.articleproj.adapter.holder.zhaoliang.Tmpl102ListViewHolder;
 
@@ -78,6 +79,9 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
                 break;
             case 101:
                 holder = new ConversationsListViewHolder(v);
+                break;
+            case 200:
+                holder = new Index2ListViewHolder(v);
                 break;
             /*case 1:
                 holder = new Index2ListViewHolder(v);

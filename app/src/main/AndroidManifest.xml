@@ -34,12 +34,19 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
+
+        <activity android:name=".activity.ImageZoomActivity">
+            <intent-filter>
+                <action android:name="com.zky.articleproj.activity.ImageZoomActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
 
         <service
+            android:name="com.yimingyu.android.lib.duasdk.DuaService"
             android:enabled="true"
-            android:exported="true" android:name="com.yimingyu.android.lib.duasdk.DuaService" >
-        </service>
+            android:exported="true" />
 
     </application>
 

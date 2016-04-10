@@ -26,9 +26,6 @@ import com.zky.articleproj.fragment.IndexFragment;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @SuppressLint("NewApi")
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
@@ -47,7 +44,6 @@ public class MainActivity extends BaseActivity {
     private View headView;
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private List<Fragment> pagers;
     private ImageView user_icon;
 
     private DuaTest duaTest;
@@ -93,18 +89,12 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         mTabLayout.setupWithViewPager(mViewPager);
 
-        pagers = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            pagers.add(new IndexFragment());
-        }
     }
 
     class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String tabTitles[] = new String[]{"番组", "动画", "音乐", "舞蹈", "游戏",
-                "科技", "娱乐", "鬼畜", "电影", "电视剧"};
-        private final String typeid[] = new String[]{"13", "1", "117", "20", "4",
-                "36", "5", "119", "23", "11"};
+        private final String tabTitles[] = new String[]{"笑话", "趣图", "名画", "美女"};
+        private final int cato[] = {100000, 102001, 102002, 102003};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -112,7 +102,7 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return pagers.get(position);
+            return IndexFragment.newInstance(cato[position]);
         }
 
         @Override

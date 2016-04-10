@@ -38,7 +38,7 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder {
     private List<Map<String, Object>> events;
     private Map<String, Object> event;
 
-    private Context context;
+    public Context context;
 
     /**
      * 头部信息

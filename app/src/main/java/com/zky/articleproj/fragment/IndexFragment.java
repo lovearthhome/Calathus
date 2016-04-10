@@ -4,6 +4,7 @@ package com.zky.articleproj.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -51,6 +52,8 @@ public class IndexFragment extends BaseFragment {
     private LinearLayoutManager linearLayoutManager;
     private IndexListAdapter adapter;
 
+    private int cato = 102001;
+    private int tmpl = 200;
 
     Handler mHandler = new Handler() {
         @Override
@@ -76,6 +79,15 @@ public class IndexFragment extends BaseFragment {
 
     public IndexFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            cato = getArguments().getInt("cato");
+            // tmpl = getArguments().getInt("tmpl");
+        }
     }
 
     @Override
@@ -121,8 +133,8 @@ public class IndexFragment extends BaseFragment {
         //filters.put("media", 1);
         // filters.put("title", "");
         // filters.put("create_time[<]", 0);
-        filters.put("cato", 100000);
-        filters.put("tmpl", 101);
+        filters.put("cato", cato);
+        //filters.put("tmpl", tmpl);
 
         getArtPrama.filter = filters;
 
@@ -174,27 +186,12 @@ public class IndexFragment extends BaseFragment {
         }
     }
 
-    /**
-     * 请求数据
-     *//*
-    private void postArtState(Object param) {
-        String requestParams = com.alibaba.fastjson.JSON.toJSONString(param);
-        System.out.println("---------" + requestParams);
-        RequestBody body = RequestBody.create(JSON, requestParams);
-        Request request = new Request.Builder()
-                .url(Constant.baseUrl)
-                .post(body)
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(okhttp3.Call call, IOException e) {
-                mHandler.sendEmptyMessage(PARSE_DATA_ERROR);
-            }
+    public static IndexFragment newInstance(int coto) {
+        IndexFragment fragment = new IndexFragment();
+        Bundle args = new Bundle();
+        args.putInt("cato", coto);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-            @Override
-            public void onResponse(okhttp3.Call call, Response response) throws IOException {
-                System.out.println("------------" + response.body().string());
-            }
-        });
-    }*/
 }

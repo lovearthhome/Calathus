@@ -42,6 +42,7 @@ dependencies {
     compile 'tyrantgit:explosionfield:1.0.1'
 
     compile 'com.squareup:seismic:1.0.2'
+    compile 'com.commit451:PhotoView:1.2.5'
 
     compile(name: 'duasdk-debug', ext: 'aar')
 
