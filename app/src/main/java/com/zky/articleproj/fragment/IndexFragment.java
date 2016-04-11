@@ -128,13 +128,15 @@ public class IndexFragment extends BaseFragment {
         getArtPrama.order = "create_time desc";
         getArtPrama.fields = new String[]{"inc", "star", "comt", "content", "title", "good", "bad", "shar"};
         getArtPrama.rows = 7;
+        getArtPrama.channel = channel;
 
         Map<String, Object> filters = new HashMap<>();
         //filters.put("media", 1);
         // filters.put("title", "");
-        // filters.put("create_time[<]", 0);
-        // filters.put("cato", cato);
+         filters.put("create_time[<]", 0);
+        //filters.put("cato", cato);
         //filters.put("tmpl", tmpl);
+       // filters.put("channel", channel);
 
         getArtPrama.filter = filters;
 
@@ -154,7 +156,9 @@ public class IndexFragment extends BaseFragment {
             try {
                 JSONObject jsonObject = new JSONObject(response.body().string());
                 System.out.println("----------response:" + jsonObject);
-                JSONArray result = jsonObject.getJSONArray("result");
+              //  JSONArray result = jsonObject.getJSONArray("result");
+                JSONObject jsonObject1 = new JSONObject(jsonObject.getString("result"));
+                JSONArray result = jsonObject1.getJSONArray("data");
                 if (pull) {
                     for (int i = 0; i < adapter.jsonArray.length(); i++) {
                         result.put(adapter.jsonArray.get(i));
