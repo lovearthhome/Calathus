@@ -11,6 +11,9 @@ import com.zky.articleproj.net.NetCallBack;
 
 import org.xutils.x;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Fragment基类
  * Created by pro on 16/1/29.
@@ -43,6 +46,7 @@ public class BaseFragment extends Fragment {
      * 请求数据
      */
     public void post(Object param, NetCallBack netCallBack) {
+
         httpOpenHelper.post(param, netCallBack);
     }
 }

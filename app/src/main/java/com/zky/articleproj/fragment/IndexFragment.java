@@ -1,6 +1,7 @@
 package com.zky.articleproj.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -41,6 +42,7 @@ public class IndexFragment extends BaseFragment {
     private static final int PULL = 2;
     private static final int PUSH = 3;
     private static final int PARSE_DATA_ERROR = 4;
+    private static final int PULL_TOP = 5;
 
     private boolean pull;
     private boolean push;
@@ -73,6 +75,10 @@ public class IndexFragment extends BaseFragment {
                     break;
                 case PARSE_DATA_ERROR:
                     Toast.makeText(getActivity(), "数据解析错误,请稍后尝试", Toast.LENGTH_SHORT).show();
+                    break;
+                case PULL_TOP:
+                    Toast.makeText(getContext(), "已经是最新了", Toast.LENGTH_SHORT).show();
+                    listView.refreshComplete();
                     break;
             }
         }
@@ -110,12 +116,18 @@ public class IndexFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 pull = true;
+                Map<String, Object> filters = new HashMap<>();
+                filters.put("inc[>]", getActivity().getSharedPreferences("limit", Context.MODE_PRIVATE).getString("inc_max", ""));
+                getArtPrama.filter = filters;
                 post(getArtPrama, mIndexCallBack);
             }
 
             @Override
             public void onLoadMore() {
                 push = true;
+                Map<String, Object> filters = new HashMap<>();
+                filters.put("inc[<]", getActivity().getSharedPreferences("limit", Context.MODE_PRIVATE).getString("inc_min", ""));
+                getArtPrama.filter = filters;
                 post(getArtPrama, mIndexCallBack);
             }
         });
@@ -126,19 +138,16 @@ public class IndexFragment extends BaseFragment {
         getArtPrama = new IndexRequestParams();
         getArtPrama.action = "get_articles";
         // getArtPrama.cato = 100000;
-        getArtPrama.order = "create_time desc";
+        getArtPrama.order = "inc DESC";
         getArtPrama.fields = new String[]{"inc", "star", "comt", "content", "title", "good", "bad", "shar"};
-        getArtPrama.rows = 7;
+        getArtPrama.rows = 5;
         getArtPrama.channel = channel;
 
-        Map<String, Object> filters = new HashMap<>();
         //filters.put("media", 1);
-        // filters.put("title", "");
-         filters.put("create_time[<]", 0);
-        //filters.put("cato", cato);
-        //filters.put("tmpl", tmpl);
-       // filters.put("channel", channel);
 
+        Map<String, Object> filters = new HashMap<>();
+
+        filters.put("inc[>]", 0);
         getArtPrama.filter = filters;
 
         post(getArtPrama, mIndexCallBack);
@@ -156,28 +165,37 @@ public class IndexFragment extends BaseFragment {
 
             try {
                 String response_body = response.body().string();
-                Log.e("######",response_body);
+                Log.e("######", response_body);
                 JSONObject jsonObject = new JSONObject(response_body);
-                if(jsonObject == null)
-                {
+                if (jsonObject == null) {
                     //FIXME: 这个地方，如果出错了，那么就是服务器根本没有返回任何json数据
-                    Log.e("######",response.body().string());
+                    Log.e("######", response.body().string());
 
                     return;
                 }
 
                 System.out.println("----------response:" + jsonObject);
                 int ret_status = jsonObject.getInt("status");
-                if(ret_status != 0)
-                {
+                if (ret_status == 100120) {
+                    mHandler.sendEmptyMessage(PULL_TOP);
+                }
+                if (ret_status != 0) {
                     //FIXME: 这个地方，如果出错了，没有获得服务器的文章，那么就应该合适的告诉APP.不应该把错误蔓延下去。
-                    Log.e("######",jsonObject.toString());
+                    Log.e("######", jsonObject.toString());
 
                     return;
                 }
-              //  JSONArray result = jsonObject.getJSONArray("result");
+
+                //  JSONArray result = jsonObject.getJSONArray("result");
                 JSONObject jsonObject1 = new JSONObject(jsonObject.getString("result"));
                 JSONArray result = jsonObject1.getJSONArray("data");
+
+                //FIXME: 这个地方保存加载更新和加载更多的参数
+                getActivity().getSharedPreferences("limit", Context.MODE_PRIVATE)
+                        .edit()
+                        .putString("inc_max", jsonObject1.getString("inc_max"))
+                        .putString("inc_min", jsonObject1.getString("inc_min"))
+                        .commit();
                 if (pull) {
                     for (int i = 0; i < adapter.jsonArray.length(); i++) {
                         result.put(adapter.jsonArray.get(i));

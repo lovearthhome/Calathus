@@ -11,8 +11,10 @@
         android:text="无题" />
 
     <TextView
+        android:padding="5dp"
         android:id="@+id/tv_index1_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/tv_content_size" />
 </LinearLayout>
 

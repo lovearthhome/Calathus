@@ -3,4 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="margintop_15">15dp</dimen>
+    <dimen name="tv_content_size">20sp</dimen>
+    <dimen name="tv_title">22sp</dimen>
 </resources>

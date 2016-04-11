@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import com.zky.articleproj.R;
 import com.zky.articleproj.constant.Constant;
 import com.zky.articleproj.domain.ArcState;
+import com.zky.articleproj.view.RoundImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,8 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by zhaoliang on 16/4/6.
@@ -44,7 +43,7 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder {
      * 头部信息
      */
     @ViewInject(R.id.editer_icon)
-    public CircleImageView editer_icon;
+    public RoundImageView editer_icon;
     @ViewInject(R.id.editor_name)
     public TextView editer_name;
 

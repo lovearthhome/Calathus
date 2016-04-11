@@ -3,7 +3,6 @@ package com.zky.articleproj.adapter.holder.yimingyu;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -47,7 +46,6 @@ public class ConversationsListViewHolder extends BaseHolder{
             TextView textView = (TextView) View.inflate(context, R.layout.conver_tv_item, null);
 //            textView.setText(Html.fromHtml(ja.get(i).toString().trim()));
             textView.setText(Html.fromHtml(ja.get(i).toString().replace("<p>", "").replace("</p>", "")));
-            textView.setTextSize(18F);
             //textView.setBackgroundColor(0XFFFFFACD);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             textView.setPadding(44, 44, 44, 44);
