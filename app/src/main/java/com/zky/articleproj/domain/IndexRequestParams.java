@@ -16,6 +16,7 @@ public class IndexRequestParams {
     public String[] fields;
 
     public int rows;
+    public String channel;
 
     public class Filter {
         public String key;
