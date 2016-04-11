@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -152,10 +153,28 @@ public class IndexFragment extends BaseFragment {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
-            // System.out.println("------------" + response.body().string());
+
             try {
-                JSONObject jsonObject = new JSONObject(response.body().string());
+                String response_body = response.body().string();
+                Log.e("######",response_body);
+                JSONObject jsonObject = new JSONObject(response_body);
+                if(jsonObject == null)
+                {
+                    //FIXME: 这个地方，如果出错了，那么就是服务器根本没有返回任何json数据
+                    Log.e("######",response.body().string());
+
+                    return;
+                }
+
                 System.out.println("----------response:" + jsonObject);
+                int ret_status = jsonObject.getInt("status");
+                if(ret_status != 0)
+                {
+                    //FIXME: 这个地方，如果出错了，没有获得服务器的文章，那么就应该合适的告诉APP.不应该把错误蔓延下去。
+                    Log.e("######",jsonObject.toString());
+
+                    return;
+                }
               //  JSONArray result = jsonObject.getJSONArray("result");
                 JSONObject jsonObject1 = new JSONObject(jsonObject.getString("result"));
                 JSONArray result = jsonObject1.getJSONArray("data");

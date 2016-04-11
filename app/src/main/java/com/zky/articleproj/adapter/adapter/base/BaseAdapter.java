@@ -3,6 +3,7 @@ package com.zky.articleproj.adapter.adapter.base;
 import android.content.Context;
 import android.hardware.SensorManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,16 +75,16 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
             case 100:
                 holder = new IndexListViewHolder(v);
                 break;
-            case 102:
-                holder = new Tmpl102ListViewHolder(v, sensorManager);
-                break;
             case 101:
                 holder = new ConversationsListViewHolder(v);
+                break;
+            /*case 102:
+                holder = new Tmpl102ListViewHolder(v, sensorManager);
                 break;
             case 200:
                 holder = new Index2ListViewHolder(v);
                 break;
-            /*case 1:
+            case 1:
                 holder = new Index2ListViewHolder(v);
                 break;
             case 2:
@@ -92,6 +93,10 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
             case 3:
                 holder = new Tmpl102ListViewHolder(v);
                 break;*/
+            default:
+                //FIXME: 这个地方，如果出错了，没有获得服务器的文章，那么就应该合适的告诉APP.不应该把错误蔓延下去。
+                Log.e("######","收到意料外的view type"+viewType);
+                ;
         }
         return holder;
     }
