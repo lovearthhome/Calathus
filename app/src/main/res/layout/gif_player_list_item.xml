@@ -10,10 +10,16 @@
         style="@style/ListTitieStyle"
         android:text="无题" />
 
-    <ImageView
+    <ProgressBar
+        android:id="@+id/pb_gif"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <pl.droidsonroids.gif.GifImageView
         android:id="@+id/iv_gif"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY" />
+        android:layout_height="wrap_content" />
+
+
 </LinearLayout>

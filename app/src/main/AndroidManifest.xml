@@ -35,11 +35,11 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login" />
-
         <activity android:name=".activity.ImageZoomActivity">
             <intent-filter>
-                <action android:name="com.zky.articleproj.activity.ImageZoomActivity"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.zky.articleproj.activity.ImageZoomActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
@@ -48,6 +48,17 @@
             android:enabled="true"
             android:exported="true" />
 
+        <activity android:name=".activity.MoreActivity" />
+        <activity android:name=".activity.MusicPalyerActivity" />
+        <activity android:name=".activity.VideoActivity"></activity>
+
+        <!-- Don't forgot InitActivity -->
+        <activity
+            android:name="io.vov.vitamio.activity.InitActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

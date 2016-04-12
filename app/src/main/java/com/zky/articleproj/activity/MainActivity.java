@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -21,10 +22,13 @@ import com.yimingyu.android.core.MyCallBack;
 import com.yimingyu.android.lib.duasdk.DuaTest;
 import com.zky.articleproj.R;
 import com.zky.articleproj.base.BaseActivity;
+import com.zky.articleproj.constant.Constant;
 import com.zky.articleproj.fragment.IndexFragment;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+
+import io.vov.vitamio.Vitamio;
 
 @SuppressLint("NewApi")
 @ContentView(R.layout.activity_main)
@@ -52,6 +56,10 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Vitamio.isInitialized(getApplicationContext());
+
+        getScreenSize();
+
         duaTest = DuaTest.getInstance(this);
 
         duaTest.getCurrentDuaId(new MyCallBack() {
@@ -77,7 +85,7 @@ public class MainActivity extends BaseActivity {
         });
 
         mToolbar.setTitleTextColor(Color.WHITE);
-        mToolbar.setTitle("ArticleClient");
+        mToolbar.setTitle("马拉松");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -89,6 +97,13 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         mTabLayout.setupWithViewPager(mViewPager);
 
+    }
+
+    private void getScreenSize() {
+        WindowManager wm = this.getWindowManager();
+
+        Constant.screenwith = wm.getDefaultDisplay().getWidth();
+        Constant.screenheight = wm.getDefaultDisplay().getHeight();
     }
 
     class MyPagerAdapter extends FragmentPagerAdapter {

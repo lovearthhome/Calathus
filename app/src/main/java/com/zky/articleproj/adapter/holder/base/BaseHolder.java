@@ -1,6 +1,7 @@
 package com.zky.articleproj.adapter.holder.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.zky.articleproj.R;
+import com.zky.articleproj.activity.MoreActivity;
 import com.zky.articleproj.constant.Constant;
 import com.zky.articleproj.domain.ArcState;
 import com.zky.articleproj.view.RoundImageView;
@@ -56,8 +58,6 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder {
     public TextView tv_narrow;
     @ViewInject(R.id.tv_comment)
     public TextView tv_comment;
-    @ViewInject(R.id.tv_star)
-    public TextView tv_star;
     @ViewInject(R.id.tv_share)
     public TextView tv_share;
 
@@ -65,8 +65,6 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder {
     private TextView tv_arrow_animation;
     @ViewInject(R.id.tv_narrow_animation)
     private TextView tv_narrow_animation;
-    @ViewInject(R.id.tv_star_animation)
-    private TextView tv_star_animation;
 
     private FrameLayout root_layout;
     private JSONObject jsonObject;
@@ -104,9 +102,9 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder {
 
     }
 
-    @Event({R.id.tv_arrow, R.id.tv_narrow, R.id.tv_comment, R.id.tv_star, R.id.tv_share})
+    @Event({R.id.tv_arrow, R.id.tv_narrow, R.id.tv_comment, R.id.tv_share, R.id.iv_more})
     private void click(View view) {
-        event.clear();
+        /*event.clear();
         events.clear();
         try {
             event.put("tid", jsonObject.get("inc"));
@@ -117,7 +115,7 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder {
         event.put("param", 1);
         event.put("time", 1000);
         TextView textView = (TextView) view;
-        textView.setText(String.valueOf(Integer.parseInt(textView.getText().toString()) + 1));
+        textView.setText(String.valueOf(Integer.parseInt(textView.getText().toString()) + 1));*/
         int id = view.getId();
         switch (id) {
             case R.id.tv_arrow:
@@ -133,13 +131,11 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder {
             case R.id.tv_comment:
                 event.put("act", "comt");
                 break;
-            case R.id.tv_star:
-                view.startAnimation(animationSet);
-                playAnimation(tv_star_animation);
-                event.put("act", "star");
-                break;
             case R.id.tv_share:
                 event.put("act", "shar");
+                break;
+            case R.id.iv_more:
+                context.startActivity(new Intent(context, MoreActivity.class));
                 break;
         }
         events.add(event);
@@ -174,7 +170,6 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder {
             baseHolder.tv_arrow.setText(jsonObject.getString("good"));
             baseHolder.tv_narrow.setText(jsonObject.getString("bad"));
             baseHolder.tv_comment.setText(jsonObject.getString("comt"));
-            baseHolder.tv_star.setText(jsonObject.getString("star"));
             baseHolder.tv_share.setText(jsonObject.getString("shar"));
 
             bindView(context, baseHolder, jsonStr);

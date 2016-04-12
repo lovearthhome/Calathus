@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.zky.articleproj"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -20,6 +20,19 @@ android {
 }
 
 repositories {
+    mavenCentral()
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+repositories {
     flatDir
             {
                 dirs 'libs'
@@ -27,23 +40,30 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
     compile 'org.xutils:xutils:3.3.22'
     compile 'com.android.support:support-v4:23.2.0'
-   /* compile 'com.squareup.okhttp3:okhttp:3.1.2'*/
+    /* compile 'com.squareup.okhttp3:okhttp:3.1.2'*/
     compile 'com.android.support:cardview-v7:23.2.0'
-
     compile 'com.facebook.fresco:fresco:0.9.0+'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jcodecraeer:xrecyclerview:1.2.6'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'tyrantgit:explosionfield:1.0.1'
-
     compile 'com.squareup:seismic:1.0.2'
     compile 'com.commit451:PhotoView:1.2.5'
-
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
+    compile 'com.github.iammert:MusicPlayerView:e3b937c729'
     compile(name: 'duasdk-debug', ext: 'aar')
-
+    /* bibi jkplayer */
+    compile 'tv.danmaku.ijk.media:ijkplayer-java:0.4.5.1'
+    compile 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.4.5.1'
+    compile 'tv.danmaku.ijk.media:ijkplayer-armv5:0.4.5.1'
+    compile 'tv.danmaku.ijk.media:ijkplayer-arm64:0.4.5.1'
+    compile 'tv.danmaku.ijk.media:ijkplayer-x86:0.4.5.1'
+    compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.4.5.1'
+    compile project(':vitamio')
 }
