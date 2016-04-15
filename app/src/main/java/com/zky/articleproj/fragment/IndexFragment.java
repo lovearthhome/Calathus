@@ -111,6 +111,7 @@ public class IndexFragment extends BaseFragment {
         listView.setHasFixedSize(true);
         adapter = new IndexListAdapter(getContext(), new JSONArray());
         listView.setAdapter(adapter);
+        adapter.listView = listView;
 
         listView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override

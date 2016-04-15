@@ -88,4 +88,14 @@ public class Tmpl102ListViewHolder extends BaseHolder implements ShakeDetector.L
     public void hearShake() {
         mExplosionField.explode(ans_covering);
     }
+
+    @Override
+    public void onChildViewAttachedToWindow(View view) {
+
+    }
+
+    @Override
+    public void onChildViewDetachedFromWindow(View view) {
+
+    }
 }

@@ -20,14 +20,14 @@ import org.xutils.view.annotation.ViewInject;
  * Author：Mingyu Yi on 2016/4/8 09:42
  * Email：461072496@qq.com
  */
-public class ConversationsListViewHolder extends BaseHolder{
+public class ConversationsListViewHolder extends BaseHolder {
 
     @ViewInject(R.id.conversations_list_title)
     private TextView title;
     @ViewInject(R.id.ll_content)
     private LinearLayout ll_content;
 
-    public ConversationsListViewHolder(View itemView){
+    public ConversationsListViewHolder(View itemView) {
         super(itemView);
     }
 
@@ -35,15 +35,15 @@ public class ConversationsListViewHolder extends BaseHolder{
     @Override
     public void bindView(Context context, BaseHolder baseHolder, String jsonStr) throws JSONException {
 //        ConversationsListViewHolder holder=(ConversationsListViewHolder) baseHolder;
-        JSONObject jsonObject=new JSONObject(jsonStr);
-        String content_str =  jsonObject.getString("content");
-        JSONObject content_obj=new JSONObject(content_str);
+        JSONObject jsonObject = new JSONObject(jsonStr);
+        String content_str = jsonObject.getString("content");
+        JSONObject content_obj = new JSONObject(content_str);
 
         title.setText(content_obj.optString("title"));
 
-        JSONArray ja= content_obj.optJSONArray("texts");
-        for (int i = 0; i < ja.length(); i ++) {
-           // TextView textView = new TextView(context);
+        JSONArray ja = content_obj.optJSONArray("texts");
+        for (int i = 0; i < ja.length(); i++) {
+            // TextView textView = new TextView(context);
             TextView textView = (TextView) View.inflate(context, R.layout.conver_tv_item, null);
 //            textView.setText(Html.fromHtml(ja.get(i).toString().trim()));
             textView.setText(Html.fromHtml(ja.get(i).toString().replace("<p>", "").replace("</p>", "")));
@@ -61,5 +61,15 @@ public class ConversationsListViewHolder extends BaseHolder{
     @Override
     public int setLayoutFile() {
         return R.layout.conversations_list_item;
+    }
+
+    @Override
+    public void onChildViewAttachedToWindow(View view) {
+
+    }
+
+    @Override
+    public void onChildViewDetachedFromWindow(View view) {
+
     }
 }

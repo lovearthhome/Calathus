@@ -53,4 +53,14 @@ public class IndexListViewHolder extends BaseHolder {
     public int setLayoutFile() {
         return R.layout.index1_list_item;
     }
+
+    @Override
+    public void onChildViewAttachedToWindow(View view) {
+
+    }
+
+    @Override
+    public void onChildViewDetachedFromWindow(View view) {
+
+    }
 }

@@ -67,4 +67,14 @@ public class MusicViewHolder extends BaseHolder {
     public int setLayoutFile() {
         return R.layout.music_view_holder;
     }
+
+    @Override
+    public void onChildViewAttachedToWindow(View view) {
+
+    }
+
+    @Override
+    public void onChildViewDetachedFromWindow(View view) {
+
+    }
 }

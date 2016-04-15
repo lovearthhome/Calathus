@@ -103,13 +103,25 @@ public class GifPlayerHolder extends BaseHolder {
 
 
         responseHandler = new GifHandler();
-        client.get(Constant.baseFileUrl + img_src, responseHandler);
+
     }
 
 
     @Override
     public int setLayoutFile() {
         return R.layout.gif_player_list_item;
+    }
+
+    @Override
+    public void onChildViewAttachedToWindow(View view) {
+        System.out.println("--------------:onChildViewAttachedToWindow");
+        client.get(Constant.baseFileUrl + img_src, responseHandler);
+    }
+
+    @Override
+    public void onChildViewDetachedFromWindow(View view) {
+        client.delete(Constant.baseFileUrl + img_src, responseHandler);
+        System.out.println("--------------:onChildViewDetachedFromWindow");
     }
 
     /**

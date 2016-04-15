@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.loopj.android.http.AsyncHttpClient;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
@@ -35,6 +36,8 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
 
     private AsyncHttpClient client;
 
+    public XRecyclerView listView;
+
 
     public BaseAdapter(Context context, JSONArray jsonArray) {
         this.context = context;
@@ -48,7 +51,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
     /*这个函数是XRcycleView触发的,当它发现holder缓冲池里数目<4(在本项目初始)的时候,就会去创建新的viewholder,如果超过了,它就去缓冲池里获取旧的*/
     @Override
     public BaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.e("*****","onCreateViewHolder"+viewType);
+        Log.e("*****", "onCreateViewHolder" + viewType);
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.index_list_item, parent, false);
         BaseHolder holder = null;
         holder = switchView(viewType, v, holder);
@@ -59,7 +62,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
     /*这个函数是XRcycleView触发的,它自动会把创建的或者回收的holder对象绑定 adapter里jsonarray第position的数据*/
     @Override
     public void onBindViewHolder(BaseHolder holder, int position) {
-        Log.e("*****","onBindViewHolder"+position);
+        Log.e("*****", "onBindViewHolder" + position);
         try {
             holder.bindBaseView(context, holder, jsonArray.get(position).toString());
         } catch (JSONException e) {
@@ -116,6 +119,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
                 //FIXME: 这个地方，如果出错了，没有获得服务器的文章，那么就应该合适的告诉APP.不应该把错误蔓延下去。
                 Log.e("######", "收到意料外的view type" + viewType);
         }
+        listView.addOnChildAttachStateChangeListener(holder);
         return holder;
     }
 

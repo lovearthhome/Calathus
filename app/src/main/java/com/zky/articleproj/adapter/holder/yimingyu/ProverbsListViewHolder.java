@@ -44,4 +44,14 @@ public class ProverbsListViewHolder extends BaseHolder {
     public int setLayoutFile() {
         return R.layout.proverb_tv_item;
     }
+
+    @Override
+    public void onChildViewAttachedToWindow(View view) {
+
+    }
+
+    @Override
+    public void onChildViewDetachedFromWindow(View view) {
+
+    }
 }

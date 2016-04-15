@@ -122,4 +122,14 @@ public class VideoViewHolder2 extends BaseHolder {
     public int setLayoutFile() {
         return R.layout.video_view_holder2;
     }
+
+    @Override
+    public void onChildViewAttachedToWindow(View view) {
+
+    }
+
+    @Override
+    public void onChildViewDetachedFromWindow(View view) {
+
+    }
 }

@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * Created by zhaoliang on 16/4/6.
  */
-public abstract class BaseHolder extends RecyclerView.ViewHolder {
+public abstract class BaseHolder extends RecyclerView.ViewHolder implements RecyclerView.OnChildAttachStateChangeListener {
 
     private ArcState arcStateParam;
     private List<Map<String, Object>> events;
@@ -201,4 +201,5 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder {
         View view = View.inflate(context, setLayoutFile(), null);
         root_layout.addView(view);
     }
+
 }
