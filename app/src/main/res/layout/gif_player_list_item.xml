@@ -16,10 +16,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/iv_gif"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        android:background="@color/image_default"
+        android:scaleType="centerInside"
+        android:src="@mipmap/gif_defualt" />
 
 </LinearLayout>

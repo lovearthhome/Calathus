@@ -66,4 +66,6 @@ dependencies {
     compile 'tv.danmaku.ijk.media:ijkplayer-x86:0.4.5.1'
     compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.4.5.1'
     compile project(':vitamio')
+
+    compile 'com.linsea:universalvideoview:1.1.0@aar'
 }

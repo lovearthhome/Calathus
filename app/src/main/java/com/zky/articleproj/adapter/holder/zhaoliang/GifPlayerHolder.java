@@ -38,6 +38,12 @@ public class GifPlayerHolder extends BaseHolder {
 
     private AsyncHttpClient client;
     private String img_src;
+    private int img_width;
+    private int img_height;
+    private String img_type;
+    private int img_size;
+    private int img_duration;
+
     private GifHandler responseHandler;
 
     @Event(R.id.iv_gif)
@@ -70,13 +76,20 @@ public class GifPlayerHolder extends BaseHolder {
         JSONArray img_farray = file0.optJSONArray("farray");
         JSONObject img_file = img_farray.getJSONObject(0);
         img_src = img_file.optString("src");
+        img_height = img_file.optInt("height");
+        img_width = img_file.optInt("width");
+        img_type = img_file.optString("type");
+        img_size = img_file.optInt("size");
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (Constant.screenwith / img_width) * img_height);
+
+        iv_gif.setLayoutParams(layoutParams);
 
         pb_gif.setTag(img_src);
 
         responseHandler = new GifHandler();
         client.get(img_src, responseHandler);
     }
-
 
 
     @Override
@@ -97,10 +110,9 @@ public class GifPlayerHolder extends BaseHolder {
                 e.printStackTrace();
             }
             drawable.stop();
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (Constant.screenwith / drawable.getIntrinsicWidth()) * drawable.getIntrinsicHeight());
-            iv_gif.setLayoutParams(layoutParams);
             iv_gif.setBackgroundDrawable(drawable);
 
+            iv_gif.setImageBitmap(null);
         }
 
         @Override

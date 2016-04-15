@@ -2,6 +2,7 @@ package com.zky.articleproj.adapter.holder.zhaoliang;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.view.annotation.ViewInject;
 
+import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.widget.MediaController;
 import io.vov.vitamio.widget.VideoView;
 
@@ -25,7 +27,7 @@ public class VideoViewHolder extends BaseHolder {
     private TextView tvTitle;
     @ViewInject(R.id.vv_video)
     private VideoView vv_video;
-
+    private boolean needResume; //The variable needResume is used to test whether or not to resume playing video automatically.
     private String img_src;
 
     public VideoViewHolder(View itemView) {
@@ -57,6 +59,37 @@ public class VideoViewHolder extends BaseHolder {
 
         vv_video.setMediaController(new MediaController(context));
         vv_video.setVideoURI(Uri.parse(img_src));
+
+        System.out.println("--------" + img_src);
+
+        vv_video.setOnInfoListener(new MediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo(MediaPlayer mp, int what, int extra) {
+                switch (what) {
+                    case MediaPlayer.MEDIA_INFO_BUFFERING_START:
+                        //Begin buffer, pause playing
+                        if (mp.isPlaying()) {
+                            mp.stop();
+                            needResume = true;
+                        }
+                        // mLoadingView.setVisibility(View.VISIBLE);
+                        break;
+                    case MediaPlayer.MEDIA_INFO_BUFFERING_END:
+                        //The buffering is done, resume playing
+                        if (needResume)
+                            mp.start();
+
+
+                        // mLoadingView.setVisibility(View.GONE);
+                        break;
+                    case MediaPlayer.MEDIA_INFO_DOWNLOAD_RATE_CHANGED:
+                        //Display video download speed
+                        Log.e("download rate:", String.valueOf(extra));
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @Override

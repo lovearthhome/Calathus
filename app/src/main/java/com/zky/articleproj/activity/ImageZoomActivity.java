@@ -36,7 +36,7 @@ public class ImageZoomActivity extends Activity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        mAttacher = new PhotoViewAttacher(image_zoom);
         Picasso.with(this).load(getIntent().getStringExtra("image_url")).into(image_zoom);
+        mAttacher = new PhotoViewAttacher(image_zoom);
     }
 }
