@@ -37,10 +37,11 @@ public class ConversationsListViewHolder extends BaseHolder{
 //        ConversationsListViewHolder holder=(ConversationsListViewHolder) baseHolder;
         JSONObject jsonObject=new JSONObject(jsonStr);
         String content_str =  jsonObject.getString("content");
+        JSONObject content_obj=new JSONObject(content_str);
 
-        title.setText(jsonObject.getString("title"));
+        title.setText(content_obj.optString("title"));
 
-        JSONArray ja= new JSONArray(content_str);
+        JSONArray ja= content_obj.optJSONArray("texts");
         for (int i = 0; i < ja.length(); i ++) {
            // TextView textView = new TextView(context);
             TextView textView = (TextView) View.inflate(context, R.layout.conver_tv_item, null);

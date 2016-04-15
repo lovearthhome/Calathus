@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.view.annotation.ViewInject;
@@ -32,19 +33,19 @@ public class IndexListViewHolder extends BaseHolder {
     public void bindView(Context context, BaseHolder baseHolder, String jsonStr) throws JSONException {
         IndexListViewHolder holder = (IndexListViewHolder) baseHolder;
         JSONObject jsonObject = new JSONObject(jsonStr);
-        String title = jsonObject.getString("title");
-        System.out.println("--------:" + title);
+        String content_str =  jsonObject.getString("content");
+        JSONObject content_obj=new JSONObject(content_str);
+
+        String title = content_obj.optString("title");
+
         if ("null".equals(title) || TextUtils.isEmpty(title)) {
             tvTitle.setVisibility(View.GONE);
-
-            System.out.println("--------设置不显示");
         } else {
             tvTitle.setText(title);
         }
-            /*
-            内容信息
-            */
-        holder.tvContent.setText(Html.fromHtml(jsonObject.getString("content")));
+        JSONArray ja= content_obj.optJSONArray("texts");
+        String text = ja.get(0).toString();
+        holder.tvContent.setText(Html.fromHtml(text));
 
     }
 

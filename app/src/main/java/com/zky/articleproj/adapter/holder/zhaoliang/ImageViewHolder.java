@@ -2,8 +2,9 @@ package com.zky.articleproj.adapter.holder.zhaoliang;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,9 +34,6 @@ public class ImageViewHolder extends BaseHolder {
     @ViewInject(R.id.iv_img)
     public ImageView iv_img;
 
-    @ViewInject(R.id.fl_root)
-    private FrameLayout fl_root;
-
     private String image_url = "";
     private int img_width;
     private int img_height;
@@ -54,9 +52,19 @@ public class ImageViewHolder extends BaseHolder {
         super(itemView);
     }
 
+
+    /*这个bindView实质是android的recycleview触发的,这里的baseholer实质是指向各个子类的基类引用,
+    * 这个baseholder有可能是刚创建的
+    * 有可能是回收的.如果是回收的,上面的视频啊,图片啊,gif啊,还在,并且还可以播放.
+    * 为了避免这种情况,我们需要对holder进行清理.
+    * */
     @Override
-    public void bindView(Context context, BaseHolder baseHolder, String jsonStr) throws JSONException {
-        ImageViewHolder holder = (ImageViewHolder) baseHolder;
+    public void bindView(final Context context, BaseHolder baseHolder, String jsonStr) throws JSONException {
+
+        final ImageViewHolder holder = (ImageViewHolder) baseHolder;
+        Log.e("$$$$", holder.image_url + " " + holder.iv_img.getWidth() + " " + holder.iv_img.getHeight());
+
+
         JSONObject jsonObject = new JSONObject(jsonStr);
             /*
             内容信息
@@ -82,21 +90,20 @@ public class ImageViewHolder extends BaseHolder {
 
 
         // FIXME: 计算图片的宽度和高度,有待优化!
-        float ratio = ((float) Constant.screenwith / (float) img_width);
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT, (int) (ratio * img_height));
+        float ratio = ((float) (Constant.screenwith - Constant.mainPadding * 2 - Constant.mainItemPadding * 2) / (float) img_width);
 
-        iv_img.setLayoutParams(layoutParams);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (img_height * ratio));
+        iv_img.setLayoutParams(params);
 
+        System.out.println("$$$$" + iv_img.getLayoutParams().width + ":" + iv_img.getLayoutParams().height);
 
-        LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-        fl_root.setLayoutParams(layoutParams1);
+        image_url = Constant.baseFileUrl + img_src;
 
-        System.out.println("------" + iv_img.getLayoutParams().width + ":" + iv_img.getLayoutParams().height);
+        Picasso.with(context).load(image_url).resize((int) (Constant.screenwith - Constant.mainPadding * 2 - Constant.mainItemPadding * 2), (int) (img_height * ratio)).into(holder.iv_img);
 
-        image_url = img_src;
-
-        Picasso.with(context).load(image_url).fit().into(holder.iv_img);
+        //这个时候,还没有加载成功,此时,iv_img的高宽都是原布局的高宽,如果原holder是刚刚创建的,
+        //那么读出来是(0,0)否则是原图片.
+        Log.e("$$$$$$", image_url + " " + iv_img.getWidth() + " " + iv_img.getHeight());
 
     }
 

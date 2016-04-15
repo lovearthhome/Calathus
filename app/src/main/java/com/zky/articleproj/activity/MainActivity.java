@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity {
 
         Vitamio.isInitialized(getApplicationContext());
 
-        getScreenSize();
+        getConstant();
 
         duaTest = DuaTest.getInstance(this);
 
@@ -99,11 +99,15 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void getScreenSize() {
+    /* 获取一下常量参数 */
+    private void getConstant() {
         WindowManager wm = this.getWindowManager();
-
+        /* 屏幕宽高 */
         Constant.screenwith = wm.getDefaultDisplay().getWidth();
         Constant.screenheight = wm.getDefaultDisplay().getHeight();
+
+        Constant.mainPadding = getResources().getDimension(R.dimen.main_left_right_margin);
+        Constant.mainItemPadding = getResources().getDimension(R.dimen.main_item_padding_left_right);
     }
 
     class MyPagerAdapter extends FragmentPagerAdapter {

@@ -5,4 +5,21 @@
     <dimen name="margintop_15">15dp</dimen>
     <dimen name="tv_content_size">20sp</dimen>
     <dimen name="tv_title">22sp</dimen>
+
+    <!-- 主页面相关的参数 -->
+    <!-- 主页面左右边距 -->
+    <dimen name="main_left_right_margin">7dp</dimen>
+    <!-- 主页面顶部边距 -->
+    <dimen name="main_margin_top">7dp</dimen>
+    <!-- 主页面页卡的高度 -->
+    <dimen name="main_elevation">7dp</dimen>
+    <!-- 主页面页卡的圆角 -->
+    <dimen name="main_card_courner_radius">4dp</dimen>
+
+    <!-- 页卡左右距离 -->
+    <dimen name="main_item_padding_left_right">5dp</dimen>
+    <!-- 页卡顶部距离 -->
+    <dimen name="main_item_padding_top">10dp</dimen>
+
+
 </resources>

@@ -10,18 +10,12 @@
         style="@style/ListTitieStyle"
         android:text="无题" />
 
-    <FrameLayout
-        android:id="@+id/fl_root"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
             android:background="@color/image_default"
             android:scaleType="centerInside"
             android:src="@mipmap/img_defualt" />
-    </FrameLayout>
 </LinearLayout>

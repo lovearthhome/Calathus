@@ -18,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.view.annotation.ViewInject;
 
+import io.vov.vitamio.utils.Log;
+
 /**
  * Created by zhaoliang on 16/4/7.
  */
@@ -55,9 +57,11 @@ public class VideoViewHolder2 extends BaseHolder {
             内容信息
             */
         //tvTitle.setText(jsonObject.getString("title"));
+        String content_str =  jsonObject.getString("content");
+        JSONObject content_obj=new JSONObject(content_str);
 
-        String content_str = jsonObject.optString("content");
-        JSONObject content_obj = new JSONObject(content_str);
+        tvTitle.setText(content_obj.optString("title"));
+
 
         String art_brief = content_obj.optString("brief");
         JSONArray art_files = content_obj.optJSONArray("files");
@@ -81,7 +85,9 @@ public class VideoViewHolder2 extends BaseHolder {
         mVideoView.setLayoutParams(layoutParams);
 
 
-        mVideoView.setVideoURI(Uri.parse(img_src));
+        String videoUrl = Constant.baseFileUrl + img_src;
+        Log.e("----------videoUrl:", Constant.baseFileUrl + img_src);
+        mVideoView.setVideoURI(Uri.parse(videoUrl));
         mVideoView.setMediaController(mMediaController);
 
         System.out.println("--------" + img_src);

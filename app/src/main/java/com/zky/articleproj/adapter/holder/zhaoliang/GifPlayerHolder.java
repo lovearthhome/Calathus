@@ -1,10 +1,13 @@
 package com.zky.articleproj.adapter.holder.zhaoliang;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -29,6 +32,9 @@ import pl.droidsonroids.gif.GifImageView;
  */
 public class GifPlayerHolder extends BaseHolder {
 
+    @ViewInject(R.id.tv_index1_title)
+    private TextView tvTitle;
+
     @ViewInject(R.id.iv_gif)
     private GifImageView iv_gif;
     @ViewInject(R.id.pb_gif)
@@ -48,10 +54,14 @@ public class GifPlayerHolder extends BaseHolder {
 
     @Event(R.id.iv_gif)
     private void click(View view) {
-        if (drawable.isPlaying()) {
-            drawable.stop();
+        if (drawable == null) {
+            Toast.makeText(context, "正在努力加载", Toast.LENGTH_SHORT).show();
         } else {
-            drawable.start();
+            if (drawable.isPlaying()) {
+                drawable.stop();
+            } else {
+                drawable.start();
+            }
         }
     }
 
@@ -67,6 +77,12 @@ public class GifPlayerHolder extends BaseHolder {
 
         String content_str = jsonObject.optString("content");
         JSONObject content_obj = new JSONObject(content_str);
+        String title = content_obj.optString("title");
+        if ("null".equals(title) || TextUtils.isEmpty(title)) {
+            tvTitle.setVisibility(View.GONE);
+        } else {
+            tvTitle.setText(title);
+        }
 
         String art_brief = content_obj.optString("brief");
         JSONArray art_files = content_obj.optJSONArray("files");
@@ -85,10 +101,9 @@ public class GifPlayerHolder extends BaseHolder {
 
         iv_gif.setLayoutParams(layoutParams);
 
-        pb_gif.setTag(img_src);
 
         responseHandler = new GifHandler();
-        client.get(img_src, responseHandler);
+        client.get(Constant.baseFileUrl + img_src, responseHandler);
     }
 
 
@@ -117,10 +132,8 @@ public class GifPlayerHolder extends BaseHolder {
 
         @Override
         public void onProgress(long bytesWritten, long totalSize) {
-            if (pb_gif.getTag() != null && pb_gif.getTag().equals(img_src)) {
-                pb_gif.setMax((int) totalSize);
-                pb_gif.setProgress((int) bytesWritten);
-            }
+            pb_gif.setMax((int) totalSize);
+            pb_gif.setProgress((int) bytesWritten);
         }
 
         @Override

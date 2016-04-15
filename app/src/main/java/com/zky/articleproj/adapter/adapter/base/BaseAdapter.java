@@ -45,8 +45,10 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
     }
 
+    /*这个函数是XRcycleView触发的,当它发现holder缓冲池里数目<4(在本项目初始)的时候,就会去创建新的viewholder,如果超过了,它就去缓冲池里获取旧的*/
     @Override
     public BaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.e("*****","onCreateViewHolder"+viewType);
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.index_list_item, parent, false);
         BaseHolder holder = null;
         holder = switchView(viewType, v, holder);
@@ -54,9 +56,10 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
         return holder;
     }
 
-
+    /*这个函数是XRcycleView触发的,它自动会把创建的或者回收的holder对象绑定 adapter里jsonarray第position的数据*/
     @Override
     public void onBindViewHolder(BaseHolder holder, int position) {
+        Log.e("*****","onBindViewHolder"+position);
         try {
             holder.bindBaseView(context, holder, jsonArray.get(position).toString());
         } catch (JSONException e) {

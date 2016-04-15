@@ -196,6 +196,7 @@ public class IndexFragment extends BaseFragment {
                         .putString("inc_max", jsonObject1.getString("inc_max"))
                         .putString("inc_min", jsonObject1.getString("inc_min"))
                         .commit();
+                //这个地方,我们把服务器回来的数据和result合并
                 if (pull) {
                     for (int i = 0; i < adapter.jsonArray.length(); i++) {
                         result.put(adapter.jsonArray.get(i));
