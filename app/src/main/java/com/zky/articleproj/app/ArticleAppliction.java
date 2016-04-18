@@ -14,6 +14,8 @@ public class ArticleAppliction extends Application {
         super.onCreate();
 
         initXutils();
+
+
     }
 
     /**

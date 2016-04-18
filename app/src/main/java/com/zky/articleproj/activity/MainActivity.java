@@ -9,10 +9,12 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -21,6 +23,8 @@ import android.widget.Toast;
 import com.yimingyu.android.core.MyCallBack;
 import com.yimingyu.android.lib.duasdk.DuaTest;
 import com.zky.articleproj.R;
+import com.zky.articleproj.activity.menu.About_Activity;
+import com.zky.articleproj.activity.menu.settings.SettingActivity;
 import com.zky.articleproj.base.BaseActivity;
 import com.zky.articleproj.constant.Constant;
 import com.zky.articleproj.fragment.IndexFragment;
@@ -97,6 +101,34 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
         mTabLayout.setupWithViewPager(mViewPager);
 
+
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.nav_settings:
+                        startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                        break;
+                    case R.id.nav_about:
+                        startActivity(new Intent(MainActivity.this, About_Activity.class));
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /* 获取一下常量参数 */

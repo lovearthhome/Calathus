@@ -30,4 +30,5 @@ public class IndexListAdapter extends BaseAdapter {
         }
         return 0;
     }
+
 }

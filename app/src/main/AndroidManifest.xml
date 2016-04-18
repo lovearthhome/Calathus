@@ -50,7 +50,7 @@
 
         <activity android:name=".activity.MoreActivity" />
         <activity android:name=".activity.MusicPalyerActivity" />
-        <activity android:name=".activity.VideoActivity"></activity>
+        <activity android:name=".activity.VideoActivity" />
 
         <!-- Don't forgot InitActivity -->
         <activity
@@ -59,6 +59,8 @@
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".activity.menu.About_Activity" />
+        <activity android:name=".activity.menu.settings.SettingActivity"></activity>
     </application>
 
 </manifest>

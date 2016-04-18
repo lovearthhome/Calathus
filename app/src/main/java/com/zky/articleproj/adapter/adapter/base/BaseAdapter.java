@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.loopj.android.http.AsyncHttpClient;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
 import com.zky.articleproj.adapter.holder.yimingyu.ConversationsListViewHolder;
@@ -34,7 +33,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
 
     SensorManager sensorManager;
 
-    private AsyncHttpClient client;
+    // private AsyncHttpClient client;
 
     public XRecyclerView listView;
 
@@ -43,7 +42,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
         this.context = context;
         this.jsonArray = jsonArray;
 
-        client = new AsyncHttpClient();
+        //client = new AsyncHttpClient();
 
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
     }
@@ -53,8 +52,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
     public BaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.e("*****", "onCreateViewHolder" + viewType);
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.index_list_item, parent, false);
-        BaseHolder holder = null;
-        holder = switchView(viewType, v, holder);
+        BaseHolder holder = switchView(viewType, v);
         x.view().inject(holder, v);
         return holder;
     }
@@ -80,10 +78,10 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
      *
      * @param viewType
      * @param v
-     * @param holder
      * @return
      */
-    private BaseHolder switchView(int viewType, View v, BaseHolder holder) {
+    private BaseHolder switchView(int viewType, View v) {
+        BaseHolder holder = null;
         switch (viewType) {
             case 100:
                 holder = new IndexListViewHolder(v);
@@ -95,7 +93,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
                 holder = new ImageViewHolder(v);
                 break;
             case 202:
-                holder = new GifPlayerHolder(v, client);
+                holder = new GifPlayerHolder(v);
                 break;
             case 301:
                 holder = new MusicViewHolder(v);

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2015 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,38 +19,33 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@mipmap/ic_dashboard"
-            android:title="主页"/>
+            android:title="@string/navigation_articles" />
         <item
             android:id="@+id/nav_messages"
             android:icon="@mipmap/ic_event"
-            android:title="私信"/>
+            android:title="@string/navigation_follow" />
         <item
             android:id="@+id/nav_my_focus"
             android:icon="@mipmap/ic_headset"
-            android:title="我关注的"/>
+            android:title="@string/navigation_fans" />
         <item
             android:id="@+id/nav_foucs_me"
             android:icon="@mipmap/ic_forum"
-            android:title="关注我的"/>
+            android:title="@string/navigation_message" />
     </group>
 
     <item android:title="收藏夹">
         <menu>
             <item
-                android:id="@+id/nav_article"
+                android:id="@+id/nav_settings"
                 android:checkable="true"
                 android:icon="@mipmap/ic_dashboard"
-                android:title="文章"/>
-            <item
-                android:id="@+id/nav_video"
-                android:checkable="true"
-                android:icon="@mipmap/ic_forum"
-                android:title="视频"/>
+                android:title="设置" />
             <item
                 android:id="@+id/nav_about"
                 android:checkable="true"
                 android:icon="@mipmap/ic_about"
-                android:title="关于"/>
+                android:title="关于" />
         </menu>
     </item>
 

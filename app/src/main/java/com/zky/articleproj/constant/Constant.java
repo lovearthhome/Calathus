@@ -21,4 +21,5 @@ public class Constant {
     /* 主页面左右边距 */
     public static float mainPadding;
     public static float mainItemPadding;
+
 }
