@@ -8,9 +8,9 @@
 
     <include layout="@layout/toolbar" />
 
-    <!--<fragment
+    <fragment
         android:id="@+id/settings"
         android:name="com.zky.articleproj.activity.menu.settings.SettingsFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
+        android:layout_height="match_parent" />
 </LinearLayout>

@@ -60,7 +60,9 @@
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activity.menu.About_Activity" />
-        <activity android:name=".activity.menu.settings.SettingActivity"></activity>
+        <activity
+            android:name=".activity.menu.settings.SettingActivity"
+            android:theme="@style/Theme.Douya"></activity>
     </application>
 
 </manifest>

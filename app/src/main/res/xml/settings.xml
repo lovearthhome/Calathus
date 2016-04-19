@@ -35,7 +35,7 @@
             android:summary="@string/settings_always_copy_to_clipboard_as_text_summary" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/settings_about_title">
+    <!--<PreferenceCategory android:title="@string/settings_about_title">
 
         <me.zhanghai.android.douya.settings.ui.LicensesDialogPreference
             android:title="@string/settings_open_source_licenses_title" />
@@ -46,5 +46,5 @@
                 android:targetPackage="me.zhanghai.android.douya"
                 android:targetClass="me.zhanghai.android.douya.settings.ui.AboutActivity" />
         </Preference>
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 </PreferenceScreen>
