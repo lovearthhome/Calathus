@@ -140,7 +140,7 @@ public class IndexFragment extends BaseFragment {
         getArtPrama.action = "get_articles";
         // getArtPrama.cato = 100000;
         getArtPrama.order = "inc DESC";
-        getArtPrama.fields = new String[]{"inc", "star", "comt", "content", "title", "good", "bad", "shar"};
+        getArtPrama.fields = new String[]{"inc", "star", "comt", "content", "good", "bad", "shar"};
         getArtPrama.rows = 5;
         getArtPrama.channel = channel;
 

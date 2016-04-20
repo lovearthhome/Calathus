@@ -11,6 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.GlideUrl;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
@@ -26,9 +30,19 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import cz.msebera.android.httpclient.Header;
-import io.vov.vitamio.utils.Log;
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okio.Buffer;
+import okio.BufferedSource;
+import okio.ForwardingSource;
+import okio.Okio;
+import okio.Source;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 import pl.droidsonroids.gif.InputSource;
@@ -58,6 +72,9 @@ public class GifPlayerHolder extends BaseHolder {
 
     private boolean loading = false;
     private boolean playable = false;
+
+    private OkHttpClient mOkHttpClient;
+    private final static String DOWNLOAD_URL = "https://i.imgur.com/mYBXl6X.jpg";
     /*
     *  0:  创建出来,干净的,没有沾染过,等用户点击后就进入加载状态/
     *  1:  用户点击了,正在加载,但是没有加载成功
@@ -126,29 +143,46 @@ public class GifPlayerHolder extends BaseHolder {
         String new_src = img_file.optString("src");
 
 
-        if ("null".equals(title) || TextUtils.isEmpty(title)) {
-            tvTitle.setVisibility(View.GONE);
-        } else {
-            tvTitle.setText(title);
-        }
+        final ProgressListener progressListener = new ProgressListener() {
+
+            @Override
+            public void update(long bytesRead, long contentLength, boolean done) {
+                int progress = (int) ((100 * bytesRead) / contentLength);
+
+                // Enable if you want to see the progress with logcat
+                // Log.v(LOG_TAG, "Progress: " + progress + "%");
+                pb_gif.setProgress(progress);
+
+//                    Message obtain = Message.obtain();
+//                    obtain.what = UPDATE_TV_PROGRESS;
+//                    obtain.obj = progress;
+//                    mHandler.sendMessage(obtain);
+
+            }
+        };
+
+        mOkHttpClient = new OkHttpClient.Builder().addNetworkInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Interceptor.Chain chain) throws IOException {
+                Response originalResponse = chain.proceed(chain.request());
+                return originalResponse.newBuilder()
+                        .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                        .build();
+            }
+        }).build();
 
 
-        if (new_src.equals(img_src) && img_src != null) {
-            Log.e("What fuck", "what fuck");
-            // iv_gif.setInputSource(inputSource);
-            return;
 
-        }
+
+
+
 
         //这个时候,本gifhoulder可能是回收的的gifholder,它上面
         // 1: 它里面的asynchttpclient正在下载内容,这个时候应该关闭这个client链接
         // 2: 它已经下载完了,正在播放,这个时候,应该把旧的这个gifview的绘图区域给清空
 
         //如果是回收的holder,并且正在请求,那么关闭它
-        if (requestHandle != null && !requestHandle.isFinished()) {
-            requestHandle.cancel(true);
-            loading = false;
-        }
+
 
         //如果drawable不为空,那么我就强制回收,此时我也不管它能不能回收.FIXME,如果此时,它还没下载成功,它什么东西也没有,我就不能回收.这个地方的判断要完善
         //java.lang.RuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap@20c2fcb4
@@ -164,7 +198,7 @@ public class GifPlayerHolder extends BaseHolder {
 
         iv_gif.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.image_default)));
         iv_gif.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.mipmap.gif_defualt));
-        playable = false;
+
 
         System.out.println("what fuck " + tvTitle.getText().toString() + " old_src:" + img_src + "  new_src: " + new_src);
 
@@ -174,28 +208,31 @@ public class GifPlayerHolder extends BaseHolder {
         img_type = img_file.optString("type");
         img_size = img_file.optInt("size");
 
+        float ratio = (float)Constant.screenwith/(float)img_width;
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, (Constant.screenwith / img_width) * img_height);
+                ViewGroup.LayoutParams.MATCH_PARENT, (int)(ratio * img_height));
 
         iv_gif.setLayoutParams(layoutParams);
 
-        //此时应该尝试去缓存读取
-        byte[] fromCache = (byte[]) CacheManager.getInstance().getFromCache(img_src);
-        if (fromCache != null) {
-            //FIXME: 这块很快,但loading先为true,后为false;
-            loading = true;
-            try {
-                drawable = new GifDrawable(fromCache);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        Glide.get(context)
+                .register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(mOkHttpClient));
 
-            iv_gif.setBackgroundDrawable(drawable);
-            iv_gif.setImageBitmap(null);
-            playable = true;
+        Glide.with(context)
+               // .load("http://img3.imgtn.bdimg.com/it/u=2908161623,947886430&fm=21&gp=0.jpg")
+                .load(Constant.baseFileUrl + img_src)
+                .override((int)(Constant.screenwith - Constant.mainItemPadding - Constant.mainPadding), (int) (img_height * ratio))
+                // Disabling cache to see download progress with every app load
+                // You may want to enable caching again in production
+                .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(iv_gif);
 
-            loading = false;
+        if ("null".equals(title) || TextUtils.isEmpty(title)) {
+            tvTitle.setVisibility(View.GONE);
+        } else {
+            tvTitle.setText(title);
         }
+
 
     }
 
@@ -255,5 +292,54 @@ public class GifPlayerHolder extends BaseHolder {
 
             //FIXME: 加载失败的时候调用
         }
+    }
+
+    private static class ProgressResponseBody extends ResponseBody {
+
+        private final ResponseBody responseBody;
+        private final ProgressListener progressListener;
+        private BufferedSource bufferedSource;
+
+        public ProgressResponseBody(ResponseBody responseBody, ProgressListener progressListener) {
+            this.responseBody = responseBody;
+            this.progressListener = progressListener;
+        }
+
+        @Override
+        public MediaType contentType() {
+            return responseBody.contentType();
+        }
+
+        @Override
+        public long contentLength() {
+            return responseBody.contentLength();
+        }
+
+        @Override
+        public BufferedSource source() {
+            if (bufferedSource == null) {
+                bufferedSource = Okio.buffer(source(responseBody.source()));
+            }
+            return bufferedSource;
+        }
+
+        private Source source(Source source) {
+            return new ForwardingSource(source) {
+                long totalBytesRead = 0L;
+
+                @Override
+                public long read(Buffer sink, long byteCount) throws IOException {
+                    long bytesRead = super.read(sink, byteCount);
+                    // read() returns the number of bytes read, or -1 if this source is exhausted.
+                    totalBytesRead += bytesRead != -1 ? bytesRead : 0;
+                    progressListener.update(totalBytesRead, responseBody.contentLength(), bytesRead == -1);
+                    return bytesRead;
+                }
+            };
+        }
+    }
+
+    interface ProgressListener {
+        void update(long bytesRead, long contentLength, boolean done);
     }
 }

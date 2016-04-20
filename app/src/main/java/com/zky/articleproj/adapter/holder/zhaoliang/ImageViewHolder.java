@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
 import com.zky.articleproj.constant.Constant;
@@ -69,7 +69,7 @@ public class ImageViewHolder extends BaseHolder {
             /*
             内容信息
             */
-        tvTitle.setText(jsonObject.getString("title"));
+        // tvTitle.setText(jsonObject.getString("title"));
 
         String content_str = jsonObject.optString("content");
         JSONObject content_obj = new JSONObject(content_str);
@@ -95,11 +95,25 @@ public class ImageViewHolder extends BaseHolder {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (img_height * ratio));
         iv_img.setLayoutParams(params);
 
+
         System.out.println("$$$$" + iv_img.getLayoutParams().width + ":" + iv_img.getLayoutParams().height);
 
         image_url = Constant.baseFileUrl + img_src;
 
-        Picasso.with(context).load(image_url).resize((int) (Constant.screenwith - Constant.mainPadding * 2 - Constant.mainItemPadding * 2), (int) (img_height * ratio)).into(holder.iv_img);
+        System.out.println("-----------------" + image_url);
+
+        //Picasso.with(context).load("http://img3.imgtn.bdimg.com/it/u=3350331176,1143185189&fm=21&gp=0.jpg").resize((int) (Constant.screenwith - Constant.mainPadding * 2 - Constant.mainItemPadding * 2), (int) (img_height * ratio)).into(holder.iv_img);
+        //https://futurestud.io/blog/glide-image-resizing-scaling
+        //FIXME: 目前还是可参考网页上的说法,如果预先知道图片大小的话,可以使用override来重写显示图片的大小
+        //FIXME: 但我相信,应该可以通过类似centercrop或者fit的方式自动让图片matchparent
+        //FIXME: http://stackoverflow.com/questions/35759900/glide-sizing-the-image-loaded-to-an-imageview-incorrectly-when-using-9-patch-pla
+        //FIXME: 从上面链接得知,glide加载的时候根本不知道所加载img的大小,只有加载完成了才知道,所以你一定要事先告知他image_view的size.
+        Glide.with(context)
+                .load(image_url)
+                .override((int)(Constant.screenwith - Constant.mainItemPadding - Constant.mainPadding), (int) (img_height * ratio))
+                .fitCenter()
+                .into(iv_img);
+
 
         //这个时候,还没有加载成功,此时,iv_img的高宽都是原布局的高宽,如果原holder是刚刚创建的,
         //那么读出来是(0,0)否则是原图片.
