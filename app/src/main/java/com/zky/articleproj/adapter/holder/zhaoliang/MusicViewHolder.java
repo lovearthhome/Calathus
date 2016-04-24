@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.zky.articleproj.R;
 import com.zky.articleproj.activity.MusicPalyerActivity;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
+import com.zky.articleproj.adapter.holder.base.CardHolder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +20,7 @@ import org.xutils.view.annotation.ViewInject;
 /**
  * Created by zhaoliang on 16/4/7.
  */
-public class MusicViewHolder extends BaseHolder {
+public class MusicViewHolder extends CardHolder {
 
     @ViewInject(R.id.tv_index1_title)
     private TextView tvTitle;
@@ -39,8 +40,10 @@ public class MusicViewHolder extends BaseHolder {
     }
 
     @Override
-    public void bindView(Context context, BaseHolder baseHolder, String jsonStr) throws JSONException {
-        MusicViewHolder musicViewHolder = (MusicViewHolder) baseHolder;
+    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
+        MusicViewHolder musicViewHolder = (MusicViewHolder) cardHolder;
+
+        super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
 
         JSONObject jsonObject = new JSONObject(jsonStr);
             /*

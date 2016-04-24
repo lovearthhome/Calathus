@@ -9,19 +9,18 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestHandle;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
-import com.zky.articleproj.cache.CacheManager;
+import com.zky.articleproj.adapter.holder.base.CardHolder;
 import com.zky.articleproj.constant.Constant;
+import com.zky.articleproj.net.glideprogress.ProgressListener;
+import com.zky.articleproj.net.glideprogress.ProgressResponseBody;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,25 +31,17 @@ import org.xutils.view.annotation.ViewInject;
 import java.io.IOException;
 import java.io.InputStream;
 
-import cz.msebera.android.httpclient.Header;
+import io.vov.vitamio.utils.Log;
 import okhttp3.Interceptor;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSource;
-import okio.ForwardingSource;
-import okio.Okio;
-import okio.Source;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
-import pl.droidsonroids.gif.InputSource;
 
 /**
  * Created by zhaoliang on 16/4/7.
  */
-public class GifPlayerHolder extends BaseHolder {
+public class GifPlayerHolder extends CardHolder {
 
     @ViewInject(R.id.tv_index1_title)
     private TextView tvTitle;
@@ -60,6 +51,9 @@ public class GifPlayerHolder extends BaseHolder {
     @ViewInject(R.id.pb_gif)
     private ProgressBar pb_gif;
 
+    /*  @ViewInject(R.id.loading)
+      private CircleLoadingView circleLoadingView;
+  */
     GifDrawable drawable = null;
 
     private AsyncHttpClient client;
@@ -70,62 +64,22 @@ public class GifPlayerHolder extends BaseHolder {
     private int img_size;
     private int img_duration;
 
-    private boolean loading = false;
-    private boolean playable = false;
-
-    private OkHttpClient mOkHttpClient;
+    public OkHttpClient mOkHttpClient;
     private final static String DOWNLOAD_URL = "https://i.imgur.com/mYBXl6X.jpg";
-    /*
-    *  0:  创建出来,干净的,没有沾染过,等用户点击后就进入加载状态/
-    *  1:  用户点击了,正在加载,但是没有加载成功
-    *  2:  用户加载成功结束后,正在播放的状态/或者加载失败后
-    *  3:  表明这是个回收的holder,此时间它的drawable是有值的.
-    * */
-
-    private GifHandler responseHandler;
-    private RequestHandle requestHandle;
-    private InputSource.ByteArraySource inputSource;
 
     @Event(R.id.iv_gif)
     private void click(View view) {
-        if (playable == false) {
-            if (loading) {
-                loading = false;
-                Toast.makeText(context, "已经停止加载", Toast.LENGTH_SHORT).show();
-                if (requestHandle != null && !requestHandle.isFinished()) {
-                    requestHandle.cancel(true);
-                }
-
-            } else {
-
-                requestHandle = client.get(Constant.baseFileUrl + img_src, responseHandler);
-                loading = true;
-                Toast.makeText(context, "开始奋力加载", Toast.LENGTH_SHORT).show();
-            }
-
-        }
-        if (playable == true) {
-            if (drawable.isPlaying()) {
-                drawable.stop();
-            } else {
-                drawable.start();
-            }
-        }
 
     }
 
     public GifPlayerHolder(View itemView) {
         super(itemView);
-
-        client = new AsyncHttpClient();
-        responseHandler = new GifHandler();
-        System.out.println("--------------gif:born");
     }
 
     @Override
-    public void bindView(Context context, BaseHolder baseHolder, String jsonStr) throws JSONException {
-        GifPlayerHolder holder = (GifPlayerHolder) baseHolder;
+    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
 
+        super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
 
         JSONObject jsonObject = new JSONObject(jsonStr);
 
@@ -141,40 +95,6 @@ public class GifPlayerHolder extends BaseHolder {
         JSONObject img_file = img_farray.getJSONObject(0);
 
         String new_src = img_file.optString("src");
-
-
-        final ProgressListener progressListener = new ProgressListener() {
-
-            @Override
-            public void update(long bytesRead, long contentLength, boolean done) {
-                int progress = (int) ((100 * bytesRead) / contentLength);
-
-                // Enable if you want to see the progress with logcat
-                // Log.v(LOG_TAG, "Progress: " + progress + "%");
-                pb_gif.setProgress(progress);
-
-//                    Message obtain = Message.obtain();
-//                    obtain.what = UPDATE_TV_PROGRESS;
-//                    obtain.obj = progress;
-//                    mHandler.sendMessage(obtain);
-
-            }
-        };
-
-        mOkHttpClient = new OkHttpClient.Builder().addNetworkInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Interceptor.Chain chain) throws IOException {
-                Response originalResponse = chain.proceed(chain.request());
-                return originalResponse.newBuilder()
-                        .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                        .build();
-            }
-        }).build();
-
-
-
-
-
 
 
         //这个时候,本gifhoulder可能是回收的的gifholder,它上面
@@ -200,7 +120,11 @@ public class GifPlayerHolder extends BaseHolder {
         iv_gif.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.mipmap.gif_defualt));
 
 
-        System.out.println("what fuck " + tvTitle.getText().toString() + " old_src:" + img_src + "  new_src: " + new_src);
+        System.out.println("what fuck " + tvTitle.getText().
+
+                toString()
+
+                + " old_src:" + img_src + "  new_src: " + new_src);
 
         img_src = img_file.optString("src");
         img_height = img_file.optInt("height");
@@ -208,19 +132,64 @@ public class GifPlayerHolder extends BaseHolder {
         img_type = img_file.optString("type");
         img_size = img_file.optInt("size");
 
-        float ratio = (float)Constant.screenwith/(float)img_width;
+        float ratio = (float) Constant.screenwith / (float) img_width;
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, (int)(ratio * img_height));
+                ViewGroup.LayoutParams.MATCH_PARENT, (int) (ratio * img_height));
 
         iv_gif.setLayoutParams(layoutParams);
 
-        Glide.get(context)
-                .register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(mOkHttpClient));
+        /*final ProgressResponseBody.ProgressListener progressListener = new ProgressResponseBody.ProgressListener() {
+            @Override
+            public void update(long bytesRead, long contentLength, boolean done) {
+                pb_gif.setProgress((int) (bytesRead / contentLength));
+                System.out.println("---------下载进度:" + bytesRead + ":" + contentLength);
+            }
+        };
+
+        mOkHttpClient = new OkHttpClient.Builder().
+                addNetworkInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Interceptor.Chain chain) throws IOException {
+                        Response originalResponse = chain.proceed(chain.request());
+                        return originalResponse.newBuilder()
+                                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                                .build();
+                    }
+                }).build();
+
+        Glide.get(context).register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(mOkHttpClient));*/
+
+        final ProgressListener progressListener = new ProgressListener() {
+            @Override
+            public void update(long bytesRead, long contentLength, boolean done) {
+                System.out.println("gif==============" + bytesRead);
+                System.out.println("gif==============" + contentLength);
+                System.out.println("gif==============" + done);
+                System.out.format("gif==============" + "%d%% done\n", (100 * bytesRead) / contentLength);
+                pb_gif.setMax((int) contentLength);
+                pb_gif.setProgress((int) bytesRead);
+            }
+        };
+
+        mOkHttpClient = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Response originalResponse = chain.proceed(chain.request());
+                return originalResponse.newBuilder().body(new ProgressResponseBody(originalResponse.body(), progressListener)).build();
+            }
+        }).build();
+
+        Glide.get(context).register(GlideUrl.class, InputStream.class,
+                new OkHttpUrlLoader.Factory(mOkHttpClient));
+
+        Log.e("gifurl", Constant.baseFileUrl + img_src);
 
         Glide.with(context)
-               // .load("http://img3.imgtn.bdimg.com/it/u=2908161623,947886430&fm=21&gp=0.jpg")
+                //.load("http://ww2.sinaimg.cn/large/85cccab3tw1esjq9r0pcpg20d3086qtr.jpg")
                 .load(Constant.baseFileUrl + img_src)
-                .override((int)(Constant.screenwith - Constant.mainItemPadding - Constant.mainPadding), (int) (img_height * ratio))
+                .placeholder(R.mipmap.head)
+                //.error(R.mipmap.ic_launcher)
+                .override((int) (Constant.screenwith - Constant.mainItemPadding - Constant.mainPadding), (int) (img_height * ratio))
                 // Disabling cache to see download progress with every app load
                 // You may want to enable caching again in production
                 .fitCenter()
@@ -232,7 +201,6 @@ public class GifPlayerHolder extends BaseHolder {
         } else {
             tvTitle.setText(title);
         }
-
 
     }
 
@@ -258,88 +226,4 @@ public class GifPlayerHolder extends BaseHolder {
         //System.out.println("--------------gif:onChildViewDetachedFromWindow" + tvTitle.getText().toString());
     }
 
-    /**
-     * gif处理器类
-     */
-    class GifHandler extends AsyncHttpResponseHandler {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-            loading = false;
-            try {
-                CacheManager.getInstance().addToCache(img_src, responseBody);
-                drawable = new GifDrawable(responseBody);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //drawable.stop();
-            iv_gif.setBackgroundDrawable(drawable);
-            iv_gif.setImageBitmap(null);
-            playable = true;
-
-/*            inputSource = new InputSource.ByteArraySource(responseBody);
-            iv_gif.setInputSource(inputSource);*/
-        }
-
-        @Override
-        public void onProgress(long bytesWritten, long totalSize) {
-            pb_gif.setMax((int) totalSize);
-            pb_gif.setProgress((int) bytesWritten);
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            //FIXME: 加载失败的时候调用
-        }
-    }
-
-    private static class ProgressResponseBody extends ResponseBody {
-
-        private final ResponseBody responseBody;
-        private final ProgressListener progressListener;
-        private BufferedSource bufferedSource;
-
-        public ProgressResponseBody(ResponseBody responseBody, ProgressListener progressListener) {
-            this.responseBody = responseBody;
-            this.progressListener = progressListener;
-        }
-
-        @Override
-        public MediaType contentType() {
-            return responseBody.contentType();
-        }
-
-        @Override
-        public long contentLength() {
-            return responseBody.contentLength();
-        }
-
-        @Override
-        public BufferedSource source() {
-            if (bufferedSource == null) {
-                bufferedSource = Okio.buffer(source(responseBody.source()));
-            }
-            return bufferedSource;
-        }
-
-        private Source source(Source source) {
-            return new ForwardingSource(source) {
-                long totalBytesRead = 0L;
-
-                @Override
-                public long read(Buffer sink, long byteCount) throws IOException {
-                    long bytesRead = super.read(sink, byteCount);
-                    // read() returns the number of bytes read, or -1 if this source is exhausted.
-                    totalBytesRead += bytesRead != -1 ? bytesRead : 0;
-                    progressListener.update(totalBytesRead, responseBody.contentLength(), bytesRead == -1);
-                    return bytesRead;
-                }
-            };
-        }
-    }
-
-    interface ProgressListener {
-        void update(long bytesRead, long contentLength, boolean done);
-    }
 }

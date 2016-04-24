@@ -9,11 +9,12 @@ import com.jsqix.dq.scratchcard.ScratchCardView;
 import com.jsqix.dq.scratchcard.Text_Rubbler;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
+import com.zky.articleproj.adapter.holder.base.CardHolder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.view.annotation.ViewInject;
-public class ProverbsListViewHolder extends BaseHolder {
+public class ProverbsListViewHolder extends CardHolder {
 
 
     @ViewInject(R.id.proverb_title)
@@ -30,8 +31,10 @@ public class ProverbsListViewHolder extends BaseHolder {
     }
 
     @Override
-    public void bindView(Context context, BaseHolder baseHolder, String jsonStr) throws JSONException {
-        ProverbsListViewHolder holder = (ProverbsListViewHolder) baseHolder;
+    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
+        super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
+
+        ProverbsListViewHolder holder = (ProverbsListViewHolder) cardHolder;
         JSONObject jsonObject = new JSONObject(jsonStr);
         holder.tvTitle.setText(Html.fromHtml(jsonObject.getString("title")));
         JSONObject content=new JSONObject(jsonObject.getString("content"));

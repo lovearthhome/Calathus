@@ -2,7 +2,9 @@ package com.zky.articleproj.app;
 
 import android.app.Application;
 
+
 import org.xutils.x;
+
 
 /**
  * Created by pro on 16/3/11.
@@ -14,7 +16,6 @@ public class ArticleAppliction extends Application {
         super.onCreate();
 
         initXutils();
-
 
     }
 

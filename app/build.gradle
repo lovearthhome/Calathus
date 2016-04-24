@@ -29,8 +29,10 @@ repositories {
 allprojects {
     repositories {
         jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
+
 
 repositories {
     flatDir
@@ -45,12 +47,17 @@ dependencies {
     compile(name: 'duasdk-debug', ext: 'aar')
     /* bibi jkplayer */
     compile project(':vitamio')
+    /* compile 'com.facebook.fresco:fresco:0.9.0.+'*/
     compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:design:23.3.0'
+
+    // Glide's OkHttp3 Integration
+    
+
+    compile 'com.android.support:appcompat-v7:24.0.0-alpha1'
+    compile 'com.android.support:design:24.0.0-alpha1'
     compile 'org.xutils:xutils:3.3.22'
-    compile 'com.android.support:support-v4:23.3.0'
-    compile 'com.android.support:cardview-v7:23.3.0'
-   /* compile 'com.facebook.fresco:fresco:0.9.0.+'*/
+    compile 'com.android.support:support-v4:24.0.0-alpha1'
+    compile 'com.android.support:cardview-v7:24.0.0-alpha1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jcodecraeer:xrecyclerview:1.2.6'
     compile 'de.hdodenhof:circleimageview:2.0.0'
@@ -67,14 +74,10 @@ dependencies {
     compile 'tv.danmaku.ijk.media:ijkplayer-x86:0.4.5.1'
     compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.4.5.1'
     compile 'com.linsea:universalvideoview:1.1.0@aar'
-    compile 'com.android.support:appcompat-v7:23.3.0'
-
     compile 'com.android.support:preference-v7:23.3.0'
     compile 'com.android.support:preference-v14:23.3.0'
-
-
     compile 'com.github.bumptech.glide:glide:3.7.0'
-
-    // Glide's OkHttp3 Integration
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+    compile 'com.github.jhw-dev:CircleLoadingView:v1.3'
+    compile 'com.google.android.gms:play-services-ads:8.4.0'
 }

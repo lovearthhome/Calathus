@@ -12,6 +12,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
 import com.zky.articleproj.adapter.holder.yimingyu.ConversationsListViewHolder;
+import com.zky.articleproj.adapter.holder.zhaoliang.AdHolder;
 import com.zky.articleproj.adapter.holder.zhaoliang.GifPlayerHolder;
 import com.zky.articleproj.adapter.holder.zhaoliang.ImageViewHolder;
 import com.zky.articleproj.adapter.holder.zhaoliang.IndexListViewHolder;
@@ -51,7 +52,15 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
     @Override
     public BaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.e("*****", "onCreateViewHolder" + viewType);
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.index_list_item, parent, false);
+        View v = null;
+        switch (viewType) {
+            case 501:
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adindex_list_item, parent, false);
+                break;
+            default:
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.index_list_item, parent, false);
+                break;
+        }
         BaseHolder holder = switchView(viewType, v);
         x.view().inject(holder, v);
         return holder;
@@ -62,7 +71,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
     public void onBindViewHolder(BaseHolder holder, int position) {
         Log.e("*****", "onBindViewHolder" + position);
         try {
-            holder.bindBaseView(context, holder, jsonArray.get(position).toString());
+            holder.bindView(context, holder, jsonArray.get(position).toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -101,18 +110,10 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
             case 401:
                 holder = new VideoViewHolder2(v);
                 break;
-            /*case 102:
-                holder = new Tmpl102ListViewHolder(v, sensorManager);
+            case 501:
+                holder = new AdHolder(v);
+                System.out.println("---------------加载广告!");
                 break;
-            case 1:
-                holder = new GifPlayerHolder(v);
-                break;
-            case 2:
-                holder = new MusicViewHolder(v);
-                break;
-            case 3:
-                holder = new Tmpl102ListViewHolder(v);
-                break;*/
             default:
                 //FIXME: 这个地方，如果出错了，没有获得服务器的文章，那么就应该合适的告诉APP.不应该把错误蔓延下去。
                 Log.e("######", "收到意料外的view type" + viewType);

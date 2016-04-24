@@ -141,10 +141,8 @@ public class IndexFragment extends BaseFragment {
         // getArtPrama.cato = 100000;
         getArtPrama.order = "inc DESC";
         getArtPrama.fields = new String[]{"inc", "star", "comt", "content", "good", "bad", "shar"};
-        getArtPrama.rows = 5;
+        getArtPrama.rows = 20;
         getArtPrama.channel = channel;
-
-        //filters.put("media", 1);
 
         Map<String, Object> filters = new HashMap<>();
 
@@ -152,6 +150,7 @@ public class IndexFragment extends BaseFragment {
         getArtPrama.filter = filters;
 
         post(getArtPrama, mIndexCallBack);
+
     }
 
     class IndexCallBack implements NetCallBack {
@@ -229,6 +228,12 @@ public class IndexFragment extends BaseFragment {
         }
     }
 
+    /**
+     * 创建Fragment的实例
+     *
+     * @param chanel
+     * @return
+     */
     public static IndexFragment newInstance(String chanel) {
         IndexFragment fragment = new IndexFragment();
         Bundle args = new Bundle();
@@ -236,5 +241,4 @@ public class IndexFragment extends BaseFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
 }

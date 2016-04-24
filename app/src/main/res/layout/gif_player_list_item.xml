@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
     android:orientation="vertical">
 
@@ -11,25 +11,32 @@
         style="@style/ListTitieStyle"
         android:text="无题" />
 
+
     <ProgressBar
         android:id="@+id/pb_gif"
         style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
-     <pl.droidsonroids.gif.GifImageView
-         android:id="@+id/iv_gif"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:background="@color/image_default"
-         android:scaleType="centerInside"
-         android:src="@mipmap/gif_defualt" />
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/iv_gif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/image_default"
+        android:scaleType="centerInside"
+        android:src="@mipmap/gif_defualt" />
     <!--<pl.droidsonroids.gif.GifTextureView
         android:id="@+id/iv_gif"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:freezesAnimation="true"
         app:isOpaque="false" />-->
-
+   <!-- <com.tengchong.android.CircleLoadingView
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cl_circleRadius="40dp"
+        app:cl_circleStrokeSize="5dp"
+        app:cl_fillAnimationDuration="200"
+        app:cl_src="@drawable/expand" />-->
 </LinearLayout>

@@ -249,4 +249,7 @@
     <string name="navigation_message">消息</string>
     <string name="navigation_collection">收藏</string>
 
+    <!-- 谷歌广告的id -->
+    <string name="banner_ad_unit_id">ca-app-pub-7709176368738551/2862686821</string>
+
 </resources>

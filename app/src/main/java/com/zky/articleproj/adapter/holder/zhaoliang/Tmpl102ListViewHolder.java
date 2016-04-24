@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.squareup.seismic.ShakeDetector;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
+import com.zky.articleproj.adapter.holder.base.CardHolder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +26,7 @@ import tyrantgit.explosionfield.ExplosionField;
 /**
  * Created by zhaoliang on 16/4/7.
  */
-public class Tmpl102ListViewHolder extends BaseHolder implements ShakeDetector.Listener {
+public class Tmpl102ListViewHolder extends CardHolder implements ShakeDetector.Listener {
 
 
     @ViewInject(R.id.joke_title)
@@ -67,7 +68,10 @@ public class Tmpl102ListViewHolder extends BaseHolder implements ShakeDetector.L
     }
 
     @Override
-    public void bindView(Context context, BaseHolder baseHolder, String jsonStr) throws JSONException {
+    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
+
+        super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
+
         JSONObject jsonObject = new JSONObject(jsonStr);
         JSONObject joke = new JSONObject(jsonObject.getString("content"));
 

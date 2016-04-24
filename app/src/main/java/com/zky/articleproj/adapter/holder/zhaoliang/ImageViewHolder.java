@@ -2,17 +2,26 @@ package com.zky.articleproj.adapter.holder.zhaoliang;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.GlideUrl;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
+import com.zky.articleproj.adapter.holder.base.CardHolder;
 import com.zky.articleproj.constant.Constant;
+import com.zky.articleproj.net.glideprogress.ProgressListener;
+import com.zky.articleproj.net.glideprogress.ProgressResponseBody;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,11 +29,19 @@ import org.json.JSONObject;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
+
 /**
  * Created by zhaoliang on 16/4/7.
  */
-public class ImageViewHolder extends BaseHolder {
+public class ImageViewHolder extends CardHolder {
 
+    private static final int UPDATE_PROGRESS = 1;
     private static String[] imageurl = {"file:///android_asset/test/image1.jpg", "file:///android_asset/test/image2.jpg", "file:///android_asset/test/image3.jpg", "file:///android_asset/test/image4.jpg",
             "file:///android_asset/test/image5.jpg", "file:///android_asset/test/image6.jpg", "file:///android_asset/test/image7.jpg", "file:///android_asset/test/image8.jpg"};
 
@@ -34,12 +51,30 @@ public class ImageViewHolder extends BaseHolder {
     @ViewInject(R.id.iv_img)
     public ImageView iv_img;
 
+    @ViewInject(R.id.pb_progress)
+    private ProgressBar progressBar;
+    @ViewInject(R.id.tv_progress)
+    private TextView tvProgress;
+
     private String image_url = "";
     private int img_width;
     private int img_height;
     private String img_type;
     private int img_size;
     private int img_duration;
+
+    private OkHttpClient mOkHttpClient;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case UPDATE_PROGRESS:
+                    tvProgress.setText(progressBar.getProgress() / progressBar.getMax() + "%");
+                    break;
+            }
+        }
+    };
 
     @Event(R.id.iv_img)
     private void click(View view) {
@@ -59,11 +94,10 @@ public class ImageViewHolder extends BaseHolder {
     * 为了避免这种情况,我们需要对holder进行清理.
     * */
     @Override
-    public void bindView(final Context context, BaseHolder baseHolder, String jsonStr) throws JSONException {
+    public void bindView(final Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
 
-        final ImageViewHolder holder = (ImageViewHolder) baseHolder;
-        Log.e("$$$$", holder.image_url + " " + holder.iv_img.getWidth() + " " + holder.iv_img.getHeight());
 
+        super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
 
         JSONObject jsonObject = new JSONObject(jsonStr);
             /*
@@ -108,10 +142,48 @@ public class ImageViewHolder extends BaseHolder {
         //FIXME: 但我相信,应该可以通过类似centercrop或者fit的方式自动让图片matchparent
         //FIXME: http://stackoverflow.com/questions/35759900/glide-sizing-the-image-loaded-to-an-imageview-incorrectly-when-using-9-patch-pla
         //FIXME: 从上面链接得知,glide加载的时候根本不知道所加载img的大小,只有加载完成了才知道,所以你一定要事先告知他image_view的size.
-        Glide.with(context)
+        /*Glide.with(context)
                 .load(image_url)
                 .override((int)(Constant.screenwith - Constant.mainItemPadding - Constant.mainPadding), (int) (img_height * ratio))
                 .fitCenter()
+                .into(iv_img);*/
+
+        //Glide.get(context).register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(mOkHttpClient));
+
+        final ProgressListener progressListener = new ProgressListener() {
+            @Override
+            public void update(long bytesRead, long contentLength, boolean done) {
+                System.out.println("==============" + bytesRead);
+                System.out.println("==============" + contentLength);
+                System.out.println("==============" + done);
+                System.out.format("==============" + "%d%% done\n", (100 * bytesRead) / contentLength);
+                progressBar.setMax((int) contentLength);
+                progressBar.setProgress((int) bytesRead);
+                mHandler.sendEmptyMessage(UPDATE_PROGRESS);
+            }
+        };
+
+        mOkHttpClient = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Response originalResponse = chain.proceed(chain.request());
+                return originalResponse.newBuilder().body(new ProgressResponseBody(originalResponse.body(), progressListener)).build();
+            }
+        }).build();
+
+        Glide.get(context).register(GlideUrl.class, InputStream.class,
+                new OkHttpUrlLoader.Factory(mOkHttpClient));
+
+        Glide.with(context)
+                // .load("http://pic36.nipic.com/20131217/6704106_233034463381_2.jpg")
+                .load(Constant.baseFileUrl + img_src)
+                //.placeholder(R.mipmap.head)
+                //.error(R.mipmap.ic_launcher)
+                .override((int) (Constant.screenwith - Constant.mainItemPadding - Constant.mainPadding), (int) (img_height * ratio))
+                // Disabling cache to see download progress with every app load
+                // You may want to enable caching again in production
+                .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(iv_img);
 
 

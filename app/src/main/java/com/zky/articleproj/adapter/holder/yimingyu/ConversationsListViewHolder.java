@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
+import com.zky.articleproj.adapter.holder.base.CardHolder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,7 +21,7 @@ import org.xutils.view.annotation.ViewInject;
  * Author：Mingyu Yi on 2016/4/8 09:42
  * Email：461072496@qq.com
  */
-public class ConversationsListViewHolder extends BaseHolder {
+public class ConversationsListViewHolder extends CardHolder {
 
     @ViewInject(R.id.conversations_list_title)
     private TextView title;
@@ -32,9 +33,13 @@ public class ConversationsListViewHolder extends BaseHolder {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+
+
     @Override
-    public void bindView(Context context, BaseHolder baseHolder, String jsonStr) throws JSONException {
-//        ConversationsListViewHolder holder=(ConversationsListViewHolder) baseHolder;
+    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
+        super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
+
+//        ConversationsListViewHolder holder=(ConversationsListViewHolder) cardHolder;
         JSONObject jsonObject = new JSONObject(jsonStr);
         String content_str = jsonObject.getString("content");
         JSONObject content_obj = new JSONObject(content_str);

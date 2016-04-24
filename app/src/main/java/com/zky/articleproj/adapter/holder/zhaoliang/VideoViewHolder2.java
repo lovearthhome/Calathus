@@ -11,6 +11,7 @@ import com.universalvideoview.UniversalMediaController;
 import com.universalvideoview.UniversalVideoView;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
+import com.zky.articleproj.adapter.holder.base.CardHolder;
 import com.zky.articleproj.constant.Constant;
 
 import org.json.JSONArray;
@@ -23,7 +24,7 @@ import io.vov.vitamio.utils.Log;
 /**
  * Created by zhaoliang on 16/4/7.
  */
-public class VideoViewHolder2 extends BaseHolder {
+public class VideoViewHolder2 extends CardHolder {
 
     @ViewInject(R.id.tv_index1_title)
     private TextView tvTitle;
@@ -49,16 +50,17 @@ public class VideoViewHolder2 extends BaseHolder {
     }
 
     @Override
-    public void bindView(Context context, BaseHolder baseHolder, String jsonStr) throws JSONException {
-        VideoViewHolder2 musicViewHolder = (VideoViewHolder2) baseHolder;
+    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
+
+        super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
 
         JSONObject jsonObject = new JSONObject(jsonStr);
             /*
             内容信息
             */
         //tvTitle.setText(jsonObject.getString("title"));
-        String content_str =  jsonObject.getString("content");
-        JSONObject content_obj=new JSONObject(content_str);
+        String content_str = jsonObject.getString("content");
+        JSONObject content_obj = new JSONObject(content_str);
 
         tvTitle.setText(content_obj.optString("title"));
 

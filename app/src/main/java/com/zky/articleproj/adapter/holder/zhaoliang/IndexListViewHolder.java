@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.holder.base.BaseHolder;
+import com.zky.articleproj.adapter.holder.base.CardHolder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +18,7 @@ import org.xutils.view.annotation.ViewInject;
 /**
  * Created by zhaoliang on 16/4/6.
  */
-public class IndexListViewHolder extends BaseHolder {
+public class IndexListViewHolder extends CardHolder {
 
 
     @ViewInject(R.id.tv_index1_title)
@@ -30,8 +31,11 @@ public class IndexListViewHolder extends BaseHolder {
     }
 
     @Override
-    public void bindView(Context context, BaseHolder baseHolder, String jsonStr) throws JSONException {
-        IndexListViewHolder holder = (IndexListViewHolder) baseHolder;
+    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
+        IndexListViewHolder holder = (IndexListViewHolder) cardHolder;
+
+        super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
+
         JSONObject jsonObject = new JSONObject(jsonStr);
         String content_str =  jsonObject.getString("content");
         JSONObject content_obj=new JSONObject(content_str);
