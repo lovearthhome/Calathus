@@ -24,6 +24,8 @@ import com.yimingyu.android.core.MyCallBack;
 import com.yimingyu.android.lib.duasdk.DuaTest;
 import com.zky.articleproj.R;
 import com.zky.articleproj.activity.menu.About_Activity;
+import com.zky.articleproj.activity.menu.follower.FollowerActivity;
+import com.zky.articleproj.activity.menu.followee.FolloweeActivity;
 import com.zky.articleproj.activity.menu.settings.SettingActivity;
 import com.zky.articleproj.base.BaseActivity;
 import com.zky.articleproj.constant.Constant;
@@ -111,6 +113,12 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.nav_about:
                         startActivity(new Intent(MainActivity.this, About_Activity.class));
+                        break;
+                    case R.id.nav_fans:
+                        startActivity(new Intent(MainActivity.this, FollowerActivity.class));
+                        break;
+                    case R.id.nav_following:
+                        startActivity(new Intent(MainActivity.this, FolloweeActivity.class));
                         break;
                 }
                 return true;

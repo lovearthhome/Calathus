@@ -61,6 +61,8 @@
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activity.menu.About_Activity" />
+        <activity android:name=".activity.menu.follower.FollowerActivity" />
+        <activity android:name=".activity.menu.followee.FolloweeActivity" />
         <activity
             android:name=".activity.menu.settings.SettingActivity"
             android:theme="@style/Theme.Douya"></activity>

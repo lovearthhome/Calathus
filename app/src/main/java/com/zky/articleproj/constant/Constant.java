@@ -6,7 +6,8 @@ package com.zky.articleproj.constant;
  * Created by pro on 16/2/23.
  */
 public class Constant {
-
+    /*用户*/
+    public static final String userUrl="http://api.xdua.org/users";
     /* 项目基本地址 */
     public static final String baseUrl = "http://api.wikicivi.com/articles";
     /* 项目图片基本地址 */

@@ -21,15 +21,15 @@
             android:icon="@mipmap/ic_dashboard"
             android:title="@string/navigation_articles" />
         <item
-            android:id="@+id/nav_messages"
+            android:id="@+id/nav_following"
             android:icon="@mipmap/ic_event"
             android:title="@string/navigation_follow" />
         <item
-            android:id="@+id/nav_my_focus"
+            android:id="@+id/nav_fans"
             android:icon="@mipmap/ic_headset"
             android:title="@string/navigation_fans" />
         <item
-            android:id="@+id/nav_foucs_me"
+            android:id="@+id/nav_messages"
             android:icon="@mipmap/ic_forum"
             android:title="@string/navigation_message" />
     </group>
