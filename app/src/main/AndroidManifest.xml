@@ -26,7 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,8 +36,10 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity android:name=".activity.ImageZoomActivity">
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ImageZoomActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.zky.articleproj.activity.ImageZoomActivity" />
 
@@ -49,9 +52,12 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".activity.MoreActivity" />
-        <activity android:name=".activity.MusicPalyerActivity" />
-        <activity android:name=".activity.VideoActivity" />
+        <activity android:name=".activity.MoreActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MusicPalyerActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.VideoActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- Don't forgot InitActivity -->
         <activity
@@ -59,13 +65,18 @@
             android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".activity.menu.About_Activity" />
-        <activity android:name=".activity.menu.follower.FollowerActivity" />
-        <activity android:name=".activity.menu.followee.FolloweeActivity" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.menu.About_Activity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.menu.follower.FollowerActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.menu.followee.FolloweeActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.menu.settings.SettingActivity"
-            android:theme="@style/Theme.Douya"></activity>
+            android:theme="@style/Theme.Douya"
+            android:screenOrientation="portrait"></activity>
 
 
         <!--This meta-data tag is required to use Google Play Services.-->
