@@ -1,9 +1,13 @@
 package com.zky.articleproj.fragment;
 
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,11 +17,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.lovearthstudio.articles.constant.Constant;
+import com.lovearthstudio.articles.service.ArticleService;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.adapter.IndexListAdapter;
 import com.zky.articleproj.base.BaseFragment;
 import com.zky.articleproj.domain.IndexRequestParams;
-import com.zky.articleproj.net.NetCallBack;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -91,10 +96,15 @@ public class IndexFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 设置频道
         if (getArguments() != null) {
             channel = getArguments().getString("cato");
             // tmpl = getArguments().getInt("tmpl");
         }
+
+        //
+        getActivity().bindService(new Intent(getActivity(), ArticleService.class), new RomoteServiceConnection(), Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -120,7 +130,8 @@ public class IndexFragment extends BaseFragment {
                 Map<String, Object> filters = new HashMap<>();
                 filters.put("inc[>]", getActivity().getSharedPreferences("limit", Context.MODE_PRIVATE).getString("inc_max", ""));
                 getArtPrama.filter = filters;
-                post(getArtPrama, mIndexCallBack);
+                Constant.binder.getData(getArtPrama, mIndexCallBack);
+                //    find(getArtPrama, mIndexCallBack);
             }
 
             @Override
@@ -129,7 +140,8 @@ public class IndexFragment extends BaseFragment {
                 Map<String, Object> filters = new HashMap<>();
                 filters.put("inc[<]", getActivity().getSharedPreferences("limit", Context.MODE_PRIVATE).getString("inc_min", ""));
                 getArtPrama.filter = filters;
-                post(getArtPrama, mIndexCallBack);
+                Constant.binder.getData(getArtPrama, mIndexCallBack);
+                //    find(getArtPrama, mIndexCallBack);
             }
         });
 
@@ -149,11 +161,11 @@ public class IndexFragment extends BaseFragment {
         filters.put("inc[>]", 0);
         getArtPrama.filter = filters;
 
-        post(getArtPrama, mIndexCallBack);
+        //  find(getArtPrama, mIndexCallBack);
 
     }
 
-    class IndexCallBack implements NetCallBack {
+    class IndexCallBack implements com.lovearthstudio.articles.net.NetCallBack {
 
         @Override
         public void onFailure(Call call, IOException e) {
@@ -165,6 +177,9 @@ public class IndexFragment extends BaseFragment {
 
             try {
                 String response_body = response.body().string();
+
+                Constant.binder.netSuccess(response_body);
+
                 Log.e("######", response_body);
                 JSONObject jsonObject = new JSONObject(response_body);
                 if (jsonObject == null) {
@@ -240,5 +255,20 @@ public class IndexFragment extends BaseFragment {
         args.putString("cato", chanel);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    class RomoteServiceConnection implements ServiceConnection {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Constant.binder = (ArticleService.ArticleBinder) service;
+
+            Constant.binder.getData(getArtPrama, mIndexCallBack);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
     }
 }

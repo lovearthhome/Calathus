@@ -7,7 +7,7 @@ package com.zky.articleproj.constant;
  */
 public class Constant {
     /*用户*/
-    public static final String userUrl="http://api.xdua.org/users";
+    public static final String userUrl = "http://api.xdua.org/users";
     /* 项目基本地址 */
     public static final String baseUrl = "http://api.wikicivi.com/articles";
     /* 项目图片基本地址 */
@@ -22,5 +22,4 @@ public class Constant {
     /* 主页面左右边距 */
     public static float mainPadding;
     public static float mainItemPadding;
-
 }

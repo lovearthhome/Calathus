@@ -1,9 +1,12 @@
 package com.zky.articleproj.activity;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -20,12 +23,13 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.lovearthstudio.articles.service.ArticleService;
 import com.yimingyu.android.core.MyCallBack;
 import com.yimingyu.android.lib.duasdk.DuaTest;
 import com.zky.articleproj.R;
 import com.zky.articleproj.activity.menu.About_Activity;
-import com.zky.articleproj.activity.menu.follower.FollowerActivity;
 import com.zky.articleproj.activity.menu.followee.FolloweeActivity;
+import com.zky.articleproj.activity.menu.follower.FollowerActivity;
 import com.zky.articleproj.activity.menu.settings.SettingActivity;
 import com.zky.articleproj.base.BaseActivity;
 import com.zky.articleproj.constant.Constant;
@@ -61,6 +65,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
 
         Vitamio.isInitialized(getApplicationContext());
 
@@ -152,8 +159,8 @@ public class MainActivity extends BaseActivity {
 
     class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String tabTitles[] = new String[]{"推荐",   "广告", "笑话", "趣图", "视频","美女", "电影", "音乐", "科学", "文化", "体育", "旅游", "艺术"};
-        private final String channel[] = {"Recommend",  "Advertisement", "Joke", "FunnyImage",  "Video", "Beauty","Movie", "Music", "Science", "Culture", "Sport", "Travel", "Art"};
+        private final String tabTitles[] = new String[]{"推荐", "广告", "笑话", "趣图", "视频", "美女", "电影", "音乐", "科学", "文化", "体育", "旅游", "艺术"};
+        private final String channel[] = {"Recommend", "Advertisement", "Joke", "FunnyImage", "Video", "Beauty", "Movie", "Music", "Science", "Culture", "Sport", "Travel", "Art"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -186,4 +193,6 @@ public class MainActivity extends BaseActivity {
         super.onPause();
         // dua.duaSleep();
     }
+
+
 }
