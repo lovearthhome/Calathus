@@ -1,19 +1,11 @@
 package com.lovearthstudio.articles.net;
 
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
-
 /**
  * Created by zhaoliang on 16/4/6.
  */
-public interface NetCallBack extends Callback {
+public interface NetCallBack {
 
-    @Override
-    void onFailure(Call call, IOException e);
+    void onFailure(String reason);
 
-    @Override
-    void onResponse(Call call, Response response) throws IOException;
+    void onResponse(String result);
 }

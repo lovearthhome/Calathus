@@ -22,7 +22,7 @@ import com.lovearthstudio.articles.service.ArticleService;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.adapter.IndexListAdapter;
 import com.zky.articleproj.base.BaseFragment;
-import com.zky.articleproj.domain.IndexRequestParams;
+import com.lovearthstudio.articles.net.IndexRequestParams;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,8 +31,6 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -93,13 +91,14 @@ public class IndexFragment extends BaseFragment {
         // Required empty public constructor
     }
 
+    //在viewpager里，左右移动一下频道页面，这个channel就更新一下，就调用一下onCreate事件
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // 设置频道
         if (getArguments() != null) {
-            channel = getArguments().getString("cato");
+            channel = getArguments().getString("channel");
             // tmpl = getArguments().getInt("tmpl");
         }
 
@@ -127,64 +126,40 @@ public class IndexFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 pull = true;
-                Map<String, Object> filters = new HashMap<>();
-                filters.put("inc[>]", getActivity().getSharedPreferences("limit", Context.MODE_PRIVATE).getString("inc_max", ""));
-                getArtPrama.filter = filters;
-                Constant.binder.getData(getArtPrama, mIndexCallBack);
-                //    find(getArtPrama, mIndexCallBack);
+                Constant.binder.getData(channel,"pull", mIndexCallBack);
             }
 
             @Override
             public void onLoadMore() {
                 push = true;
-                Map<String, Object> filters = new HashMap<>();
-                filters.put("inc[<]", getActivity().getSharedPreferences("limit", Context.MODE_PRIVATE).getString("inc_min", ""));
-                getArtPrama.filter = filters;
-                Constant.binder.getData(getArtPrama, mIndexCallBack);
-                //    find(getArtPrama, mIndexCallBack);
+                Constant.binder.getData(channel,"push", mIndexCallBack);
             }
         });
 
-        /*
-        初始化请求参数
-         */
-        getArtPrama = new IndexRequestParams();
-        getArtPrama.action = "get_articles";
-        // getArtPrama.cato = 100000;
-        getArtPrama.order = "inc DESC";
-        getArtPrama.fields = new String[]{"inc", "star", "comt", "content", "good", "bad", "shar"};
-        getArtPrama.rows = 20;
-        getArtPrama.channel = channel;
 
-        Map<String, Object> filters = new HashMap<>();
-
-        filters.put("inc[>]", 0);
-        getArtPrama.filter = filters;
-
-        //  find(getArtPrama, mIndexCallBack);
 
     }
 
     class IndexCallBack implements com.lovearthstudio.articles.net.NetCallBack {
 
         @Override
-        public void onFailure(Call call, IOException e) {
+        public void onFailure(String reason) {
             mHandler.sendEmptyMessage(PARSE_DATA_ERROR);
         }
 
         @Override
-        public void onResponse(Call call, Response response) throws IOException {
+        public void onResponse(String response_body){
 
             try {
-                String response_body = response.body().string();
 
-                Constant.binder.netSuccess(response_body);
+
+                //Constant.binder.netSuccess(response_body);
 
                 Log.e("######", response_body);
                 JSONObject jsonObject = new JSONObject(response_body);
                 if (jsonObject == null) {
                     //FIXME: 这个地方，如果出错了，那么就是服务器根本没有返回任何json数据
-                    Log.e("######", response.body().string());
+                    Log.e("######", response_body);
 
                     return;
                 }
@@ -246,13 +221,13 @@ public class IndexFragment extends BaseFragment {
     /**
      * 创建Fragment的实例
      *
-     * @param chanel
+     * @param channel
      * @return
      */
-    public static IndexFragment newInstance(String chanel) {
+    public static IndexFragment newInstance(String channel) {
         IndexFragment fragment = new IndexFragment();
         Bundle args = new Bundle();
-        args.putString("cato", chanel);
+        args.putString("channel", channel);
         fragment.setArguments(args);
         return fragment;
     }
@@ -262,8 +237,7 @@ public class IndexFragment extends BaseFragment {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             Constant.binder = (ArticleService.ArticleBinder) service;
-
-            Constant.binder.getData(getArtPrama, mIndexCallBack);
+            Constant.binder.getData(channel,"pull", mIndexCallBack);
         }
 
         @Override

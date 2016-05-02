@@ -7,7 +7,7 @@ import com.lovearthstudio.articles.net.NetCallBack;
  */
 public interface ArticleInterface {
 
-    String getData(Object param, NetCallBack netCallBack);
+    String getData(String channel, String action, NetCallBack netCallBack);
 
     void netSuccess(String response);
 }

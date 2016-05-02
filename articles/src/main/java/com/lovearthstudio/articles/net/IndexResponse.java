@@ -1,4 +1,4 @@
-package com.zky.articleproj.domain;
+package com.lovearthstudio.articles.net;
 
 
 import java.util.List;

@@ -44,4 +44,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile(name: 'duasdk-debug', ext: 'aar')
+    /**
+     * if 0.89.1 faild try 0.88.0
+     *
+     */
+
+    compile 'io.realm:realm-android:0.84.1'//参考：https://realm.io/docs/java/latest/
+
+
 }

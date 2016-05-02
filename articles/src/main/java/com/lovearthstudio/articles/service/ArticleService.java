@@ -6,13 +6,18 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.lovearthstudio.articles.net.ArtDB;
 import com.lovearthstudio.articles.net.Articles;
 import com.lovearthstudio.articles.net.NetCallBack;
+
+import io.realm.Realm;
 
 public class ArticleService extends Service {
     private static final String TAG = ArticleService.class.getName();
 
-    private Articles httpOpenHelper;
+    private Articles ArticleHelper;
+
+    private ArtDB artDB ;
 
     public ArticleService() {
     }
@@ -25,8 +30,9 @@ public class ArticleService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        httpOpenHelper = new Articles();
+        //创建article辅助对象
+        ArticleHelper = new Articles(this);
+        //创建一个lrucache
 
         Log.i(TAG, "remoteOncreate");
     }
@@ -52,8 +58,8 @@ public class ArticleService extends Service {
 
 
         @Override
-        public String getData(Object param, NetCallBack netCallBack) {
-            httpOpenHelper.find(param, netCallBack);
+        public String getData(String channel, String action, NetCallBack netCallBack) {
+            ArticleHelper.find(channel,action, netCallBack);
             return null;
         }
 
