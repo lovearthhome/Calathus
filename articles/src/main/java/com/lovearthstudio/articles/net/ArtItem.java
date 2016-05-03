@@ -1,9 +1,6 @@
 package com.lovearthstudio.articles.net;
 
-import java.util.Date;
-
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 /**
@@ -15,11 +12,23 @@ public class ArtItem extends RealmObject {
     //private int inc;
 
     //文章的id
-    @PrimaryKey
     private long tid;
 
     public long getTid() {return tid;}
+
     public void setTid(long content) {this.tid = tid;}
+
+    //频道名字
+    @Required
+    private String channel;
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
 
     //文章的作者name// Name cannot be null
     @Required

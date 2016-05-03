@@ -10,8 +10,6 @@ import com.lovearthstudio.articles.net.ArtDB;
 import com.lovearthstudio.articles.net.Articles;
 import com.lovearthstudio.articles.net.NetCallBack;
 
-import io.realm.Realm;
-
 public class ArticleService extends Service {
     private static final String TAG = ArticleService.class.getName();
 
@@ -58,8 +56,8 @@ public class ArticleService extends Service {
 
 
         @Override
-        public String getData(String channel, String action, NetCallBack netCallBack) {
-            ArticleHelper.find(channel,action, netCallBack);
+        public String getData(String channel, String action,long tid, NetCallBack netCallBack) {
+            ArticleHelper.find(channel,action,tid, netCallBack);
             return null;
         }
 

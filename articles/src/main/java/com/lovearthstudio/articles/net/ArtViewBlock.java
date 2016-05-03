@@ -2,20 +2,20 @@ package com.lovearthstudio.articles.net;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.Required;
 
 /**
  * Author：Mingyu Yi on 2016/4/30 16:56
  * Email：461072496@qq.com
  */
-public class ArtViewLine extends RealmObject {
+public class ArtViewBlock extends RealmObject {
     //主键,realm现在不支持自增字段
     //@PrimaryKey
     //private int inc;
 
     //频道名字
-    @Required
+    @PrimaryKey
     private String channel;
+
     public String getChannel() {
         return channel;
     }
@@ -46,7 +46,29 @@ public class ArtViewLine extends RealmObject {
     public void setTidmax(long tidmax) {
         this.tidmax = tidmax;
     }
-    public ArtViewLine() { }
+    /*
+    //文章的tid的min
+    private long tmpmin;
+
+    public long getTmpmin() {
+        return tmpmin;
+    }
+
+    public void setTmpmin(long tmpmin) {
+        this.tmpmin = tmpmin;
+    }
+    //文章的tid的min
+    private long tmpmax;
+
+    public long getTmpmax() {
+        return tmpmax;
+    }
+
+    public void setTmpmax(long tmpmax) {
+        this.tmpmax = tmpmax;
+    }
+    */
+    public ArtViewBlock() { }
 
 
 

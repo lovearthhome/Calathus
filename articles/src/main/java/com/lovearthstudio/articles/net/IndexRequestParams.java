@@ -18,6 +18,8 @@ public class IndexRequestParams {
     public int rows;
     public String channel;
 
+
+
     public class Filter {
         public String key;
         public Object value;
