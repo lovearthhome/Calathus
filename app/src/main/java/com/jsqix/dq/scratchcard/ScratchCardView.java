@@ -189,7 +189,7 @@ public class ScratchCardView extends TextView {
                         }
                     }
                     double scratchPercentage=num / (double) sum * 100;
-                    System.out.println("百分比:" + scratchPercentage);
+                    //System.out.println("百分比:" + scratchPercentage);
                     //大于55%则刮开
                     if (scratchPercentage> 55) {
                         messageCount = 0;

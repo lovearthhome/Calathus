@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity {
         duaTest.getCurrentDuaId(new MyCallBack() {
             @Override
             public void onSuccess(String s) {
-                System.out.println("--------" + s);
+                //System.out.println("--------" + s);
             }
 
             @Override

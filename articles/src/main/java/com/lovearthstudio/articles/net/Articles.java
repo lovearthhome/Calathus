@@ -33,8 +33,6 @@ public class Articles {
 
     private MyCallBack mMyCallBack;
 
-    private Realm realm;
-
     private ArtDB artdb;
     /*
    封装网络部分
@@ -68,7 +66,7 @@ public class Articles {
     public void post(IndexRequestParams param)
     {
         String requestParams = com.alibaba.fastjson.JSON.toJSONString(param);
-        System.out.println("---------request:" + requestParams);
+        //System.out.println("---------request:" + requestParams);
         //{"action":"get_articles","channel":"Recommend","dua_id":0,"fields":["inc","star","comt","content","good","bad","shar"],"filter":{"inc[>]":0},"order":"inc DESC","rows":20}
 
         RequestBody body = RequestBody.create(JSON, requestParams);
@@ -99,7 +97,7 @@ public class Articles {
                         return;
                     }
 
-                    System.out.println("----------response:" + jsonResponse);
+                    ////System.out.println("----------response:" + jsonResponse);
 
                     int ret_status = jsonResponse.getInt("status");
 
@@ -129,9 +127,9 @@ public class Articles {
                     if(new_inc_max != 0 && new_inc_min != 0)
                     {
                         artdb.storeArticles(echo_channel,data,new_inc_max,new_inc_min,nomore);
-                        Log.e("getfromNetwork", data.toString());
+                        //Log.e("getfromNetwork", data.toString());
                         articles = artdb.loadArticles(echo_channel,new_inc_min,new_inc_max);
-                        Log.e("loadfromLocalDB", articles.toString());
+                        //Log.e("loadfromLocalDB", articles.toString());
                     }
 
                     mMyCallBack.onResponse(articles);
@@ -165,7 +163,7 @@ public class Articles {
             if(dbarticles.length() != 0)
             {
                 mMyCallBack.onResponse(dbarticles);
-                System.out.println("@---------load dbarticles:" + dbarticles);
+                ////System.out.println("@---------load dbarticles:" + dbarticles);
             }else{
                 getArtParams.channel = channel;
                 getArtParams.filter.clear();
@@ -178,7 +176,7 @@ public class Articles {
         if(action == "pull")
         {
             dbarticles = artdb.pullArticles(channel,tidref,20);
-            System.out.println("@---------pull dbarticles:" + dbarticles);
+            ////System.out.println("@---------pull dbarticles:" + dbarticles);
             if(dbarticles.length() != 0)
             {
                 mMyCallBack.onResponse(dbarticles);

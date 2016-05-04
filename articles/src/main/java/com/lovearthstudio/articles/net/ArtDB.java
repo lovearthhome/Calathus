@@ -34,7 +34,7 @@ public class ArtDB {
     public boolean storeArticles(String channel, JSONArray data,long tidmax, long tidmin, int nomore)
     {
         try{
-            System.out.println("---------beginn:" );
+            //System.out.println("---------beginn:" );
             realm = Realm.getDefaultInstance();
 
             for (int i = 0; i < data.length(); i++) {
@@ -69,7 +69,7 @@ public class ArtDB {
 
 
             }
-            System.out.println("---------begin:" );
+            //System.out.println("---------begin:" );
 
             realm.beginTransaction();
             ArtViewBlock avb = realm.where(ArtViewBlock.class)
@@ -106,7 +106,7 @@ public class ArtDB {
             realm.commitTransaction();
 
         }catch (JSONException e) {
-            System.out.println("---------excep :"+e.toString() );
+            //System.out.println("---------excep :"+e.toString() );
 
         }
 

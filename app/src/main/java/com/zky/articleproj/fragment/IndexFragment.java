@@ -47,11 +47,11 @@ public class IndexFragment extends BaseFragment {
 
     @ViewInject(R.id.list_view)
     private XRecyclerView listView;
+
     private LinearLayoutManager linearLayoutManager;
     private IndexListAdapter adapter;
 
     private String channel = "";
-    private int tmpl = 200;
 
     Handler mHandler = new Handler() {
         @Override
@@ -200,24 +200,24 @@ public class IndexFragment extends BaseFragment {
                     adapter.jsonArray = articles;
                     pull = false;
                     mHandler.sendEmptyMessage(PULL);
-                    System.out.println("----------:pull");
+                    //System.out.println("----------:pull");
                 } else if (push) {
                     for (int i = 0; i < articles.length(); i++) {
                         adapter.jsonArray.put(articles.get(i));
                     }
                     push = false;
                     mHandler.sendEmptyMessage(PUSH);
-                    System.out.println("----------:push");
+                    //System.out.println("----------:push");
                 } else {
                     for (int i = 0; i < articles.length(); i++) {
                         adapter.jsonArray.put(articles.get(i));
                     }
                     mHandler.sendEmptyMessage(UPDATE_DATA);
-                    System.out.println("-----------:load");
+                    //System.out.println("-----------:load");
                 }
 
-                System.out.println("-----------:" + adapter.jsonArray);
-                System.out.println("-----------:" + adapter.jsonArray.length());
+                //System.out.println("-----------:" + adapter.jsonArray);
+                //System.out.println("-----------:" + adapter.jsonArray.length());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

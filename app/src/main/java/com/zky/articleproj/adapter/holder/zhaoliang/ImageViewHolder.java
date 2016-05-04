@@ -130,11 +130,11 @@ public class ImageViewHolder extends CardHolder {
         iv_img.setLayoutParams(params);
 
 
-        System.out.println("$$$$" + iv_img.getLayoutParams().width + ":" + iv_img.getLayoutParams().height);
+        //System.out.println("$$$$" + iv_img.getLayoutParams().width + ":" + iv_img.getLayoutParams().height);
 
         image_url = Constant.baseFileUrl + img_src;
 
-        System.out.println("-----------------" + image_url);
+        //System.out.println("-----------------" + image_url);
 
         //Picasso.with(context).load("http://img3.imgtn.bdimg.com/it/u=3350331176,1143185189&fm=21&gp=0.jpg").resize((int) (Constant.screenwith - Constant.mainPadding * 2 - Constant.mainItemPadding * 2), (int) (img_height * ratio)).into(holder.iv_img);
         //https://futurestud.io/blog/glide-image-resizing-scaling
@@ -153,9 +153,9 @@ public class ImageViewHolder extends CardHolder {
         final ProgressListener progressListener = new ProgressListener() {
             @Override
             public void update(long bytesRead, long contentLength, boolean done) {
-                System.out.println("==============" + bytesRead);
-                System.out.println("==============" + contentLength);
-                System.out.println("==============" + done);
+                //System.out.println("==============" + bytesRead);
+                //System.out.println("==============" + contentLength);
+                //System.out.println("==============" + done);
                 System.out.format("==============" + "%d%% done\n", (100 * bytesRead) / contentLength);
                 progressBar.setMax((int) contentLength);
                 progressBar.setProgress((int) bytesRead);

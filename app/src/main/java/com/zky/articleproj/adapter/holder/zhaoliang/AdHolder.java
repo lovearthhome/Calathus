@@ -58,7 +58,7 @@ public class AdHolder extends BaseHolder {
             e.printStackTrace();
         }
 
-        System.out.println("---------------加载广告:");
+        //System.out.println("---------------加载广告:");
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
     }

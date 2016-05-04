@@ -100,7 +100,7 @@ public abstract class CardHolder extends BaseHolder {
         events.clear();
         try {
             event.put("tid", jsonObject.get("inc"));
-            System.out.println(jsonObject.get("inc"));
+            //System.out.println(jsonObject.get("inc"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

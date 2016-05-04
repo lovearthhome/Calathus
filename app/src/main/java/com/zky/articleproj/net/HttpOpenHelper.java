@@ -27,7 +27,7 @@ public class HttpOpenHelper {
      */
     public void post(Object param, NetCallBack netCallBack) {
         String requestParams = com.alibaba.fastjson.JSON.toJSONString(param);
-        System.out.println("---------request:" + requestParams);
+        //System.out.println("---------request:" + requestParams);
         RequestBody body = RequestBody.create(JSON, requestParams);
         Request request = new Request.Builder()
                 .url(Constant.baseUrl)

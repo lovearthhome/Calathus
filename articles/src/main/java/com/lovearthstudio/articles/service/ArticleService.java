@@ -48,7 +48,7 @@ public class ArticleService extends Service {
     }
 
     public String getData() {
-        System.out.println("------------Service getData");
+        //System.out.println("------------Service getData");
         return "haha";
     }
 
@@ -63,7 +63,7 @@ public class ArticleService extends Service {
 
         @Override
         public void netSuccess(String response) {
-            System.out.println("--------------远程收到数据:" + response);
+            //System.out.println("--------------远程收到数据:" + response);
         }
     }
 }

@@ -113,7 +113,7 @@ public class LoginActivity extends BaseActivity {
      */
     private void postArtState(Object param) {
         String requestParams = com.alibaba.fastjson.JSON.toJSONString(param);
-        System.out.println("---------" + requestParams);
+        //System.out.println("---------" + requestParams);
         RequestBody body = RequestBody.create(JSON, requestParams);
         Request request = new Request.Builder()
                 .url(Constant.baseUrl)
@@ -127,7 +127,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onResponse(okhttp3.Call call, Response response) throws IOException {
-                System.out.println("------------" + response.body().string());
+                //System.out.println("------------" + response.body().string());
             }
         });
     }

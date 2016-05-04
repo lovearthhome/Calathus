@@ -30,28 +30,23 @@ import org.xutils.x;
 public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
 
     public Context context;
+
     public JSONArray jsonArray;
 
     SensorManager sensorManager;
 
-    // private AsyncHttpClient client;
-
     public XRecyclerView listView;
-
 
     public BaseAdapter(Context context, JSONArray jsonArray) {
         this.context = context;
         this.jsonArray = jsonArray;
-
-        //client = new AsyncHttpClient();
-
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
     }
 
     /*这个函数是XRcycleView触发的,当它发现holder缓冲池里数目<4(在本项目初始)的时候,就会去创建新的viewholder,如果超过了,它就去缓冲池里获取旧的*/
     @Override
     public BaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.e("*****", "onCreateViewHolder" + viewType);
+        Log.e("RecyclerView", "onCreateViewHolder" + viewType);
         View v = null;
         switch (viewType) {
             case 501:
@@ -61,35 +56,6 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.index_list_item, parent, false);
                 break;
         }
-        BaseHolder holder = switchView(viewType, v);
-        x.view().inject(holder, v);
-        return holder;
-    }
-
-    /*这个函数是XRcycleView触发的,它自动会把创建的或者回收的holder对象绑定 adapter里jsonarray第position的数据*/
-    @Override
-    public void onBindViewHolder(BaseHolder holder, int position) {
-        Log.e("*****", "onBindViewHolder" + position);
-        try {
-            holder.bindView(context, holder, jsonArray.get(position).toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        return jsonArray.length();
-    }
-
-    /**
-     * 选择视图
-     *
-     * @param viewType
-     * @param v
-     * @return
-     */
-    private BaseHolder switchView(int viewType, View v) {
         BaseHolder holder = null;
         switch (viewType) {
             case 100:
@@ -112,14 +78,32 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
                 break;
             case 501:
                 holder = new AdHolder(v);
-                System.out.println("---------------加载广告!");
+                //System.out.println("---------------加载广告!");
                 break;
             default:
                 //FIXME: 这个地方，如果出错了，没有获得服务器的文章，那么就应该合适的告诉APP.不应该把错误蔓延下去。
                 Log.e("######", "收到意料外的view type" + viewType);
         }
         listView.addOnChildAttachStateChangeListener(holder);
+        x.view().inject(holder, v);
         return holder;
     }
+
+    /*这个函数是XRcycleView触发的,它自动会把创建的或者回收的holder对象绑定 adapter里jsonarray第position的数据*/
+    @Override
+    public void onBindViewHolder(BaseHolder holder, int position) {
+        Log.e("RecyclerView", "onBindViewHolder" + position);
+        try {
+            holder.bindView(context, holder, jsonArray.get(position).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return jsonArray.length();
+    }
+
 
 }

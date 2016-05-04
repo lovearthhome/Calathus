@@ -92,7 +92,7 @@ public class VideoViewHolder2 extends CardHolder {
         mVideoView.setVideoURI(Uri.parse(videoUrl));
         mVideoView.setMediaController(mMediaController);
 
-        System.out.println("--------" + img_src);
+        //System.out.println("--------" + img_src);
 
         mVideoView.setVideoViewCallback(new UniversalVideoView.VideoViewCallback() {
             @Override

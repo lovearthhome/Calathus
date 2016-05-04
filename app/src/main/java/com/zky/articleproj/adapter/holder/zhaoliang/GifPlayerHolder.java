@@ -120,11 +120,13 @@ public class GifPlayerHolder extends CardHolder {
         iv_gif.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.mipmap.gif_defualt));
 
 
+        /*
         System.out.println("what fuck " + tvTitle.getText().
 
                 toString()
 
                 + " old_src:" + img_src + "  new_src: " + new_src);
+        */
 
         img_src = img_file.optString("src");
         img_height = img_file.optInt("height");
@@ -142,7 +144,7 @@ public class GifPlayerHolder extends CardHolder {
             @Override
             public void update(long bytesRead, long contentLength, boolean done) {
                 pb_gif.setProgress((int) (bytesRead / contentLength));
-                System.out.println("---------下载进度:" + bytesRead + ":" + contentLength);
+                //System.out.println("---------下载进度:" + bytesRead + ":" + contentLength);
             }
         };
 
@@ -162,9 +164,10 @@ public class GifPlayerHolder extends CardHolder {
         final ProgressListener progressListener = new ProgressListener() {
             @Override
             public void update(long bytesRead, long contentLength, boolean done) {
-                System.out.println("gif==============" + bytesRead);
-                System.out.println("gif==============" + contentLength);
-                System.out.println("gif==============" + done);
+
+                //System.out.println("gif==============" + bytesRead);
+                //System.out.println("gif==============" + contentLength);
+                //System.out.println("gif==============" + done);
                 System.out.format("gif==============" + "%d%% done\n", (100 * bytesRead) / contentLength);
                 pb_gif.setMax((int) contentLength);
                 pb_gif.setProgress((int) bytesRead);
@@ -212,7 +215,7 @@ public class GifPlayerHolder extends CardHolder {
 
     @Override
     public void onChildViewAttachedToWindow(View view) {
-        //System.out.println("--------------gif:onChildViewAttachedToWindow" + tvTitle.getText().toString());
+        ////System.out.println("--------------gif:onChildViewAttachedToWindow" + tvTitle.getText().toString());
         //在get新的gif前,把旧的清洗掉
         //这个旧的gif要么正在加载,要么加载完了,要么正在播放
 
@@ -223,7 +226,7 @@ public class GifPlayerHolder extends CardHolder {
     @Override
     public void onChildViewDetachedFromWindow(View view) {
         //client.delete(Constant.baseFileUrl + img_src, responseHandler);
-        //System.out.println("--------------gif:onChildViewDetachedFromWindow" + tvTitle.getText().toString());
+        ////System.out.println("--------------gif:onChildViewDetachedFromWindow" + tvTitle.getText().toString());
     }
 
 }

@@ -49,7 +49,7 @@ public class Tmpl102ListViewHolder extends CardHolder implements ShakeDetector.L
 
     @Event({R.id.btn_show_ans})
     private void click(View view) {
-        System.out.println("-----------查看答案");
+        //System.out.println("-----------查看答案");
         //ans_covering.startAnimation(animation);
         mExplosionField.explode(ans_covering);
     }

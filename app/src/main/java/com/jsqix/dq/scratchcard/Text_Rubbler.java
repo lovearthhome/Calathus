@@ -40,7 +40,7 @@ public class Text_Rubbler extends TextView {
         // bgColor =
         // attrs.getAttributeIntValue("http://schemas.android.com/apk/res/android",
         // "textColor", 0xFFFFFF);
-        // System.out.println("Color:"+bgColor);
+        // //System.out.println("Color:"+bgColor);
     }
 
     public Text_Rubbler(Context context, AttributeSet attrs) {
@@ -48,8 +48,8 @@ public class Text_Rubbler extends TextView {
         // bgColor =
         // attrs.getAttributeIntValue("http://schemas.android.com/apk/res/android",
         // "textColor", 0xFFFFFF);
-        // System.out.println(bgColor);
-        // System.out.println(attrs.getAttributeValue("http://schemas.android.com/apk/res/android",
+        // //System.out.println(bgColor);
+        // //System.out.println(attrs.getAttributeValue("http://schemas.android.com/apk/res/android",
         // "layout_width"));
     }
 
