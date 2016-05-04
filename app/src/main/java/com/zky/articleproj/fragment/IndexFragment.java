@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.lovearthstudio.articles.constant.Constant;
 import com.lovearthstudio.articles.net.IndexRequestParams;
+import com.lovearthstudio.articles.net.MyCallBack;
 import com.lovearthstudio.articles.service.ArticleService;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.adapter.IndexListAdapter;
@@ -97,15 +98,14 @@ public class IndexFragment extends BaseFragment {
             // tmpl = getArguments().getInt("tmpl");
         }
 
-        //
         getActivity().bindService(new Intent(getActivity(), ArticleService.class), new RomoteServiceConnection(), Context.BIND_AUTO_CREATE);
+        mIndexCallBack = new IndexCallBack();
+        adapter = new IndexListAdapter(getContext(), new JSONArray());
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mIndexCallBack = new IndexCallBack();
 
         /**
          * listview
@@ -113,7 +113,6 @@ public class IndexFragment extends BaseFragment {
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         listView.setLayoutManager(linearLayoutManager);
         listView.setHasFixedSize(true);
-        adapter = new IndexListAdapter(getContext(), new JSONArray());
         listView.setAdapter(adapter);
         adapter.listView = listView;
 
@@ -121,47 +120,37 @@ public class IndexFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 pull = true;
-                try{
+                try {
                     long tidref = 0;
                     int artCount = adapter.jsonArray.length();
-                    if(artCount != 0)
-                    {
-                        Log.i("request","jsonarray has articles:"+artCount);
+                    if (artCount != 0) {
+                        Log.i("request", "jsonarray has articles:" + artCount);
                         JSONObject jsonObject = new JSONObject(adapter.jsonArray.get(0).toString());
                         tidref = jsonObject.getInt("inc");
                     }
-                    Constant.binder.getData(channel,"pull",tidref, mIndexCallBack);
-                }catch(JSONException e){
-                    Log.e("jsonError",e.toString());
+                    Constant.binder.getData(channel, "pull", tidref, mIndexCallBack);
+                } catch (JSONException e) {
+                    Log.e("jsonError", e.toString());
                 }
-
-
-
-
             }
 
             @Override
             public void onLoadMore() {
                 push = true;
-                try{
-                int maxi = adapter.jsonArray.length() -1;
-                if(maxi <0) maxi = 0;
-                JSONObject jsonObject = new JSONObject(adapter.jsonArray.get(maxi).toString());
-                long tid = jsonObject.getInt("inc");
-                    Constant.binder.getData(channel,"push",tid, mIndexCallBack);
-                }catch(JSONException e){
-                    Log.e("jsonError",e.toString());
+                try {
+                    int maxi = adapter.jsonArray.length() - 1;
+                    if (maxi < 0) maxi = 0;
+                    JSONObject jsonObject = new JSONObject(adapter.jsonArray.get(maxi).toString());
+                    long tid = jsonObject.getInt("inc");
+                    Constant.binder.getData(channel, "push", tid, mIndexCallBack);
+                } catch (JSONException e) {
+                    Log.e("jsonError", e.toString());
                 }
-
-
             }
         });
-
-
-
     }
 
-    class IndexCallBack implements com.lovearthstudio.articles.net.NetCallBack {
+    class IndexCallBack implements MyCallBack {
 
         @Override
         public void onFailure(String reason) {
@@ -169,7 +158,7 @@ public class IndexFragment extends BaseFragment {
         }
 
         @Override
-        public void onResponse(JSONArray articles){
+        public void onResponse(JSONArray articles) {
 
             try {
                 if (articles == null || articles.length() == 0) {
@@ -231,7 +220,7 @@ public class IndexFragment extends BaseFragment {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             Constant.binder = (ArticleService.ArticleBinder) service;
-            Constant.binder.getData(channel,"load",0, mIndexCallBack);
+            Constant.binder.getData(channel, "load", 0, mIndexCallBack);
         }
 
         @Override

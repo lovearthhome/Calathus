@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.lovearthstudio.articles.net.ArtDB;
 import com.lovearthstudio.articles.net.Articles;
-import com.lovearthstudio.articles.net.NetCallBack;
+import com.lovearthstudio.articles.net.MyCallBack;
 
 public class ArticleService extends Service {
     private static final String TAG = ArticleService.class.getName();
@@ -56,8 +56,8 @@ public class ArticleService extends Service {
 
 
         @Override
-        public String getData(String channel, String action,long tid, NetCallBack netCallBack) {
-            ArticleHelper.find(channel,action,tid, netCallBack);
+        public String getData(String channel, String action,long tid, MyCallBack myCallBack) {
+            ArticleHelper.find(channel,action,tid, myCallBack);
             return null;
         }
 

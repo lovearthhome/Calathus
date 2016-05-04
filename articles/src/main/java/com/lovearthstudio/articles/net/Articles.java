@@ -25,14 +25,13 @@ import okhttp3.Response;
 /**
  * Created by zhaoliang on 16/4/6.
  */
-public class Articles implements Callback {
-
+public class Articles {
 
     private IndexRequestParams getArtParams;
 
     private Context mContext;
 
-    private NetCallBack mNetCallBack;
+    private MyCallBack mMyCallBack;
 
     private Realm realm;
 
@@ -66,7 +65,7 @@ public class Articles implements Callback {
     }
 
 
-    public void post(IndexRequestParams param, NetCallBack netCallBack)
+    public void post(IndexRequestParams param)
     {
         String requestParams = com.alibaba.fastjson.JSON.toJSONString(param);
         System.out.println("---------request:" + requestParams);
@@ -77,15 +76,72 @@ public class Articles implements Callback {
                 .url(Constant.baseUrl)
                 .post(body)
                 .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mMyCallBack.onFailure("fail");
+            }
 
-        mNetCallBack = netCallBack;
-        client.newCall(request).enqueue(this);
+            /**
+             * 这里onResponse先截取网络上返回的数据，然后再调用mNetCallBack返回给前段界面
+             * */
+            @Override
+            public void onResponse(Call call, Response response) throws  IOException{
+                try {
+                    JSONArray articles = new JSONArray();
+                    String response_body = response.body().string();
+                    Log.e("wwwResponse", response_body);
+                    JSONObject jsonResponse = new JSONObject(response_body);
 
+                    if (jsonResponse == null) {
+                        //FIXME: 这个地方，如果出错了，那么就是服务器根本没有返回任何json数据
+                        mMyCallBack.onResponse(articles);
+                        return;
+                    }
 
+                    System.out.println("----------response:" + jsonResponse);
+
+                    int ret_status = jsonResponse.getInt("status");
+
+                    if (ret_status == 100120) {
+                        //没有数据
+                        //Nop： 等待最后执行
+                        mMyCallBack.onResponse(articles);
+                        return;
+                    }
+                    if (ret_status != 0) {
+                        //FIXME: 这个地方，如果出错了，没有获得服务器的文章，那么就应该合适的告诉APP.不应该把错误蔓延下去。
+                        Log.e("wwwError", jsonResponse.toString());
+                        mMyCallBack.onResponse(articles);
+                        return;
+                    }
+                    JSONObject echo = jsonResponse.optJSONObject("echo");
+                    String echo_channel = echo.optString("channel");
+
+                    //FIXME: 这个地方保存加载更新和加载更多的参数
+                    JSONObject jsonResult = new JSONObject(jsonResponse.getString("result"));
+                    JSONArray data = jsonResult.getJSONArray("data");
+                    long new_inc_min = Long.parseLong(jsonResult.getString("inc_min"));
+                    long new_inc_max = Long.parseLong(jsonResult.getString("inc_max"));
+                    int nomore = Integer.parseInt(jsonResult.optString("nomore"));
+
+                    //如果服务器返回的数据都是有意义的，不是广告，也有数据
+                    if(new_inc_max != 0 && new_inc_min != 0)
+                    {
+                        artdb.storeArticles(echo_channel,data,new_inc_max,new_inc_min,nomore);
+                        Log.e("getfromNetwork", data.toString());
+                        articles = artdb.loadArticles(echo_channel,new_inc_min,new_inc_max);
+                        Log.e("loadfromLocalDB", articles.toString());
+                    }
+
+                    mMyCallBack.onResponse(articles);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
-
-
-
 
     /**
      * 请求数据
@@ -94,8 +150,8 @@ public class Articles implements Callback {
      * pull: 获取新的数据
      * push: 获取旧的数据
      */
-    public void find(String channel,String action, long tidref/*参考的tid*/, NetCallBack netCallBack) {
-        mNetCallBack = netCallBack;
+    public void find(String channel,String action, long tidref/*参考的tid*/, MyCallBack myCallBack) {
+        mMyCallBack = myCallBack;
         String local_inc_min_str = mContext.getSharedPreferences("limit", Context.MODE_PRIVATE).getString("inc_min", "0");
         long local_inc_min = Long.parseLong(local_inc_min_str);
         String local_inc_max_str = mContext.getSharedPreferences("limit", Context.MODE_PRIVATE).getString("inc_max", "0");
@@ -108,13 +164,13 @@ public class Articles implements Callback {
             dbarticles = artdb.loadArticles(channel,20);
             if(dbarticles.length() != 0)
             {
-                mNetCallBack.onResponse(dbarticles);
+                mMyCallBack.onResponse(dbarticles);
                 System.out.println("@---------load dbarticles:" + dbarticles);
             }else{
                 getArtParams.channel = channel;
                 getArtParams.filter.clear();
                 getArtParams.filter.put("inc[>]", "0");
-                post(getArtParams,netCallBack);
+                post(getArtParams);
             }
         }
 
@@ -125,12 +181,12 @@ public class Articles implements Callback {
             System.out.println("@---------pull dbarticles:" + dbarticles);
             if(dbarticles.length() != 0)
             {
-                mNetCallBack.onResponse(dbarticles);
+                mMyCallBack.onResponse(dbarticles);
             }else{
                 getArtParams.channel = channel;
                 getArtParams.filter.clear();
                 getArtParams.filter.put("inc[>]", tidref);
-                post(getArtParams,netCallBack);
+                post(getArtParams);
             }
         }
 
@@ -140,82 +196,14 @@ public class Articles implements Callback {
             dbarticles = artdb.pushArticles(channel,tidref,20);
             if(dbarticles.length() != 0)
             {
-                mNetCallBack.onResponse(dbarticles);
+                mMyCallBack.onResponse(dbarticles);
             }else{
                 getArtParams.channel = channel;
                 getArtParams.filter.clear();
                 getArtParams.filter.put("inc[<]", tidref);
-                post(getArtParams,netCallBack);
+                post(getArtParams);
             }
         }
-        mNetCallBack.onResponse(dbarticles);
-
-    }
-
-    @Override
-    public void onFailure(Call call, IOException e) {
-        mNetCallBack.onFailure("fail");
-    }
-
-    /**
-     * 这里onResponse先截取网络上返回的数据，然后再调用mNetCallBack返回给前段界面
-     * */
-    @Override
-    public void onResponse(Call call, Response response) throws  IOException{
-        try {
-            JSONArray articles = new JSONArray();
-            String response_body = response.body().string();
-            Log.e("wwwResponse", response_body);
-            JSONObject jsonResponse = new JSONObject(response_body);
-
-            if (jsonResponse == null) {
-                //FIXME: 这个地方，如果出错了，那么就是服务器根本没有返回任何json数据
-                mNetCallBack.onResponse(articles);
-                return;
-            }
-
-            System.out.println("----------response:" + jsonResponse);
-
-            int ret_status = jsonResponse.getInt("status");
-
-            if (ret_status == 100120) {
-                //没有数据
-                //Nop： 等待最后执行
-                mNetCallBack.onResponse(articles);
-                return;
-            }
-            if (ret_status != 0) {
-                //FIXME: 这个地方，如果出错了，没有获得服务器的文章，那么就应该合适的告诉APP.不应该把错误蔓延下去。
-                Log.e("wwwError", jsonResponse.toString());
-                mNetCallBack.onResponse(articles);
-                return;
-            }
-            JSONObject echo = jsonResponse.optJSONObject("echo");
-            String echo_channel = echo.optString("channel");
-
-            //FIXME: 这个地方保存加载更新和加载更多的参数
-            JSONObject jsonResult = new JSONObject(jsonResponse.getString("result"));
-            JSONArray data = jsonResult.getJSONArray("data");
-            long new_inc_min = Long.parseLong(jsonResult.getString("inc_min"));
-            long new_inc_max = Long.parseLong(jsonResult.getString("inc_max"));
-            int nomore = Integer.parseInt(jsonResult.optString("nomore"));
-
-            //如果服务器返回的数据都是有意义的，不是广告，也有数据
-            if(new_inc_max != 0 && new_inc_min != 0)
-            {
-                artdb.storeArticles(echo_channel,data,new_inc_max,new_inc_min,nomore);
-                Log.e("getfromNetwork", data.toString());
-                articles = artdb.loadArticles(echo_channel,new_inc_min,new_inc_max);
-                Log.e("loadfromLocalDB", articles.toString());
-            }
-
-            mNetCallBack.onResponse(articles);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-
+        mMyCallBack.onResponse(dbarticles);
     }
 }

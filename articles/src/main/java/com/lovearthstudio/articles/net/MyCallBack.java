@@ -5,7 +5,7 @@ import org.json.JSONArray;
 /**
  * Created by zhaoliang on 16/4/6.
  */
-public interface NetCallBack {
+public interface MyCallBack {
 
     void onFailure(String reason);
 

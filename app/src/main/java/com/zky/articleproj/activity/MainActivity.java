@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -107,7 +108,8 @@ public class MainActivity extends BaseActivity {
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
 
@@ -169,6 +171,11 @@ public class MainActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
             return IndexFragment.newInstance(channel[position]);
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+
         }
 
         @Override
