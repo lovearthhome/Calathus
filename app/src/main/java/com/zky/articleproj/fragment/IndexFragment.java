@@ -94,16 +94,16 @@ public class IndexFragment extends BaseFragment {
             // tmpl = getArguments().getInt("tmpl");
         }
 
-        Log.i("Fragment","onCreate      " + channel);
+        Log.i("Fragment", "onCreate      " + channel);
         //getActivity().bindService(new Intent(getActivity(), ArticleService.class), new RomoteServiceConnection(), Context.BIND_AUTO_CREATE);
         mIndexCallBack = new IndexCallBack();
-        adapter = new IndexListAdapter(getContext(), new JSONArray());
+        adapter = new IndexListAdapter(getActivity(), new JSONArray());
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.i("Fragment","onCreateView      " + channel);
+        Log.i("Fragment", "onCreateView      " + channel);
         return super.onCreateView(inflater, container, savedInstanceState);
 
     }
@@ -111,22 +111,21 @@ public class IndexFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i("Fragment","onDestroy      " + channel);
+        Log.i("Fragment", "onDestroy      " + channel);
 
     }
 
     @Override
     public void onDestroyView() {
-        Log.i("Fragment","onDestroyView      " + channel);
+        Log.i("Fragment", "onDestroyView      " + channel);
         super.onDestroyView();
     }
-
 
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i("Fragment","onViewCreate     " + channel);
+        Log.i("Fragment", "onViewCreate     " + channel);
         /**
          * listview
          */

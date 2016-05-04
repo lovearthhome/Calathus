@@ -1,1 +1,1 @@
-include ':app', ':vitamio', ':articles'
+include ':app', ':vitamio', ':articles', ':ijkplayer-java', ':giraffeplayer'
