@@ -59,14 +59,6 @@
         <activity android:name=".activity.VideoActivity"
             android:screenOrientation="portrait"/>
 
-        <!-- Don't forgot InitActivity -->
-        <activity
-            android:name="io.vov.vitamio.activity.InitActivity"
-            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
-            android:launchMode="singleTop"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:screenOrientation="portrait"/>
         <activity android:name=".activity.menu.About_Activity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.menu.follower.FollowerActivity"

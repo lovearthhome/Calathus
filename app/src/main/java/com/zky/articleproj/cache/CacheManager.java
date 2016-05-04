@@ -2,8 +2,6 @@ package com.zky.articleproj.cache;
 
 import android.util.LruCache;
 
-import io.vov.vitamio.utils.Log;
-
 /**
  * Created by zhaoliang on 16/4/17.
  */
@@ -23,7 +21,6 @@ public class CacheManager {
         int maxMemory = (int) Runtime.getRuntime().maxMemory();
         int mCacheSize = maxMemory / 8;
 
-        Log.e("-----------申请缓存内存大小:" + mCacheSize);
         //给LruCache分配1/8 4M
         mLruCache = new LruCache<String, Object>(mCacheSize);
     }

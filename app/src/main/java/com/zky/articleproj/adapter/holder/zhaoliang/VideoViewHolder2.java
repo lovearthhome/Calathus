@@ -3,6 +3,7 @@ package com.zky.articleproj.adapter.holder.zhaoliang;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -19,7 +20,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.view.annotation.ViewInject;
 
-import io.vov.vitamio.utils.Log;
 
 /**
  * Created by zhaoliang on 16/4/7.

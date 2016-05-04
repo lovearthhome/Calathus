@@ -39,8 +39,6 @@ import com.zky.articleproj.fragment.IndexFragment;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
-import io.vov.vitamio.Vitamio;
-
 @SuppressLint("NewApi")
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
@@ -70,9 +68,6 @@ public class MainActivity extends BaseActivity {
 
         ArticleServiceConnection = new RomoteServiceConnection();
         bindService(new Intent(this, ArticleService.class), ArticleServiceConnection, Context.BIND_AUTO_CREATE);
-
-
-        Vitamio.isInitialized(getApplicationContext());
 
         getConstant();
 

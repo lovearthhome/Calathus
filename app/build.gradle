@@ -46,12 +46,10 @@ dependencies {
 
     /* bibi jkplayer */
     compile(name: 'duasdk-debug', ext: 'aar')
-    compile project(':vitamio')
     /* compile 'com.facebook.fresco:fresco:0.9.0.+'*/
 
     // Glide's OkHttp3 Integration
     compile project(':articles')
-    compile project(':giraffeplayer')
     compile 'com.android.support:appcompat-v7:24.0.0-alpha2'
     compile 'com.android.support:design:24.0.0-alpha2'
     compile 'org.xutils:xutils:3.3.22'
@@ -66,9 +64,7 @@ dependencies {
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
     compile 'com.github.iammert:MusicPlayerView:e3b937c729'
-
     compile 'fm.jiecao:jiecaovideoplayer:3.0_preview'
-
     compile 'com.linsea:universalvideoview:1.1.0@aar'
     compile 'com.android.support:preference-v7:23.3.0'
     compile 'com.android.support:preference-v14:23.3.0'
