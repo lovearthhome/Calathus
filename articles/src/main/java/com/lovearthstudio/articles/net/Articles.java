@@ -149,27 +149,16 @@ public class Articles {
      * push: 获取旧的数据
      */
     public void find(String channel,String action, long tidref/*参考的tid*/, MyCallBack myCallBack) {
+        Log.i("articles.find",channel+"-"+action+" "+tidref);
         mMyCallBack = myCallBack;
-        String local_inc_min_str = mContext.getSharedPreferences("limit", Context.MODE_PRIVATE).getString("inc_min", "0");
-        long local_inc_min = Long.parseLong(local_inc_min_str);
-        String local_inc_max_str = mContext.getSharedPreferences("limit", Context.MODE_PRIVATE).getString("inc_max", "0");
-        long local_inc_max = Long.parseLong(local_inc_max_str);
         JSONArray dbarticles = new JSONArray();
 
         //如果action是Load,那么我们要从本地加载数据,加载数据只会加载数据库最新的20条数据
         if(action == "load")
         {
             dbarticles = artdb.loadArticles(channel,20);
-            if(dbarticles.length() != 0)
-            {
-                mMyCallBack.onResponse(dbarticles);
-                ////System.out.println("@---------load dbarticles:" + dbarticles);
-            }else{
-                getArtParams.channel = channel;
-                getArtParams.filter.clear();
-                getArtParams.filter.put("inc[>]", "0");
-                post(getArtParams);
-            }
+            //Fixme： dbarticles mybe empty
+            mMyCallBack.onResponse(dbarticles);
         }
 
         //如果action是pull,那么我们要从本地加载数据,加载数据只会加载比reftid大的紧连着的20篇文章
@@ -202,6 +191,5 @@ public class Articles {
                 post(getArtParams);
             }
         }
-        mMyCallBack.onResponse(dbarticles);
     }
 }

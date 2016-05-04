@@ -98,6 +98,10 @@ public class IndexFragment extends BaseFragment {
         //getActivity().bindService(new Intent(getActivity(), ArticleService.class), new RomoteServiceConnection(), Context.BIND_AUTO_CREATE);
         mIndexCallBack = new IndexCallBack();
         adapter = new IndexListAdapter(getActivity(), new JSONArray());
+        //当第一次加载这个framgement的时候，会到数据库寻找最近的数据放置到jsonarray来
+        if (Constant.binder != null) {
+            Constant.binder.getData(channel, "load", 0, mIndexCallBack);
+        }
     }
 
 
@@ -147,6 +151,7 @@ public class IndexFragment extends BaseFragment {
                         JSONObject jsonObject = new JSONObject(adapter.jsonArray.get(0).toString());
                         tidref = jsonObject.getInt("inc");
                     }
+                    if(Constant.binder != null)
                     Constant.binder.getData(channel, "pull", tidref, mIndexCallBack);
                 } catch (JSONException e) {
                     Log.e("jsonError", e.toString());
@@ -161,16 +166,13 @@ public class IndexFragment extends BaseFragment {
                     if (maxi < 0) maxi = 0;
                     JSONObject jsonObject = new JSONObject(adapter.jsonArray.get(maxi).toString());
                     long tid = jsonObject.getInt("inc");
+                    if(Constant.binder != null)
                     Constant.binder.getData(channel, "push", tid, mIndexCallBack);
                 } catch (JSONException e) {
                     Log.e("jsonError", e.toString());
                 }
             }
         });
-
-        if (Constant.binder != null) {
-            Constant.binder.getData(channel, "load", 0, mIndexCallBack);
-        }
     }
 
     class IndexCallBack implements MyCallBack {
@@ -187,8 +189,9 @@ public class IndexFragment extends BaseFragment {
                 if (articles == null || articles.length() == 0) {
                     //FIXME: 这个地方，如果出错了，那么就是服务器根本没有返回任何json数据
                     //FIXME: 这个地方已经考虑了足够多的错误，所有的错误都以“没有更多”文章来描述
-                    Log.e("######", articles.toString());
-                    mHandler.sendEmptyMessage(PULL_TOP);
+                    //Log.e("######", articles.toString());
+                    mHandler.sendEmptyMessage(UPDATE_DATA);
+                    //// FIXME: 2016/5/5 这个地方不能只能用UPDATE_DATA,不能用pull_top否则会引发调用listview.导致程序崩溃
                     return;
                 }
 
@@ -200,6 +203,7 @@ public class IndexFragment extends BaseFragment {
                     adapter.jsonArray = articles;
                     pull = false;
                     mHandler.sendEmptyMessage(PULL);
+                    Log.i("Channel-"+channel, "jsonArray size is "+articles.length());
                     //System.out.println("----------:pull");
                 } else if (push) {
                     for (int i = 0; i < articles.length(); i++) {
@@ -207,17 +211,16 @@ public class IndexFragment extends BaseFragment {
                     }
                     push = false;
                     mHandler.sendEmptyMessage(PUSH);
+                    Log.i("Channel-"+channel, "jsonArray size is "+articles.length());
                     //System.out.println("----------:push");
                 } else {
                     for (int i = 0; i < articles.length(); i++) {
                         adapter.jsonArray.put(articles.get(i));
                     }
                     mHandler.sendEmptyMessage(UPDATE_DATA);
+                    Log.i("Channel-"+channel, "jsonArray size is "+articles.length());
                     //System.out.println("-----------:load");
                 }
-
-                //System.out.println("-----------:" + adapter.jsonArray);
-                //System.out.println("-----------:" + adapter.jsonArray.length());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

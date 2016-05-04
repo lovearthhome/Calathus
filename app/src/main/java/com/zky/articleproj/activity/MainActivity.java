@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity {
         //修改ViewPager的缓存页面数量
         //viewpager当前页面两侧缓存/预加载的页面数目。当页面切换时，当前页面相邻两侧的numbers页面不会被销毁。
 
-        //mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setOffscreenPageLimit(5);
         mTabLayout.setupWithViewPager(mViewPager);
 
 
@@ -162,8 +162,8 @@ public class MainActivity extends BaseActivity {
 
     class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String tabTitles[] = new String[]{"推荐", "广告", "笑话", "趣图", "视频", "美女", "电影", "音乐", "科学", "文化", "体育", "旅游", "艺术"};
-        private final String channel[] = {"Recommend", "Advertisement", "Joke", "FunnyImage", "Video", "Beauty", "Movie", "Music", "Science", "Culture", "Sport", "Travel", "Art"};
+        private final String tabTitles[] = new String[]{"推荐"      ,  "开心",  "美女", "电影", "音乐",  "艺术","广告"};
+        private final String channel[]               = {"Recommend", "Happy", "Beauty", "Movie", "Music",  "Art", "Advertisement"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
