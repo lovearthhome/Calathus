@@ -2,6 +2,7 @@ package com.zky.articleproj.activity;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
@@ -19,7 +20,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -62,12 +62,14 @@ public class MainActivity extends BaseActivity {
     private ImageView user_icon;
 
     private DuaTest duaTest;
+    private RomoteServiceConnection ArticleServiceConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        ArticleServiceConnection = new RomoteServiceConnection();
+        bindService(new Intent(this, ArticleService.class), ArticleServiceConnection, Context.BIND_AUTO_CREATE);
 
 
         Vitamio.isInitialized(getApplicationContext());
@@ -110,6 +112,10 @@ public class MainActivity extends BaseActivity {
 
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
+        //修改ViewPager的缓存页面数量
+        //viewpager当前页面两侧缓存/预加载的页面数目。当页面切换时，当前页面相邻两侧的numbers页面不会被销毁。
+
+        //mViewPager.setOffscreenPageLimit(4);
         mTabLayout.setupWithViewPager(mViewPager);
 
 
@@ -173,10 +179,10 @@ public class MainActivity extends BaseActivity {
             return IndexFragment.newInstance(channel[position]);
         }
 
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-
-        }
+//        @Override
+//        public void destroyItem(ViewGroup container, int position, Object object) {
+//
+//        }
 
         @Override
         public int getCount() {
@@ -201,5 +207,25 @@ public class MainActivity extends BaseActivity {
         // dua.duaSleep();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //ServiceConnection在使用的时候出现泄露了，原因是由于bind到service后，没有调用unbind进行释放。这个跟C/C++里的内存泄露应该是一类问题，资源使用完没有释放。
+        //解决办法：程序退出前调用unbindService( )释放服务连接
+        unbindService(ArticleServiceConnection);
+    }
 
+    class RomoteServiceConnection implements ServiceConnection {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            com.lovearthstudio.articles.constant.Constant.binder = (ArticleService.ArticleBinder) service;
+            //  com.lovearthstudio.articles.constant.Constant.binder.getData(channel, "load", 0, mIndexCallBack);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    }
 }

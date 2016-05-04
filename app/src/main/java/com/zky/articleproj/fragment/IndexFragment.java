@@ -1,26 +1,22 @@
 package com.zky.articleproj.fragment;
 
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.lovearthstudio.articles.constant.Constant;
 import com.lovearthstudio.articles.net.IndexRequestParams;
 import com.lovearthstudio.articles.net.MyCallBack;
-import com.lovearthstudio.articles.service.ArticleService;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.adapter.IndexListAdapter;
 import com.zky.articleproj.base.BaseFragment;
@@ -98,15 +94,39 @@ public class IndexFragment extends BaseFragment {
             // tmpl = getArguments().getInt("tmpl");
         }
 
-        getActivity().bindService(new Intent(getActivity(), ArticleService.class), new RomoteServiceConnection(), Context.BIND_AUTO_CREATE);
+        Log.i("Fragment","onCreate      " + channel);
+        //getActivity().bindService(new Intent(getActivity(), ArticleService.class), new RomoteServiceConnection(), Context.BIND_AUTO_CREATE);
         mIndexCallBack = new IndexCallBack();
         adapter = new IndexListAdapter(getContext(), new JSONArray());
     }
 
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.i("Fragment","onCreateView      " + channel);
+        return super.onCreateView(inflater, container, savedInstanceState);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("Fragment","onDestroy      " + channel);
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        Log.i("Fragment","onDestroyView      " + channel);
+        super.onDestroyView();
+    }
+
+
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Log.i("Fragment","onViewCreate     " + channel);
         /**
          * listview
          */
@@ -148,6 +168,10 @@ public class IndexFragment extends BaseFragment {
                 }
             }
         });
+
+        if (Constant.binder != null) {
+            Constant.binder.getData(channel, "load", 0, mIndexCallBack);
+        }
     }
 
     class IndexCallBack implements MyCallBack {
@@ -215,17 +239,17 @@ public class IndexFragment extends BaseFragment {
         return fragment;
     }
 
-    class RomoteServiceConnection implements ServiceConnection {
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Constant.binder = (ArticleService.ArticleBinder) service;
-            Constant.binder.getData(channel, "load", 0, mIndexCallBack);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    }
+//    class RomoteServiceConnection implements ServiceConnection {
+//
+//        @Override
+//        public void onServiceConnected(ComponentName name, IBinder service) {
+//            Constant.binder = (ArticleService.ArticleBinder) service;
+//            Constant.binder.getData(channel, "load", 0, mIndexCallBack);
+//        }
+//
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//
+//        }
+//    }
 }
