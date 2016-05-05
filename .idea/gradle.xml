@@ -5,15 +5,13 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="C:\Users\jiao\Downloads\android-studio-ide-143.2712822-windows\android-studio\gradle\gradle-2.10" />
+        <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.10" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/articles" />
-            <option value="$PROJECT_DIR$/giraffeplayer" />
-            <option value="$PROJECT_DIR$/ijkplayer-java" />
-            <option value="$PROJECT_DIR$/vitamio" />
+            <option value="$PROJECT_DIR$/mpv" />
           </set>
         </option>
         <option name="myModules">
@@ -21,9 +19,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/articles" />
-            <option value="$PROJECT_DIR$/giraffeplayer" />
-            <option value="$PROJECT_DIR$/ijkplayer-java" />
-            <option value="$PROJECT_DIR$/vitamio" />
+            <option value="$PROJECT_DIR$/mpv" />
           </set>
         </option>
       </GradleProjectSettings>

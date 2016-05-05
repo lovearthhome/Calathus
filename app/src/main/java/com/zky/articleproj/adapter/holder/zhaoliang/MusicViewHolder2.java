@@ -16,7 +16,8 @@ import org.json.JSONObject;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-import co.mobiwise.library.MusicPlayerView;
+import co.mobiwise.playerview.MusicPlayerView;
+
 
 /**
  * Created by zhaoliang on 16/4/7.
@@ -27,7 +28,7 @@ public class MusicViewHolder2 extends CardHolder {
     private TextView tvTitle;
     private String music_src;
     private String image_src;
-    private int    music_duration;
+    private int music_duration;
 
     @ViewInject(R.id.mpv)
     private MusicPlayerView mpv;
@@ -73,15 +74,16 @@ public class MusicViewHolder2 extends CardHolder {
 
         JSONObject file0 = art_files.getJSONObject(0);
         String img_title = file0.optString("title");
-        JSONArray audio_farray = file0.optJSONArray("farray");
-        JSONObject audio_file = audio_farray.getJSONObject(0);
-        music_src = Constant.baseFileUrl + audio_file.optString("src");
-        music_duration =  (int)(audio_file.optDouble("duration"));
+        JSONArray img_farray = file0.optJSONArray("farray");
+        JSONObject img_file = img_farray.getJSONObject(0);
+        music_src = Constant.baseFileUrl + img_file.optString("src");
 
         JSONObject file1 = art_files.getJSONObject(1);
         JSONArray image_farray = file1.optJSONArray("farray");
         JSONObject image_file = image_farray.getJSONObject(0);
         image_src = Constant.baseFileUrl + image_file.optString("src");
+
+        music_duration = 100;
 
         player = new Player();
 
@@ -89,6 +91,8 @@ public class MusicViewHolder2 extends CardHolder {
             player.playUrl(music_src);
 
             System.out.println("music_src:" + music_src);
+
+            //mpv.setCoverURL("https://upload.wikimedia.org/wikipedia/en/b/b3/MichaelsNumberOnes.JPG");
             mpv.setCoverURL(image_src);
             mpv.setMax(music_duration);
         }

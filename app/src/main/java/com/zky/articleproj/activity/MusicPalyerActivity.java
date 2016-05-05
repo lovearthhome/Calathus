@@ -11,7 +11,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-import co.mobiwise.library.MusicPlayerView;
+import co.mobiwise.playerview.MusicPlayerView;
 
 @ContentView(R.layout.activity_music_palyer)
 public class MusicPalyerActivity extends AppCompatActivity {
