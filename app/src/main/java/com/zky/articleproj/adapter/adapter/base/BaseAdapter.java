@@ -16,7 +16,7 @@ import com.zky.articleproj.adapter.holder.zhaoliang.AdHolder;
 import com.zky.articleproj.adapter.holder.zhaoliang.GifPlayerHolder;
 import com.zky.articleproj.adapter.holder.zhaoliang.ImageViewHolder;
 import com.zky.articleproj.adapter.holder.zhaoliang.IndexListViewHolder;
-import com.zky.articleproj.adapter.holder.zhaoliang.MusicViewHolder;
+import com.zky.articleproj.adapter.holder.zhaoliang.MusicViewHolder2;
 import com.zky.articleproj.adapter.holder.zhaoliang.VideoViewHolder3;
 
 import org.json.JSONArray;
@@ -71,7 +71,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
                 holder = new GifPlayerHolder(v);
                 break;
             case 301:
-                holder = new MusicViewHolder(v);
+                holder = new MusicViewHolder2(v);
                 break;
             case 401:
                 holder = new VideoViewHolder3(v);

@@ -95,7 +95,10 @@ public class Player implements OnBufferingUpdateListener, OnCompletionListener,
         try {
             mediaPlayer.reset();
             mediaPlayer.setDataSource(url); // 设置数据源
-            mediaPlayer.prepare(); // prepare自动播放
+            // mediaPlayer.prepare(); // prepare自动播放
+
+            mediaPlayer.prepareAsync();
+
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (SecurityException e) {
@@ -142,8 +145,10 @@ public class Player implements OnBufferingUpdateListener, OnCompletionListener,
     public void onBufferingUpdate(MediaPlayer mp, int percent) {
         //seekBar.setSecondaryProgress(percent);
         /*int currentProgress = seekBar.getMax()
-				* mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration();
+                * mediaPlayer.getCurrentPosition() / mediaPlayer.getDuration();
 		Log.e(currentProgress + "% play", percent + " buffer");*/
+
+        System.out.println("加载进度:" + percent + "%");
     }
 
 
