@@ -28,10 +28,12 @@ public class MusicPalyerActivity extends AppCompatActivity {
         player = new Player();
 
         String music_url = getIntent().getStringExtra("music_url");
+        String image_url = getIntent().getStringExtra("image_url");
         if (music_url != null) {
             player.playUrl(music_url);
 
-            mpv.setCoverURL("https://upload.wikimedia.org/wikipedia/en/b/b3/MichaelsNumberOnes.JPG");
+            //mpv.setCoverURL("https://upload.wikimedia.org/wikipedia/en/b/b3/MichaelsNumberOnes.JPG");
+            mpv.setCoverURL(image_url);
             mpv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

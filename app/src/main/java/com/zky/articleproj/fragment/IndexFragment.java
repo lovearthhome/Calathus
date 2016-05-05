@@ -110,6 +110,7 @@ public class IndexFragment extends BaseFragment {
         adapter = new IndexListAdapter(getActivity(), new JSONArray());
         //当第一次加载这个framgement的时候，会到数据库寻找最近的数据放置到jsonarray来
         if (Constant.binder != null) {
+            Log.i("Fragment", "toLoad article of " + channel);
             Constant.binder.getData(channel, "load", 0, mIndexCallBack);
         }
     }
@@ -227,6 +228,7 @@ public class IndexFragment extends BaseFragment {
                     Log.i("Channel-"+channel, "jsonArray size is "+articles.length());
                     //System.out.println("----------:push");
                 } else {
+                    Log.i("Channel-"+channel, "load article count "+articles.length());
                     if (articles == null || articles.length() == 0) {
                         mHandler.sendEmptyMessage(LOAD_NOMORE);
                         return;
@@ -235,7 +237,7 @@ public class IndexFragment extends BaseFragment {
                         adapter.jsonArray.put(articles.get(i));
                     }
                     mHandler.sendEmptyMessage(UPDATE_DATA);
-                    Log.i("Channel-"+channel, "jsonArray size is "+articles.length());
+
                     //System.out.println("-----------:load");
                 }
             } catch (JSONException e) {

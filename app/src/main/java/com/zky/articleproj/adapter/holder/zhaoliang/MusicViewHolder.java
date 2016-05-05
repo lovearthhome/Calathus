@@ -26,12 +26,14 @@ public class MusicViewHolder extends CardHolder {
     private TextView tvTitle;
     @ViewInject(R.id.iv_face)
     private ImageView iv_face;
-    private String img_src;
+    private String music_src;
+    private String image_src;
 
     @Event(R.id.iv_face)
     private void click(View view) {
         Intent intent = new Intent(context, MusicPalyerActivity.class);
-        intent.putExtra("music_url", img_src);
+        intent.putExtra("music_url", music_src);
+        intent.putExtra("image_url", image_src);
         context.startActivity(intent);
     }
 
@@ -61,9 +63,12 @@ public class MusicViewHolder extends CardHolder {
         String img_title = file0.optString("title");
         JSONArray img_farray = file0.optJSONArray("farray");
         JSONObject img_file = img_farray.getJSONObject(0);
-        img_src = img_file.optString("src");
+        music_src = img_file.optString("src");
 
-
+        JSONObject file1 = art_files.getJSONObject(1);
+        JSONArray image_farray = file1.optJSONArray("farray");
+        JSONObject image_file = image_farray.getJSONObject(0);
+        image_src = image_file.optString("src");
     }
 
     @Override
