@@ -21,7 +21,7 @@
             android:id="@+id/mpv"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            app:buttonColor="#FF0028"
+            app:buttonColor="#99FF0028"
             app:cover="@drawable/mycover"
             app:progressEmptyColor="#20FFFFFF"
             app:progressLoadedColor="#00815E"

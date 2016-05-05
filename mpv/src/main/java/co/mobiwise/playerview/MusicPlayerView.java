@@ -42,7 +42,7 @@ import android.view.animation.DecelerateInterpolator;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
+public class  MusicPlayerView extends View implements OnPlayPauseToggleListener {
 
   /**
    * Rect for get time height and width
@@ -770,7 +770,7 @@ public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
    * Calculate passed progress degree
    */
   private int calculateLoadingProgressDegree() {
-    return (250 * currentLoadingProgress) / maxProgress;
+    return (250 * currentLoadingProgress) / maxLoadingProgress;
   }
   /**
    * Calculate passed progress degree

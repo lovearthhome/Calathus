@@ -45,4 +45,6 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder implements Recy
         View view = View.inflate(context, setLayoutFile(), null);
         root_layout.addView(view);
     }
+
+
 }

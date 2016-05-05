@@ -1,6 +1,7 @@
 package com.zky.articleproj.adapter.holder.zhaoliang;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class MusicViewHolder2 extends CardHolder {
     private String music_src;
     private String image_src;
     private int music_duration;
+    private String title;
 
     @ViewInject(R.id.mpv)
     private MusicPlayerView mpv;
@@ -37,12 +39,29 @@ public class MusicViewHolder2 extends CardHolder {
     @Event(R.id.mpv)
     private void click(View view) {
         try {
-            if (mpv.isRotating()) {
-                mpv.stop();
-                player.stop();
-            } else {
-                mpv.start();
-                player.play();
+            if(!player.isPrepared() && !player.isPreparing())
+            {
+                player.playUrl(music_src);
+                return;
+            }
+
+            if(!player.isPrepared() && player.isPreparing())
+            {
+                //FIXME:这个时候界面是不能点击的
+                return;
+            }
+
+            if(player.isPrepared() )
+            {
+                if(player.isPlaying())
+                {
+                    mpv.stop();
+                    player.pause();
+                }else{
+                    mpv.start();
+                    player.play();
+
+                }
             }
         } catch (Exception e) {
 
@@ -70,10 +89,11 @@ public class MusicViewHolder2 extends CardHolder {
         JSONObject content_obj = new JSONObject(content_str);
 
         String art_brief = content_obj.optString("brief");
+        title = content_obj.optString("title");
         JSONArray art_files = content_obj.optJSONArray("files");
 
         JSONObject file0 = art_files.getJSONObject(0);
-        String img_title = file0.optString("title");
+
         JSONArray img_farray = file0.optJSONArray("farray");
         JSONObject img_file = img_farray.getJSONObject(0);
         music_src = Constant.baseFileUrl + img_file.optString("src");
@@ -85,19 +105,15 @@ public class MusicViewHolder2 extends CardHolder {
         JSONObject image_file = image_farray.getJSONObject(0);
         image_src = Constant.baseFileUrl + image_file.optString("src");
 
+
+        tvTitle.setText(title);
         if(music_duration == 0) music_duration = 100;
 
         player = new Player(mpv);
 
         if (music_src != null) {
-            player.playUrl(music_src);
-
-            System.out.println("music_src:" + music_src);
-
-            //mpv.setCoverURL("https://upload.wikimedia.org/wikipedia/en/b/b3/MichaelsNumberOnes.JPG");
             mpv.setCoverURL(image_src);
             mpv.setMax(music_duration);
-
         }
 
     }
@@ -115,6 +131,12 @@ public class MusicViewHolder2 extends CardHolder {
 
     @Override
     public void onChildViewDetachedFromWindow(View view) {
-
+        Log.i("xxxxx",title+"detached from widow");
+//        if(player.isPlaying() || player.isPreparing())
+//        {
+//            mpv.stop();
+//            player.stop();
+//            player.reset();
+//        }
     }
 }
