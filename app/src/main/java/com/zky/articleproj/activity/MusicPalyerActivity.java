@@ -25,7 +25,7 @@ public class MusicPalyerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
 
-        player = new Player();
+        player = new Player(mpv);
 
         String music_url = getIntent().getStringExtra("music_url");
         String image_url = getIntent().getStringExtra("image_url");

@@ -15,10 +15,13 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import co.mobiwise.playerview.MusicPlayerView;
+
 public class Player implements OnBufferingUpdateListener, OnCompletionListener,
         OnPreparedListener {
 
     public MediaPlayer mediaPlayer; // 媒体播放器
+    private MusicPlayerView mpv;
     private SeekBar seekBar; // 拖动条
     private TextView tv_durationView;
     private Button ib_play;
@@ -43,12 +46,14 @@ public class Player implements OnBufferingUpdateListener, OnCompletionListener,
         mTimer.schedule(timerTask, 0, 1000);
     }
 
-    public Player() {
+    public Player(MusicPlayerView mpv) {
         try {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);// 设置媒体流类型
             mediaPlayer.setOnBufferingUpdateListener(this);
             mediaPlayer.setOnPreparedListener(this);
+
+            this.mpv=mpv;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -149,6 +154,7 @@ public class Player implements OnBufferingUpdateListener, OnCompletionListener,
 		Log.e(currentProgress + "% play", percent + " buffer");*/
 
         System.out.println("加载进度:" + percent + "%");
+        mpv.setLoadingProgress(percent);
     }
 
 

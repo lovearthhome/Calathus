@@ -65,7 +65,11 @@ public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
   private static Paint mPaintProgressEmpty;
 
   /**
-   * Paint for circle progress loaded
+   * Paint for circle progress loading（焦帅添加）
+   */
+  private static Paint mPaintProgressLoading;
+  /**
+   * Paint for circle progress loaded(唱的进度)
    */
   private static Paint mPaintProgressLoaded;
 
@@ -205,6 +209,11 @@ public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
   private int mProgressEmptyColor = 0x20FFFFFF;
 
   /**
+   * Color code for progress loading.
+   */
+  private int mProgressLoadingColor = 0xFFF0F8FF;
+
+  /**
    * Color code for progress loaded.
    */
   private int mProgressLoadedColor = 0xFF00815E;
@@ -218,6 +227,16 @@ public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
    * Default text color
    */
   private int mTextColor = 0xFFFFFFFF;
+
+  /**
+   * Current progress value,仅仅为了下载用
+   */
+  private int currentLoadingProgress = 0;
+
+  /**
+   * Max progress value：为了表示下载
+   */
+  private int maxLoadingProgress = 100;
 
   /**
    * Current progress value
@@ -337,8 +356,16 @@ public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
     mPaintProgressEmpty.setStyle(Paint.Style.STROKE);
     mPaintProgressEmpty.setStrokeWidth(12.0f);
 
+
+    mPaintProgressLoading = new Paint();
+    mPaintProgressLoading.setAntiAlias(true);
+    mPaintProgressLoading.setColor(mProgressLoadingColor);
+    mPaintProgressLoading.setStyle(Paint.Style.STROKE);
+    mPaintProgressLoading.setStrokeWidth(12.0f);
+
     mPaintProgressLoaded = new Paint();
-    mPaintProgressEmpty.setAntiAlias(true);
+    //mPaintProgressEmpty.setAntiAlias(true);//原来的代码，从网上下下来就是这样
+    mPaintProgressLoaded.setAntiAlias(true);//焦帅修改的代码
     mPaintProgressLoaded.setColor(mProgressLoadedColor);
     mPaintProgressLoaded.setStyle(Paint.Style.STROKE);
     mPaintProgressLoaded.setStrokeWidth(12.0f);
@@ -413,6 +440,8 @@ public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
     if (mProgressVisibility) {
       //Draw empty progress
       canvas.drawArc(rectF, 145, 250, false, mPaintProgressEmpty);
+      //Draw loaded progress
+      canvas.drawArc(rectF, 145, calculateLoadingProgressDegree(), false, mPaintProgressLoading);
 
       //Draw loaded progress
       canvas.drawArc(rectF, 145, calculatePastProgressDegree(), false, mPaintProgressLoaded);
@@ -675,11 +704,28 @@ public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
   /**
    * Sets current seconds of music
    */
+  public void setLoadingProgress(int currentLoadingProgress) {
+    if (0 <= currentLoadingProgress && currentLoadingProgress <= maxLoadingProgress) {
+      this.currentLoadingProgress = currentLoadingProgress;
+      postInvalidate();
+    }
+  }
+
+  /**
+   * Sets current seconds of music
+   */
   public void setProgress(int currentProgress) {
     if (0 <= currentProgress && currentProgress <= maxProgress) {
       this.currentProgress = currentProgress;
       postInvalidate();
     }
+  }
+
+  /**
+   * Get current progress seconds
+   */
+  public int getLoadingProgress() {
+    return currentLoadingProgress;
   }
 
   /**
@@ -720,6 +766,12 @@ public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
     return time;
   }
 
+  /**
+   * Calculate passed progress degree
+   */
+  private int calculateLoadingProgressDegree() {
+    return (250 * currentLoadingProgress) / maxProgress;
+  }
   /**
    * Calculate passed progress degree
    */

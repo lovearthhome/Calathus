@@ -78,14 +78,16 @@ public class MusicViewHolder2 extends CardHolder {
         JSONObject img_file = img_farray.getJSONObject(0);
         music_src = Constant.baseFileUrl + img_file.optString("src");
 
+        music_duration = (int)img_file.optDouble("duration");
+
         JSONObject file1 = art_files.getJSONObject(1);
         JSONArray image_farray = file1.optJSONArray("farray");
         JSONObject image_file = image_farray.getJSONObject(0);
         image_src = Constant.baseFileUrl + image_file.optString("src");
 
-        music_duration = 100;
+        if(music_duration == 0) music_duration = 100;
 
-        player = new Player();
+        player = new Player(mpv);
 
         if (music_src != null) {
             player.playUrl(music_src);
@@ -95,9 +97,11 @@ public class MusicViewHolder2 extends CardHolder {
             //mpv.setCoverURL("https://upload.wikimedia.org/wikipedia/en/b/b3/MichaelsNumberOnes.JPG");
             mpv.setCoverURL(image_src);
             mpv.setMax(music_duration);
+
         }
 
     }
+
 
     @Override
     public int setLayoutFile() {
