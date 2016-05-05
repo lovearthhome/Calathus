@@ -97,7 +97,8 @@ public class Articles {
                         return;
                     }
 
-                    ////System.out.println("----------response:" + jsonResponse);
+
+                    System.out.println("----------response:" + jsonResponse);
 
                     int ret_status = jsonResponse.getInt("status");
 
@@ -133,8 +134,10 @@ public class Articles {
                     }
 
                     mMyCallBack.onResponse(articles);
+                    System.out.println("----------response:" + articles);
 
                 } catch (JSONException e) {
+                    Log.e("Error",e.toString());
                     e.printStackTrace();
                 }
             }

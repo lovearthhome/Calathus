@@ -6,10 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/articles/articles.iml" filepath="$PROJECT_DIR$/articles/articles.iml" />
       <module fileurl="file://$PROJECT_DIR$/giraffeplayer/giraffeplayer.iml" filepath="$PROJECT_DIR$/giraffeplayer/giraffeplayer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/giraffeplayer/giraffeplayer.iml" filepath="$PROJECT_DIR$/giraffeplayer/giraffeplayer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/giraffeplayer/giraffeplayer.iml" filepath="$PROJECT_DIR$/giraffeplayer/giraffeplayer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ijkplayer-java/ijkplayer-java.iml" filepath="$PROJECT_DIR$/ijkplayer-java/ijkplayer-java.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ijkplayer-java/ijkplayer-java.iml" filepath="$PROJECT_DIR$/ijkplayer-java/ijkplayer-java.iml" />
       <module fileurl="file://$PROJECT_DIR$/ijkplayer-java/ijkplayer-java.iml" filepath="$PROJECT_DIR$/ijkplayer-java/ijkplayer-java.iml" />
       <module fileurl="file://$PROJECT_DIR$/vitamio/vitamio.iml" filepath="$PROJECT_DIR$/vitamio/vitamio.iml" />
     </modules>

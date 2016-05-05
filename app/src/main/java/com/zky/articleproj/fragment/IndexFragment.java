@@ -37,7 +37,10 @@ public class IndexFragment extends BaseFragment {
     private static final int PULL = 2;
     private static final int PUSH = 3;
     private static final int PARSE_DATA_ERROR = 4;
-    private static final int PULL_TOP = 5;
+    private static final int PULL_NOMORE = 5;
+    private static final int PUSH_NOMORE = 6;
+    private static final int LOAD_NOMORE = 7;
+
 
     private boolean pull;
     private boolean push;
@@ -71,9 +74,16 @@ public class IndexFragment extends BaseFragment {
                 case PARSE_DATA_ERROR:
                     Toast.makeText(getActivity(), "数据解析错误,请稍后尝试", Toast.LENGTH_SHORT).show();
                     break;
-                case PULL_TOP:
+                case PULL_NOMORE:
                     Toast.makeText(getContext(), "已经是最新了", Toast.LENGTH_SHORT).show();
                     listView.refreshComplete();
+                    break;
+                case PUSH_NOMORE:
+                    Toast.makeText(getContext(), "已经是最旧了", Toast.LENGTH_SHORT).show();
+                    listView.loadMoreComplete();
+                    break;
+                case LOAD_NOMORE:
+                    Toast.makeText(getContext(), "本地没有数据", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -168,6 +178,7 @@ public class IndexFragment extends BaseFragment {
                     long tid = jsonObject.getInt("inc");
                     if(Constant.binder != null)
                     Constant.binder.getData(channel, "push", tid, mIndexCallBack);
+
                 } catch (JSONException e) {
                     Log.e("jsonError", e.toString());
                 }
@@ -186,17 +197,15 @@ public class IndexFragment extends BaseFragment {
         public void onResponse(JSONArray articles) {
 
             try {
-                if (articles == null || articles.length() == 0) {
-                    //FIXME: 这个地方，如果出错了，那么就是服务器根本没有返回任何json数据
-                    //FIXME: 这个地方已经考虑了足够多的错误，所有的错误都以“没有更多”文章来描述
-                    //Log.e("######", articles.toString());
-                    mHandler.sendEmptyMessage(UPDATE_DATA);
-                    //// FIXME: 2016/5/5 这个地方不能只能用UPDATE_DATA,不能用pull_top否则会引发调用listview.导致程序崩溃
-                    return;
-                }
+
 
                 //这个地方,我们把服务器回来的数据和result合并
                 if (pull) {
+
+                    if (articles == null || articles.length() == 0) {
+                        mHandler.sendEmptyMessage(PULL_NOMORE);
+                        return;
+                    }
                     for (int i = 0; i < adapter.jsonArray.length(); i++) {
                         articles.put(adapter.jsonArray.get(i));
                     }
@@ -206,6 +215,10 @@ public class IndexFragment extends BaseFragment {
                     Log.i("Channel-"+channel, "jsonArray size is "+articles.length());
                     //System.out.println("----------:pull");
                 } else if (push) {
+                    if (articles == null || articles.length() == 0) {
+                        mHandler.sendEmptyMessage(PUSH_NOMORE);
+                        return;
+                    }
                     for (int i = 0; i < articles.length(); i++) {
                         adapter.jsonArray.put(articles.get(i));
                     }
@@ -214,6 +227,10 @@ public class IndexFragment extends BaseFragment {
                     Log.i("Channel-"+channel, "jsonArray size is "+articles.length());
                     //System.out.println("----------:push");
                 } else {
+                    if (articles == null || articles.length() == 0) {
+                        mHandler.sendEmptyMessage(LOAD_NOMORE);
+                        return;
+                    }
                     for (int i = 0; i < articles.length(); i++) {
                         adapter.jsonArray.put(articles.get(i));
                     }
