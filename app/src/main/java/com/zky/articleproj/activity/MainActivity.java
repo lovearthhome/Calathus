@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -43,6 +45,7 @@ import org.xutils.view.annotation.ViewInject;
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
 
+    private static final int INIT_SUCCESS = 1;
     @ViewInject(R.id.tool_bar)
     private Toolbar mToolbar;
     @ViewInject(R.id.tab_layout)
@@ -61,6 +64,23 @@ public class MainActivity extends BaseActivity {
 
     private DuaTest duaTest;
     private RomoteServiceConnection ArticleServiceConnection;
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case INIT_SUCCESS:
+                    MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
+                    mViewPager.setAdapter(adapter);
+                    //修改ViewPager的缓存页面数量
+                    //viewpager当前页面两侧缓存/预加载的页面数目。当页面切换时，当前页面相邻两侧的numbers页面不会被销毁。
+
+                    mViewPager.setOffscreenPageLimit(5);
+                    mTabLayout.setupWithViewPager(mViewPager);
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,13 +125,9 @@ public class MainActivity extends BaseActivity {
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(adapter);
-        //修改ViewPager的缓存页面数量
-        //viewpager当前页面两侧缓存/预加载的页面数目。当页面切换时，当前页面相邻两侧的numbers页面不会被销毁。
 
-        mViewPager.setOffscreenPageLimit(5);
-        mTabLayout.setupWithViewPager(mViewPager);
+
+
 
 
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -162,8 +178,8 @@ public class MainActivity extends BaseActivity {
 
     class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String tabTitles[] = new String[]{"推荐"      ,  "开心",  "美女", "电影", "音乐",  "艺术","广告"};
-        private final String channel[]               = {"Recommend", "Happy", "Beauty", "Movie", "Music",  "Art", "Advertisement"};
+        private final String tabTitles[] = new String[]{"推荐", "开心", "美女", "电影", "音乐", "艺术", "广告"};
+        private final String channel[] = {"Recommend", "Happy", "Beauty", "Movie", "Music", "Art", "Advertisement"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -216,6 +232,7 @@ public class MainActivity extends BaseActivity {
         public void onServiceConnected(ComponentName name, IBinder service) {
             com.lovearthstudio.articles.constant.Constant.binder = (ArticleService.ArticleBinder) service;
             //  com.lovearthstudio.articles.constant.Constant.binder.getData(channel, "load", 0, mIndexCallBack);
+            handler.sendEmptyMessage(INIT_SUCCESS);
         }
 
         @Override
