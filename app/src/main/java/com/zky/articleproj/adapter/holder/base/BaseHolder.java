@@ -46,5 +46,15 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder implements Recy
         root_layout.addView(view);
     }
 
+    public void onAttached()
+    {
 
+
+    }
+
+    public void onDetached()
+    {
+
+
+    }
 }

@@ -110,7 +110,7 @@ public class IndexFragment extends BaseFragment {
         adapter = new IndexListAdapter(getActivity(), new JSONArray());
         //当第一次加载这个framgement的时候，会到数据库寻找最近的数据放置到jsonarray来
         if (Constant.binder != null) {
-            Log.i("Fragment", "toLoad article of " + channel);
+            Log.i("Channel-"+channel, "to Load article of " + channel);
             Constant.binder.getData(channel, "load", 0, mIndexCallBack);
         }
     }
@@ -126,8 +126,7 @@ public class IndexFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i("Fragment", "onDestroy      " + channel);
-
+        Log.i("Fragment", "onDestroy           " + channel);
     }
 
     @Override
@@ -149,6 +148,8 @@ public class IndexFragment extends BaseFragment {
         listView.setHasFixedSize(true);
         listView.setAdapter(adapter);
         adapter.listView = listView;
+
+
 
         listView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -179,7 +180,6 @@ public class IndexFragment extends BaseFragment {
                     long tid = jsonObject.getInt("inc");
                     if(Constant.binder != null)
                     Constant.binder.getData(channel, "push", tid, mIndexCallBack);
-
                 } catch (JSONException e) {
                     Log.e("jsonError", e.toString());
                 }
@@ -196,13 +196,9 @@ public class IndexFragment extends BaseFragment {
 
         @Override
         public void onResponse(JSONArray articles) {
-
             try {
-
-
                 //这个地方,我们把服务器回来的数据和result合并
                 if (pull) {
-
                     if (articles == null || articles.length() == 0) {
                         mHandler.sendEmptyMessage(PULL_NOMORE);
                         return;
@@ -210,11 +206,10 @@ public class IndexFragment extends BaseFragment {
                     for (int i = 0; i < adapter.jsonArray.length(); i++) {
                         articles.put(adapter.jsonArray.get(i));
                     }
-                    adapter.jsonArray = articles;
                     pull = false;
+                    adapter.jsonArray = articles;
                     mHandler.sendEmptyMessage(PULL);
-                    Log.i("Channel-"+channel, "jsonArray size is "+articles.length());
-                    //System.out.println("----------:pull");
+                    Log.i("Channel-push "+channel, "load article count "+articles.length()+" to "+adapter.jsonArray.length() + "articles");
                 } else if (push) {
                     if (articles == null || articles.length() == 0) {
                         mHandler.sendEmptyMessage(PUSH_NOMORE);
@@ -225,10 +220,11 @@ public class IndexFragment extends BaseFragment {
                     }
                     push = false;
                     mHandler.sendEmptyMessage(PUSH);
-                    Log.i("Channel-"+channel, "jsonArray size is "+articles.length());
+
+                    Log.i("Channel-push "+channel, "load article count "+articles.length()+" to "+adapter.jsonArray.length() + "articles");
                     //System.out.println("----------:push");
                 } else {
-                    Log.i("Channel-"+channel, "load article count "+articles.length());
+
                     if (articles == null || articles.length() == 0) {
                         mHandler.sendEmptyMessage(LOAD_NOMORE);
                         return;
@@ -237,7 +233,7 @@ public class IndexFragment extends BaseFragment {
                         adapter.jsonArray.put(articles.get(i));
                     }
                     mHandler.sendEmptyMessage(UPDATE_DATA);
-
+                    Log.i("Channel-load "+channel, "load article count "+articles.length()+" to "+adapter.jsonArray.length() + "articles");
                     //System.out.println("-----------:load");
                 }
             } catch (JSONException e) {

@@ -111,11 +111,12 @@ public class MusicViewHolder2 extends CardHolder {
 
         player = new Player(mpv);
 
+
         if (music_src != null) {
+            mpv.setCoverDrawable(R.drawable.mycover);
             mpv.setCoverURL(image_src);
             mpv.setMax(music_duration);
         }
-
     }
 
 
@@ -131,12 +132,25 @@ public class MusicViewHolder2 extends CardHolder {
 
     @Override
     public void onChildViewDetachedFromWindow(View view) {
-        Log.i("xxxxx",title+"detached from widow");
+        //Log.i("xxxxx",title+"detached from widow");
 //        if(player.isPlaying() || player.isPreparing())
 //        {
 //            mpv.stop();
 //            player.stop();
 //            player.reset();
 //        }
+    }
+
+
+    @Override
+    public void onAttached() {
+        super.onAttached();
+        Log.i("xxxxx",title+"Attached to widow");
+    }
+
+    @Override
+    public void onDetached() {
+        super.onDetached();
+        Log.i("xxxxx",title+"Detached to widow");
     }
 }

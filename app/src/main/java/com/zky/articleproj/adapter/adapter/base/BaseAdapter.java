@@ -119,11 +119,19 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
     *
     * */
 
+
     @Override
     public void onViewAttachedToWindow(BaseHolder holder) {
         super.onViewAttachedToWindow(holder);
-
+        holder.onAttached();
     }
+
+    @Override
+    public void onViewDetachedFromWindow(BaseHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        holder.onDetached();
+    }
+
 
     @Override
     public int getItemCount() {
