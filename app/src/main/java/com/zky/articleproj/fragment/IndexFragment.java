@@ -109,16 +109,18 @@ public class IndexFragment extends BaseFragment {
         mIndexCallBack = new IndexCallBack();
         adapter = new IndexListAdapter(getActivity(), new JSONArray());
         //当第一次加载这个framgement的时候，会到数据库寻找最近的数据放置到jsonarray来
+        Log.i("Channel-"+channel, " try to Load article of " + channel);
         if (Constant.binder != null) {
-            Log.i("Channel-"+channel, "to Load article of " + channel);
+            Log.i("Channel-"+channel, "do  to Load article of " + channel);
             Constant.binder.getData(channel, "load", 0, mIndexCallBack);
         }
+
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.i("Fragment", "onCreateView      " + channel);
+        Log.i("Channel", "onCreateView      " + channel);
         return super.onCreateView(inflater, container, savedInstanceState);
 
     }
@@ -126,12 +128,12 @@ public class IndexFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i("Fragment", "onDestroy           " + channel);
+        Log.i("Channel", "onDestroy           " + channel);
     }
 
     @Override
     public void onDestroyView() {
-        Log.i("Fragment", "onDestroyView      " + channel);
+        Log.i("Channel", "onDestroyView      " + channel);
         super.onDestroyView();
     }
 
@@ -139,7 +141,7 @@ public class IndexFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i("Fragment", "onViewCreate     " + channel);
+        Log.i("Channel", "onViewCreate     " + channel);
         /**
          * listview
          */
@@ -226,6 +228,7 @@ public class IndexFragment extends BaseFragment {
                 } else {
 
                     if (articles == null || articles.length() == 0) {
+                        Log.i("Channel-load "+channel, "load article count "+articles.length());
                         mHandler.sendEmptyMessage(LOAD_NOMORE);
                         return;
                     }

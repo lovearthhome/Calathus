@@ -110,13 +110,12 @@ public class MusicViewHolder2 extends CardHolder {
         if(music_duration == 0) music_duration = 100;
 
         player = new Player(mpv);
-
-
-        if (music_src != null) {
-            mpv.setCoverDrawable(R.drawable.mycover);
+        mpv.setCoverDrawable(R.drawable.mycover);
+        if (image_src != null) {
             mpv.setCoverURL(image_src);
-            mpv.setMax(music_duration);
         }
+        mpv.setCoverURL(image_src);
+        mpv.setMax(music_duration);
     }
 
 

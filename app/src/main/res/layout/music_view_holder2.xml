@@ -24,7 +24,8 @@
             app:buttonColor="#99FF0028"
             app:cover="@drawable/mycover"
             app:progressEmptyColor="#20FFFFFF"
-            app:progressLoadedColor="#00815E"
+            app:progressLoadingColor="#80FFFFFF"
+            app:progressLoadedColor="#99660066"
             app:textColor="#80FFFFFF"
             app:textSize="14sp" />
 

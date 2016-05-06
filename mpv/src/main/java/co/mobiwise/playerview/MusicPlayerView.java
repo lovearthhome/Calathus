@@ -211,12 +211,12 @@ public class  MusicPlayerView extends View implements OnPlayPauseToggleListener 
   /**
    * Color code for progress loading.
    */
-  private int mProgressLoadingColor = 0xFFF0F8FF;
+  private int mProgressLoadingColor = 0x80FFFFFF;
 
   /**
    * Color code for progress loaded.
    */
-  private int mProgressLoadedColor = 0xFF00815E;
+  private int mProgressLoadedColor = 0xFF660066;
 
   /**
    * Time text size
@@ -331,6 +331,8 @@ public class  MusicPlayerView extends View implements OnPlayPauseToggleListener 
         a.getColor(R.styleable.playerview_progressEmptyColor, mProgressEmptyColor);
     mProgressLoadedColor =
         a.getColor(R.styleable.playerview_progressLoadedColor, mProgressLoadedColor);
+    mProgressLoadingColor =
+            a.getColor(R.styleable.playerview_progressLoadingColor, mProgressLoadingColor);
     mTextColor = a.getColor(R.styleable.playerview_textColor, mTextColor);
     mTextSize = a.getDimensionPixelSize(R.styleable.playerview_textSize, mTextSize);
     a.recycle();
