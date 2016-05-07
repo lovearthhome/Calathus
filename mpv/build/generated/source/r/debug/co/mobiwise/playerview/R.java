@@ -43,7 +43,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int progressLoadedColor=0x7f010003;
+        public static int progressLoadedColor=0x7f010004;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -52,7 +52,16 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int textColor=0x7f010004;
+        public static int progressLoadingColor=0x7f010003;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static int textColor=0x7f010005;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -62,7 +71,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static int textSize=0x7f010005;
+        public static int textSize=0x7f010006;
     }
     public static final class dimen {
         public static int pause_bar_distance=0x7f030000;
@@ -84,6 +93,7 @@ containing a value of this type.
            <tr><td><code>{@link #playerview_cover co.mobiwise.playerview:cover}</code></td><td></td></tr>
            <tr><td><code>{@link #playerview_progressEmptyColor co.mobiwise.playerview:progressEmptyColor}</code></td><td></td></tr>
            <tr><td><code>{@link #playerview_progressLoadedColor co.mobiwise.playerview:progressLoadedColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #playerview_progressLoadingColor co.mobiwise.playerview:progressLoadingColor}</code></td><td></td></tr>
            <tr><td><code>{@link #playerview_textColor co.mobiwise.playerview:textColor}</code></td><td></td></tr>
            <tr><td><code>{@link #playerview_textSize co.mobiwise.playerview:textSize}</code></td><td></td></tr>
            </table>
@@ -91,12 +101,13 @@ containing a value of this type.
            @see #playerview_cover
            @see #playerview_progressEmptyColor
            @see #playerview_progressLoadedColor
+           @see #playerview_progressLoadingColor
            @see #playerview_textColor
            @see #playerview_textSize
          */
         public static final int[] playerview = {
             0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
-            0x7f010004, 0x7f010005
+            0x7f010004, 0x7f010005, 0x7f010006
         };
         /**
           <p>This symbol is the offset where the {@link co.mobiwise.playerview.R.attr#buttonColor}
@@ -156,7 +167,22 @@ theme attribute (in the form
 containing a value of this type.
           @attr name co.mobiwise.playerview:progressLoadedColor
         */
-        public static int playerview_progressLoadedColor = 3;
+        public static int playerview_progressLoadedColor = 4;
+        /**
+          <p>This symbol is the offset where the {@link co.mobiwise.playerview.R.attr#progressLoadingColor}
+          attribute's value can be found in the {@link #playerview} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name co.mobiwise.playerview:progressLoadingColor
+        */
+        public static int playerview_progressLoadingColor = 3;
         /**
           <p>This symbol is the offset where the {@link co.mobiwise.playerview.R.attr#textColor}
           attribute's value can be found in the {@link #playerview} array.
@@ -171,7 +197,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name co.mobiwise.playerview:textColor
         */
-        public static int playerview_textColor = 4;
+        public static int playerview_textColor = 5;
         /**
           <p>This symbol is the offset where the {@link co.mobiwise.playerview.R.attr#textSize}
           attribute's value can be found in the {@link #playerview} array.
@@ -187,6 +213,6 @@ theme attribute (in the form
 containing a value of this type.
           @attr name co.mobiwise.playerview:textSize
         */
-        public static int playerview_textSize = 5;
+        public static int playerview_textSize = 6;
     };
 }

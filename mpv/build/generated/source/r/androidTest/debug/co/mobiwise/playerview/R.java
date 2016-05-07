@@ -11,9 +11,10 @@ public final class R {
 		public static final int buttonColor = 0x7f010001;
 		public static final int cover = 0x7f010000;
 		public static final int progressEmptyColor = 0x7f010002;
-		public static final int progressLoadedColor = 0x7f010003;
-		public static final int textColor = 0x7f010004;
-		public static final int textSize = 0x7f010005;
+		public static final int progressLoadedColor = 0x7f010004;
+		public static final int progressLoadingColor = 0x7f010003;
+		public static final int textColor = 0x7f010005;
+		public static final int textSize = 0x7f010006;
 	}
 	public static final class dimen {
 		public static final int pause_bar_distance = 0x7f030000;
@@ -25,12 +26,13 @@ public final class R {
 		public static final int icon_play = 0x7f020001;
 	}
 	public static final class styleable {
-		public static final int[] playerview = { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005 };
+		public static final int[] playerview = { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005, 0x7f010006 };
 		public static final int playerview_buttonColor = 1;
 		public static final int playerview_cover = 0;
 		public static final int playerview_progressEmptyColor = 2;
-		public static final int playerview_progressLoadedColor = 3;
-		public static final int playerview_textColor = 4;
-		public static final int playerview_textSize = 5;
+		public static final int playerview_progressLoadedColor = 4;
+		public static final int playerview_progressLoadingColor = 3;
+		public static final int playerview_textColor = 5;
+		public static final int playerview_textSize = 6;
 	}
 }

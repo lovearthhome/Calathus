@@ -1,23 +1,23 @@
 [
     {
-        "outputFile": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
+        "outputFile": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/build/intermediates/res/merged/androidTest/debug/values/values.xml",
         "map": [
             {
                 "to": {
                     "startLine": 3,
                     "startColumn": 4,
-                    "startOffset": 373,
+                    "startOffset": 423,
                     "endColumn": 49,
-                    "endOffset": 418
+                    "endOffset": 468
                 },
                 "from": {
-                    "file": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 373,
+                        "startOffset": 423,
                         "endColumn": 49,
-                        "endOffset": 418
+                        "endOffset": 468
                     }
                 }
             },
@@ -25,18 +25,18 @@
                 "to": {
                     "startLine": 4,
                     "startColumn": 4,
-                    "startOffset": 423,
+                    "startOffset": 473,
                     "endColumn": 48,
-                    "endOffset": 467
+                    "endOffset": 517
                 },
                 "from": {
-                    "file": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 423,
+                        "startOffset": 473,
                         "endColumn": 48,
-                        "endOffset": 467
+                        "endOffset": 517
                     }
                 }
             },
@@ -44,204 +44,18 @@
                 "to": {
                     "startLine": 5,
                     "startColumn": 4,
-                    "startOffset": 472,
+                    "startOffset": 522,
                     "endColumn": 46,
-                    "endOffset": 514
+                    "endOffset": 564
                 },
                 "from": {
-                    "file": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "file": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/build/intermediates/bundles/debug/res/values/values.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 472,
+                        "startOffset": 522,
                         "endColumn": 46,
-                        "endOffset": 514
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "C:\\Users\\admin\\AndroidStudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 3,
-                    "startColumn": 4,
-                    "startOffset": 373,
-                    "endColumn": 49,
-                    "endOffset": 418
-                },
-                "from": {
-                    "file": "C:\\Users\\admin\\AndroidStudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 3,
-                        "startColumn": 4,
-                        "startOffset": 373,
-                        "endColumn": 49,
-                        "endOffset": 418
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 4,
-                    "startColumn": 4,
-                    "startOffset": 423,
-                    "endColumn": 48,
-                    "endOffset": 467
-                },
-                "from": {
-                    "file": "C:\\Users\\admin\\AndroidStudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 423,
-                        "endColumn": 48,
-                        "endOffset": 467
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 5,
-                    "startColumn": 4,
-                    "startOffset": 472,
-                    "endColumn": 46,
-                    "endOffset": 514
-                },
-                "from": {
-                    "file": "C:\\Users\\admin\\AndroidStudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 5,
-                        "startColumn": 4,
-                        "startOffset": 472,
-                        "endColumn": 46,
-                        "endOffset": 514
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "C:\\Users\\zhaoliang\\Documents\\AndroidStudioProjects\\study\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 3,
-                    "startColumn": 4,
-                    "startOffset": 373,
-                    "endColumn": 49,
-                    "endOffset": 418
-                },
-                "from": {
-                    "file": "C:\\Users\\zhaoliang\\Documents\\AndroidStudioProjects\\study\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 3,
-                        "startColumn": 4,
-                        "startOffset": 373,
-                        "endColumn": 49,
-                        "endOffset": 418
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 4,
-                    "startColumn": 4,
-                    "startOffset": 423,
-                    "endColumn": 48,
-                    "endOffset": 467
-                },
-                "from": {
-                    "file": "C:\\Users\\zhaoliang\\Documents\\AndroidStudioProjects\\study\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 423,
-                        "endColumn": 48,
-                        "endOffset": 467
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 5,
-                    "startColumn": 4,
-                    "startOffset": 472,
-                    "endColumn": 46,
-                    "endOffset": 514
-                },
-                "from": {
-                    "file": "C:\\Users\\zhaoliang\\Documents\\AndroidStudioProjects\\study\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 5,
-                        "startColumn": 4,
-                        "startOffset": 472,
-                        "endColumn": 46,
-                        "endOffset": 514
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "C:\\Users\\Administrator\\Documents\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\values\\values.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 3,
-                    "startColumn": 4,
-                    "startOffset": 373,
-                    "endColumn": 49,
-                    "endOffset": 418
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Documents\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 3,
-                        "startColumn": 4,
-                        "startOffset": 373,
-                        "endColumn": 49,
-                        "endOffset": 418
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 4,
-                    "startColumn": 4,
-                    "startOffset": 423,
-                    "endColumn": 48,
-                    "endOffset": 467
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Documents\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 423,
-                        "endColumn": 48,
-                        "endOffset": 467
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 5,
-                    "startColumn": 4,
-                    "startOffset": 472,
-                    "endColumn": 46,
-                    "endOffset": 514
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Documents\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 5,
-                        "startColumn": 4,
-                        "startOffset": 472,
-                        "endColumn": 46,
-                        "endOffset": 514
+                        "endOffset": 564
                     }
                 }
             }
