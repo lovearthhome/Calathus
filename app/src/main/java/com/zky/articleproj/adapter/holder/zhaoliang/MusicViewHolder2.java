@@ -39,25 +39,21 @@ public class MusicViewHolder2 extends CardHolder {
     @Event(R.id.mpv)
     private void click(View view) {
         try {
-            if(!player.isPrepared() && !player.isPreparing())
-            {
+            if (!player.isPrepared() && !player.isPreparing()) {
                 player.playUrl(music_src);
                 return;
             }
 
-            if(!player.isPrepared() && player.isPreparing())
-            {
+            if (!player.isPrepared() && player.isPreparing()) {
                 //FIXME:这个时候界面是不能点击的
                 return;
             }
 
-            if(player.isPrepared() )
-            {
-                if(player.isPlaying())
-                {
+            if (player.isPrepared()) {
+                if (player.isPlaying()) {
                     mpv.stop();
                     player.pause();
-                }else{
+                } else {
                     mpv.start();
                     player.play();
 
@@ -75,7 +71,7 @@ public class MusicViewHolder2 extends CardHolder {
 
     @Override
     public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
-        MusicViewHolder2 musicViewHolder = (MusicViewHolder2) cardHolder;
+
 
         super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
 
@@ -98,7 +94,7 @@ public class MusicViewHolder2 extends CardHolder {
         JSONObject img_file = img_farray.getJSONObject(0);
         music_src = Constant.baseFileUrl + img_file.optString("src");
 
-        music_duration = (int)img_file.optDouble("duration");
+        music_duration = (int) img_file.optDouble("duration");
 
         JSONObject file1 = art_files.getJSONObject(1);
         JSONArray image_farray = file1.optJSONArray("farray");
@@ -107,14 +103,26 @@ public class MusicViewHolder2 extends CardHolder {
 
 
         tvTitle.setText(title);
-        if(music_duration == 0) music_duration = 100;
+        if (music_duration == 0) music_duration = 100;
 
         player = new Player(mpv);
         mpv.setCoverDrawable(R.drawable.mycover);
+
+
         if (image_src != null) {
-            mpv.setCoverURL(image_src);
+            if(mpv.isLoading)
+            {
+                System.out.println("RecyclerView------放弃加载!"+title);
+            }else{
+                System.out.println("RecyclerView------开始加载!"+title);
+//                for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+//                    System.out.println("------"+ste);
+//                }
+                mpv.setCoverURL(image_src);
+            }
+
+
         }
-        mpv.setCoverURL(image_src);
         mpv.setMax(music_duration);
     }
 
@@ -144,12 +152,12 @@ public class MusicViewHolder2 extends CardHolder {
     @Override
     public void onAttached() {
         super.onAttached();
-        Log.i("xxxxx",title+"Attached to widow");
+        Log.i("xxxxx", title + "Attached to widow");
     }
 
     @Override
     public void onDetached() {
         super.onDetached();
-        Log.i("xxxxx",title+"Detached to widow");
+        Log.i("xxxxx", title + "Detached to widow");
     }
 }
