@@ -90,6 +90,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
     }
 
     /*这个函数是XRcycleView触发的,它自动会把创建的或者回收的holder对象绑定 adapter里jsonarray第position的数据*/
+
     @Override
     public void onBindViewHolder(BaseHolder holder, int position) {
         Log.e("RecyclerView", "onBindViewHolder" + position);
@@ -99,9 +100,9 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
             e.printStackTrace();
         }
     }
-    /*
 
-        http://www.68idc.cn/help/mobilesys/android/20160418610015.html
+    /*
+    http://www.68idc.cn/help/mobilesys/android/20160418610015.html
     * Called when a view created by this adapter has been detached from its window.         *         * <p>Becoming detached from the window is not necessarily a permanent condition;         * the consumer of an Adapter's views may choose to cache views offscreen while they         * are not visible, attaching an detaching them as appropriate.</p>         *         * @param holder Holder of the view being detached
     * public void onViewDetachedFromWindow(VH holder) {        }
     Called when a view created by this adapter has been detached from its window.
@@ -120,17 +121,19 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
     * */
 
 
-    @Override
-    public void onViewAttachedToWindow(BaseHolder holder) {
-        super.onViewAttachedToWindow(holder);
-        holder.onAttached();
-    }
 
-    @Override
-    public void onViewDetachedFromWindow(BaseHolder holder) {
-        super.onViewDetachedFromWindow(holder);
-        holder.onDetached();
-    }
+// FIXME: 下面的两个函数导致onBindViewHolder运行两次，应该是super.onView*这个函数引起的
+//    @Override
+//    public void onViewAttachedToWindow(BaseHolder holder) {
+//        super.onViewAttachedToWindow(holder);
+//        holder.onAttached();
+//    }
+//
+//    @Override
+//    public void onViewDetachedFromWindow(BaseHolder holder) {
+//        super.onViewDetachedFromWindow(holder);
+//        holder.onDetached();
+//    }
 
 
     @Override

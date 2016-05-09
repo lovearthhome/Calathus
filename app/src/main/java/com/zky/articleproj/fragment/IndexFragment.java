@@ -151,8 +151,6 @@ public class IndexFragment extends BaseFragment {
         listView.setAdapter(adapter);
         adapter.listView = listView;
 
-
-
         listView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {

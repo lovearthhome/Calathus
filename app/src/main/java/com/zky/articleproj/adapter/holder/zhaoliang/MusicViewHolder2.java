@@ -71,7 +71,7 @@ public class MusicViewHolder2 extends CardHolder {
 
     @Override
     public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
-        MusicViewHolder2 musicViewHolder = (MusicViewHolder2) cardHolder;
+
 
         super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
 
@@ -110,7 +110,18 @@ public class MusicViewHolder2 extends CardHolder {
 
 
         if (image_src != null) {
-            mpv.setCoverURL(image_src);
+            if(mpv.isLoading)
+            {
+                System.out.println("RecyclerView------放弃加载!"+title);
+            }else{
+                System.out.println("RecyclerView------开始加载!"+title);
+//                for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+//                    System.out.println("------"+ste);
+//                }
+                mpv.setCoverURL(image_src);
+            }
+
+
         }
         mpv.setMax(music_duration);
     }

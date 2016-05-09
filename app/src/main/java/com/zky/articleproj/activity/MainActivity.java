@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity {
                     //修改ViewPager的缓存页面数量
                     //viewpager当前页面两侧缓存/预加载的页面数目。当页面切换时，当前页面相邻两侧的numbers页面不会被销毁。
 
-                    mViewPager.setOffscreenPageLimit(5);
+                    mViewPager.setOffscreenPageLimit(2);
                     mTabLayout.setupWithViewPager(mViewPager);
                     break;
             }
@@ -231,7 +231,6 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             com.lovearthstudio.articles.constant.Constant.binder = (ArticleService.ArticleBinder) service;
-            //  com.lovearthstudio.articles.constant.Constant.binder.getData(channel, "load", 0, mIndexCallBack);
             handler.sendEmptyMessage(INIT_SUCCESS);
         }
 

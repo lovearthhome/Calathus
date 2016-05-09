@@ -41,12 +41,10 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -109,6 +107,11 @@ public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
      * Bitmap for shader.
      */
     private Bitmap mBitmapCover;
+
+    /**
+     * If loading state (焦帅添加一个图片访问的锁，一旦加上锁，表明正在加载图片，此时不能继续加载图片)
+     */
+    public Boolean isLoading = false;
 
     /**
      * Shader for make drawable circle
@@ -329,8 +332,6 @@ public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
      * smooth.
      */
     private void init(Context context, AttributeSet attrs) {
-
-        mQueue = Volley.newRequestQueue(getContext());
 
 
         setWillNotDraw(false);
@@ -616,30 +617,37 @@ public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
      * gets image URL and load it to cover image.It uses Picasso Library.
      */
     public void setCoverURL(String imageUrl) {
+        System.out.println("------设置封面!"+imageUrl);
         //Picasso.with(getContext()).load(imageUrl).into(target);
 
 
-       /* Glide.with(getContext())
+       /*Glide.with(getContext())
                 .load(imageUrl)
                 .downloadOnly(bitmapTarget);*/
+//        if(isLoading) {
+//            System.out.println("------放弃加载!"+imageUrl);
+//            return;
+//        }
+//        isLoading = true;
+//        System.out.println("------开始加载!"+imageUrl);
+       Glide.with(getContext())
+                .load(imageUrl)
+                .asBitmap()
+                .into(
+                        new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                                System.out.println("------开始成功!");
+                                mBitmapCover = resource;
+                                createShader();
+                                postInvalidate();
+                                isLoading = false;
+                            }
 
-        ImageRequest imageRequest = new ImageRequest(
-                "http://developer.android.com/images/home/aw_dac.png",
-                new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap response) {
-                        System.out.println("--------响应成功!");
-                        mBitmapCover = response;
-                        createShader();
-                        postInvalidate();
-                    }
-                }, 0, 0, Bitmap.Config.RGB_565, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        });
-        mQueue.add(imageRequest);
-        mQueue.start();
+
+                        }
+                );
+
     }
 
     com.bumptech.glide.request.target.Target<File> bitmapTarget = new com.bumptech.glide.request.target.Target<File>() {
