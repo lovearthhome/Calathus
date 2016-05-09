@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.yimingyu.android.util.HttpUtil;
+import com.lovearthstudio.duasdk.util.OkHttpUtil;
 import com.zky.articleproj.R;
 import com.zky.articleproj.base.BaseActivity;
 import com.zky.articleproj.constant.Constant;
@@ -137,7 +137,7 @@ public class FollowerActivity extends BaseActivity {
         }
         try{
             Log.e("标志",params.filter.toString());
-            HttpUtil.asyncPost(Constant.userUrl,gson.toJson(params),fansCallBack);
+            OkHttpUtil.asyncPost(Constant.userUrl,gson.toJson(params),fansCallBack);
         }catch (Exception e){
             e.printStackTrace();
         }

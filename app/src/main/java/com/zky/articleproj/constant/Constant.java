@@ -1,5 +1,9 @@
 package com.zky.articleproj.constant;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * 常量类
  * 定义项目基本的常量地址
@@ -14,6 +18,8 @@ public class Constant {
     public static final String baseFileUrl = "http://files.wikicivi.com/files/";
     /* dua_id */
     public static long dua_id = 41;
+
+    public static List<String> rules=new ArrayList<>();
 
     /* 屏幕宽高 */
     public static int screenwith;

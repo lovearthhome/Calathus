@@ -20,6 +20,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -27,8 +28,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.lovearthstudio.articles.service.ArticleService;
-import com.yimingyu.android.core.MyCallBack;
-import com.yimingyu.android.lib.duasdk.DuaTest;
+import com.lovearthstudio.duasdk.Dua;
+import com.lovearthstudio.duasdk.MyCallBack;
+import com.stone.card.ReviewActivity;
 import com.zky.articleproj.R;
 import com.zky.articleproj.activity.menu.About_Activity;
 import com.zky.articleproj.activity.menu.followee.FolloweeActivity;
@@ -62,7 +64,6 @@ public class MainActivity extends BaseActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private ImageView user_icon;
 
-    private DuaTest duaTest;
     private RomoteServiceConnection ArticleServiceConnection;
 
     Handler handler = new Handler() {
@@ -91,19 +92,19 @@ public class MainActivity extends BaseActivity {
 
         getConstant();
 
-        duaTest = DuaTest.getInstance(this);
-
-        duaTest.getCurrentDuaId(new MyCallBack() {
-            @Override
-            public void onSuccess(String s) {
-                //System.out.println("--------" + s);
-            }
-
-            @Override
-            public void onError(String s) {
-
-            }
-        });
+        Dua.init(getApplicationContext());
+//        Dua.getInstance().getCurrentDuaId(new MyCallBack() {
+//            @Override
+//            public void onSuccess(String s) {
+//                //System.out.println("--------" + s);
+//                Constant.dua_id=Long.parseLong(s);
+//            }
+//
+//            @Override
+//            public void onError(String s) {
+//
+//            }
+//        });
 
         headView = mNavigationView.getHeaderView(0);
         user_icon = (ImageView) headView.findViewById(R.id.user_icon);
@@ -145,6 +146,9 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.nav_following:
                         startActivity(new Intent(MainActivity.this, FolloweeActivity.class));
+                        break;
+                    case R.id.nav_review:
+                        startActivity(new Intent(MainActivity.this, ReviewActivity.class));
                         break;
                 }
                 return true;
