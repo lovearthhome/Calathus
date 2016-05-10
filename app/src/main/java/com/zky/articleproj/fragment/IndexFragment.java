@@ -62,14 +62,17 @@ public class IndexFragment extends BaseFragment {
             switch (msg.what) {
                 case UPDATE_DATA:
                     adapter.notifyDataSetChanged();
+                    Log.i("Recyc", "notifyDataSetChanged      UPDATE_DATA" + channel);
                     break;
                 case PULL:
                     adapter.notifyDataSetChanged();
                     listView.refreshComplete();
+                    Log.i("Recyc", "notifyDataSetChanged      PULL" + channel);
                     break;
                 case PUSH:
                     adapter.notifyDataSetChanged();
                     listView.loadMoreComplete();
+                    Log.i("Recyc", "notifyDataSetChanged      PUSH" + channel);
                     break;
                 case PARSE_DATA_ERROR:
                     Toast.makeText(getActivity(), "数据解析错误,请稍后尝试", Toast.LENGTH_SHORT).show();
@@ -197,9 +200,11 @@ public class IndexFragment extends BaseFragment {
         @Override
         public void onResponse(JSONArray articles) {
             try {
+                Log.i("Recyc-HAHA"+channel, "TEST");
                 //这个地方,我们把服务器回来的数据和result合并
                 if (pull) {
                     if (articles == null || articles.length() == 0) {
+                        Log.i("Recyc-Channel"+channel, "pull article count 0");
                         mHandler.sendEmptyMessage(PULL_NOMORE);
                         return;
                     }
@@ -209,9 +214,10 @@ public class IndexFragment extends BaseFragment {
                     pull = false;
                     adapter.jsonArray = articles;
                     mHandler.sendEmptyMessage(PULL);
-                    Log.i("Channel-push "+channel, "load article count "+articles.length()+" to "+adapter.jsonArray.length() + "articles");
+                    Log.i("Recyc-Channel"+channel, "push article count "+articles.length()+" to "+adapter.jsonArray.length() + "articles");
                 } else if (push) {
                     if (articles == null || articles.length() == 0) {
+                        Log.i("Recyc-Channel"+channel, "push article count 0");
                         mHandler.sendEmptyMessage(PUSH_NOMORE);
                         return;
                     }
@@ -221,12 +227,12 @@ public class IndexFragment extends BaseFragment {
                     push = false;
                     mHandler.sendEmptyMessage(PUSH);
 
-                    Log.i("Channel-push "+channel, "load article count "+articles.length()+" to "+adapter.jsonArray.length() + "articles");
+                    Log.i("Recyc-Channel "+channel, "push article count "+articles.length()+" to "+adapter.jsonArray.length() + "articles");
                     //System.out.println("----------:push");
                 } else {
 
                     if (articles == null || articles.length() == 0) {
-                        Log.i("Channel-load "+channel, "load article count "+articles.length());
+                        Log.i("Recyc-Channel"+channel, "load article count "+articles.length());
                         mHandler.sendEmptyMessage(LOAD_NOMORE);
                         return;
                     }
@@ -234,7 +240,7 @@ public class IndexFragment extends BaseFragment {
                         adapter.jsonArray.put(articles.get(i));
                     }
                     mHandler.sendEmptyMessage(UPDATE_DATA);
-                    Log.i("Channel-load "+channel, "load article count "+articles.length()+" to "+adapter.jsonArray.length() + "articles");
+                    Log.i("Recyc-Channel"+channel, "load article count "+articles.length()+" to "+adapter.jsonArray.length() + "articles");
                     //System.out.println("-----------:load");
                 }
             } catch (JSONException e) {

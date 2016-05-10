@@ -1,7 +1,6 @@
 package com.zky.articleproj.adapter.holder.zhaoliang;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -149,15 +148,15 @@ public class MusicViewHolder2 extends CardHolder {
     }
 
 
-    @Override
-    public void onAttached() {
-        super.onAttached();
-        Log.i("xxxxx", title + "Attached to widow");
-    }
-
-    @Override
-    public void onDetached() {
-        super.onDetached();
-        Log.i("xxxxx", title + "Detached to widow");
-    }
+//    @Override
+//    public void onAttached() {
+//        super.onAttached();
+//        Log.i("xxxxx", title + "Attached to widow");
+//    }
+//
+//    @Override
+//    public void onDetached() {
+//        super.onDetached();
+//        Log.i("xxxxx", title + "Detached to widow");
+//    }
 }
