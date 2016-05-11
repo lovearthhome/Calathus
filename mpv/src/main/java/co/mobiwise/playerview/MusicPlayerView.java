@@ -616,7 +616,7 @@ public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
     /**
      * gets image URL and load it to cover image.It uses Picasso Library.
      */
-    public void setCoverURL(String imageUrl) {
+    public void setCoverURL(final String imageUrl) {
         System.out.println("------设置封面!"+imageUrl);
         //Picasso.with(getContext()).load(imageUrl).into(target);
 
@@ -637,7 +637,7 @@ public class MusicPlayerView extends View implements OnPlayPauseToggleListener {
                         new SimpleTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                                System.out.println("------开始成功!");
+                                System.out.println("RecyclerView------开始成功: "+imageUrl);
                                 mBitmapCover = resource;
                                 createShader();
                                 postInvalidate();

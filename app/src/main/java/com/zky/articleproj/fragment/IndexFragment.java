@@ -59,6 +59,7 @@ public class IndexFragment extends BaseFragment {
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            Log.i("Recyc", "--------------------" + channel);
             switch (msg.what) {
                 case UPDATE_DATA:
                     adapter.notifyDataSetChanged();
@@ -111,19 +112,14 @@ public class IndexFragment extends BaseFragment {
         //getActivity().bindService(new Intent(getActivity(), ArticleService.class), new RomoteServiceConnection(), Context.BIND_AUTO_CREATE);
         mIndexCallBack = new IndexCallBack();
         adapter = new IndexListAdapter(getActivity(), new JSONArray());
-        //当第一次加载这个framgement的时候，会到数据库寻找最近的数据放置到jsonarray来
-        Log.i("Channel-"+channel, " try to Load article of " + channel);
-        if (Constant.binder != null) {
-            Log.i("Channel-"+channel, "do  to Load article of " + channel);
-            Constant.binder.getData(channel, "load", 0, mIndexCallBack);
-        }
+
 
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.i("Channel", "onCreateView      " + channel);
+        Log.i("RecycChannel", "onCreateView      " + channel);
         return super.onCreateView(inflater, container, savedInstanceState);
 
     }
@@ -131,12 +127,12 @@ public class IndexFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i("Channel", "onDestroy           " + channel);
+        Log.i("RecycChannel", "onDestroy           " + channel);
     }
 
     @Override
     public void onDestroyView() {
-        Log.i("Channel", "onDestroyView      " + channel);
+        Log.i("RecycChannel", "onDestroyView      " + channel);
         super.onDestroyView();
     }
 
@@ -144,7 +140,7 @@ public class IndexFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i("Channel", "onViewCreate     " + channel);
+        Log.i("RecycChannel", "onViewCreate     " + channel);
         /**
          * listview
          */
@@ -153,7 +149,12 @@ public class IndexFragment extends BaseFragment {
         listView.setHasFixedSize(true);
         listView.setAdapter(adapter);
         adapter.listView = listView;
-
+        //当第一次加载这个framgement的时候，会到数据库寻找最近的数据放置到jsonarray来
+        Log.i("RecycChannel-"+channel, " try to Load article of " + channel);
+        if (Constant.binder != null) {
+            Log.i("RecycChannel-"+channel, "do  to Load article of " + channel);
+            Constant.binder.getData(channel, "load", 0, mIndexCallBack);
+        }
         listView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -226,11 +227,9 @@ public class IndexFragment extends BaseFragment {
                     }
                     push = false;
                     mHandler.sendEmptyMessage(PUSH);
-
                     Log.i("Recyc-Channel "+channel, "push article count "+articles.length()+" to "+adapter.jsonArray.length() + "articles");
                     //System.out.println("----------:push");
                 } else {
-
                     if (articles == null || articles.length() == 0) {
                         Log.i("Recyc-Channel"+channel, "load article count "+articles.length());
                         mHandler.sendEmptyMessage(LOAD_NOMORE);
@@ -241,7 +240,6 @@ public class IndexFragment extends BaseFragment {
                     }
                     mHandler.sendEmptyMessage(UPDATE_DATA);
                     Log.i("Recyc-Channel"+channel, "load article count "+articles.length()+" to "+adapter.jsonArray.length() + "articles");
-                    //System.out.println("-----------:load");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
