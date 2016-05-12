@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_index1_title"
+        android:id="@+id/tv_music_title"
         style="@style/ListTitieStyle"
         android:text="无题" />
 

@@ -1,38 +1,38 @@
-package com.zky.articleproj.adapter.holder.zhaoliang;
+package com.zky.articleproj.view.cardview;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
+import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zky.articleproj.R;
-import com.zky.articleproj.adapter.holder.base.BaseHolder;
-import com.zky.articleproj.adapter.holder.base.CardHolder;
 import com.zky.articleproj.constant.Constant;
+import com.zky.articleproj.view.cardview.base.BaseCardView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xutils.view.annotation.ViewInject;
 
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
- * Created by zhaoliang on 16/4/7.
+ * 视频的卡片布局
+ * Created by zhaoliang on 16/5/12.
  */
-public class VideoViewHolder3 extends CardHolder {
+public class VideoCard extends BaseCardView {
 
-    @ViewInject(R.id.tv_index1_title)
-    private TextView tvTitle;
+    private static final String TAG = "========" + VideoCard.class.getName();
 
-    @ViewInject(R.id.custom_videoplayer_standard)
-    private JCVideoPlayerStandard jcVideoPlayerStandard;
-
-    @ViewInject(R.id.video_layout)
+    //    控件相关
+    private TextView tv_video_title;
     private FrameLayout video_layout;
+    private JCVideoPlayerStandard video_view;
+    private Context context;
 
+    //     视频相关
     private int video_width;
     private int video_height;
     private String video_type;
@@ -43,15 +43,31 @@ public class VideoViewHolder3 extends CardHolder {
     private String video_src;
     private String image_src;
 
-    public VideoViewHolder3(View itemView) {
-        super(itemView);
+    public VideoCard(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.context = context;
+    }
+
+    @Override
+    public void inflaterLayout(Context context) {
+        LayoutInflater.from(context).inflate(R.layout.card_video, this, true);
+    }
+
+    @Override
+    public void findView() {
+        tv_video_title = (TextView) findViewById(R.id.tv_video_title);
+        video_layout = (FrameLayout) findViewById(R.id.video_layout);
+        video_view = (JCVideoPlayerStandard) findViewById(R.id.video_view);
+    }
+
+    @Override
+    public void setOnClickListener() {
 
     }
 
     @Override
-    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
-
-        super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
+    public void parseData(String jsonStr) throws JSONException {
+        Log.i(TAG, jsonStr);
 
         JSONObject jsonObject = new JSONObject(jsonStr);
             /*
@@ -61,7 +77,7 @@ public class VideoViewHolder3 extends CardHolder {
         String content_str = jsonObject.getString("content");
         JSONObject content_obj = new JSONObject(content_str);
 
-        tvTitle.setText(content_obj.optString("title"));
+        tv_video_title.setText(content_obj.optString("title"));
 
 
         String art_brief = content_obj.optString("brief");
@@ -94,25 +110,10 @@ public class VideoViewHolder3 extends CardHolder {
         String imageUrl = Constant.baseFileUrl + image_src;
         Log.e("----------videoUrl:", Constant.baseFileUrl + video_src);
         Log.e("----------imageUrl:", Constant.baseFileUrl + image_src);
-        jcVideoPlayerStandard.setUp(videoUrl, content_obj.optString("title"));
+        video_view.setUp(videoUrl, content_obj.optString("title"));
         //jcVideoPlayerStandard.setUp("http://2449.vod.myqcloud.com/2449_bfbbfa3cea8f11e5aac3db03cda99974.f20.mp4", content_obj.optString("title"));
         Glide.with(context)
                 .load(imageUrl)
-                .into(jcVideoPlayerStandard.ivThumb);
-    }
-
-    @Override
-    public int setLayoutFile() {
-        return R.layout.video_view_holder3;
-    }
-
-    @Override
-    public void onChildViewAttachedToWindow(View view) {
-
-    }
-
-    @Override
-    public void onChildViewDetachedFromWindow(View view) {
-
+                .into(video_view.ivThumb);
     }
 }

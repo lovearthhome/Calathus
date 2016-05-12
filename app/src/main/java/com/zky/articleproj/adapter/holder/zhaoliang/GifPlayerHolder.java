@@ -43,7 +43,7 @@ import pl.droidsonroids.gif.GifImageView;
  */
 public class GifPlayerHolder extends CardHolder {
 
-    @ViewInject(R.id.tv_index1_title)
+    @ViewInject(R.id.tv_music_title)
     private TextView tvTitle;
 
     @ViewInject(R.id.iv_gif)

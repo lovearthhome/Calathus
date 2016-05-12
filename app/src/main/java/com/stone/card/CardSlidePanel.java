@@ -103,6 +103,7 @@ public class CardSlidePanel extends ViewGroup {
 
         moveDetector = new GestureDetectorCompat(context,
                 new MoveDetector());
+
     }
 
     @Override
@@ -117,13 +118,20 @@ public class CardSlidePanel extends ViewGroup {
             if (childView.getId() == R.id.card_bottom_layout) {
                 bottomLayout = childView;
                 initBottomLayout();
-            } else {
+            } /*else {
                 //CardItemView viewItem = (CardItemView) childView;
-                MyCardItem viewItem = (MyCardItem) childView;
+                CardItemView viewItem = (CardItemView) childView;
                 viewItem.setTag(i + 1);
                 viewItem.imageView.setOnClickListener(btnListener);
                 viewList.add(viewItem);
-            }
+            }*/
+        }
+        for (int i = 0; i < 4; i++) {
+            CardItemView viewItem = new CardItemView(getContext());
+            viewItem.setTag(i + 1);
+            viewItem.imageView.setOnClickListener(btnListener);
+            viewList.add(viewItem);
+            addView(viewItem);
         }
     }
 
@@ -218,7 +226,7 @@ public class CardSlidePanel extends ViewGroup {
             }
 
             //CardItemView changedView = (CardItemView) releasedViewList.get(0);
-            MyCardItem changedView = (MyCardItem) releasedViewList.get(0);
+            CardItemView changedView = (CardItemView) releasedViewList.get(0);
 
             if (changedView.getLeft() == initCenterViewX) {
                 releasedViewList.remove(0);
@@ -525,7 +533,7 @@ public class CardSlidePanel extends ViewGroup {
         int num = viewList.size();
         for (int i = 0; i < num; i++) {
             //CardItemView itemView = (CardItemView) viewList.get(i);
-            MyCardItem itemView = (MyCardItem) viewList.get(i);
+            CardItemView itemView = (CardItemView) viewList.get(i);
             itemView.fillData(dataList.get(i));
             itemView.setVisibility(View.VISIBLE);
         }
@@ -548,7 +556,7 @@ public class CardSlidePanel extends ViewGroup {
         int num = viewList.size();
         for (int i = 0; i < num; i++) {
             //CardItemView itemView = viewList.get(i);
-            MyCardItem itemView = (MyCardItem) viewList.get(i);
+            CardItemView itemView = (CardItemView) viewList.get(i);
             itemView.setVisibility(View.VISIBLE);
             itemView.fillData(dataList.get(currentIndex++));
         }

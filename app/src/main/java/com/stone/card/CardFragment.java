@@ -1,8 +1,5 @@
 package com.stone.card;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +10,9 @@ import android.view.ViewGroup;
 
 import com.stone.card.CardSlidePanel.CardSwitchListener;
 import com.zky.articleproj.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 卡片Fragment
@@ -71,25 +71,29 @@ public class CardFragment extends Fragment {
                 Log.d("CardFragment", "卡片点击-" + dataList.get(index).userName);
             }
         };
+
         slidePanel.setCardSwitchListener(cardSwitchListener);
 
         prepareDataList();
         slidePanel.fillData(dataList);
     }
 
+    /**
+     * 准备数据列表
+     */
     private void prepareDataList() {
         int num = imagePaths.length;
 
-       // for (int j = 0; j < 3; j++) {
-            for (int i = 0; i < num; i++) {
-                CardDataItem dataItem = new CardDataItem();
-                dataItem.userName = names[i];
-                dataItem.imagePath = imagePaths[i];
-                dataItem.likeNum = (int) (Math.random() * 10);
-                dataItem.imageNum = (int) (Math.random() * 6);
-                dataList.add(dataItem);
-            }
-      //  }
+        // for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < num; i++) {
+            CardDataItem dataItem = new CardDataItem();
+            dataItem.userName = names[i];
+            dataItem.imagePath = imagePaths[i];
+            dataItem.likeNum = (int) (Math.random() * 10);
+            dataItem.imageNum = (int) (Math.random() * 6);
+            dataList.add(dataItem);
+        }
+        //  }
     }
 
 }

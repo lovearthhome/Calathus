@@ -42,13 +42,15 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.squareup.okhttp3:okhttp:3.1.2'
-    compile 'com.google.code.gson:gson:2.6.2'
     /* bibi jkplayer */
     compile(name: 'duasdk-debug', ext: 'aar')
     /* compile 'com.facebook.fresco:fresco:0.9.0.+'*/
     // Glide's OkHttp3 Integration
     compile project(':articles')
+    // compile 'com.github.iammert:MusicPlayerView:e3b937c729'
+    compile project(':mpv')
+    compile 'com.squareup.okhttp3:okhttp:3.1.2'
+    compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.android.support:appcompat-v7:24.0.0-alpha2'
     compile 'com.android.support:design:24.0.0-alpha2'
     compile 'org.xutils:xutils:3.3.22'
@@ -62,7 +64,6 @@ dependencies {
     compile 'com.commit451:PhotoView:1.2.5'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
-    // compile 'com.github.iammert:MusicPlayerView:e3b937c729'
     compile 'fm.jiecao:jiecaovideoplayer:3.0_preview'
     compile 'com.linsea:universalvideoview:1.1.0@aar'
     compile 'com.android.support:preference-v7:23.3.0'
@@ -71,6 +72,5 @@ dependencies {
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     compile 'com.github.jhw-dev:CircleLoadingView:v1.3'
     compile 'com.google.android.gms:play-services-ads:8.4.0'
-    compile project(':mpv')
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }

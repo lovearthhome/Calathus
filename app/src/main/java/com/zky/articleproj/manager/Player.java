@@ -74,7 +74,6 @@ public class Player implements OnBufferingUpdateListener, OnCompletionListener, 
 
 
     public void play() {
-
         mediaPlayer.start();
         //ib_play.setBackgroundResource(R.drawable.button_pause);
     }

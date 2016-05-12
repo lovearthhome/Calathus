@@ -20,7 +20,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -29,13 +28,12 @@ import android.widget.Toast;
 
 import com.lovearthstudio.articles.service.ArticleService;
 import com.lovearthstudio.duasdk.Dua;
-import com.lovearthstudio.duasdk.MyCallBack;
-import com.stone.card.ReviewActivity;
 import com.zky.articleproj.R;
 import com.zky.articleproj.activity.menu.About_Activity;
 import com.zky.articleproj.activity.menu.followee.FolloweeActivity;
 import com.zky.articleproj.activity.menu.follower.FollowerActivity;
 import com.zky.articleproj.activity.menu.settings.SettingActivity;
+import com.zky.articleproj.activity.review.Review2Activity;
 import com.zky.articleproj.base.BaseActivity;
 import com.zky.articleproj.constant.Constant;
 import com.zky.articleproj.fragment.IndexFragment;
@@ -76,7 +74,7 @@ public class MainActivity extends BaseActivity {
                     //修改ViewPager的缓存页面数量
                     //viewpager当前页面两侧缓存/预加载的页面数目。当页面切换时，当前页面相邻两侧的numbers页面不会被销毁。
 
-                    mViewPager.setOffscreenPageLimit(5);
+                    mViewPager.setOffscreenPageLimit(2);
                     mTabLayout.setupWithViewPager(mViewPager);
                     break;
             }
@@ -148,7 +146,7 @@ public class MainActivity extends BaseActivity {
                         startActivity(new Intent(MainActivity.this, FolloweeActivity.class));
                         break;
                     case R.id.nav_review:
-                        startActivity(new Intent(MainActivity.this, ReviewActivity.class));
+                        startActivity(new Intent(MainActivity.this, Review2Activity.class));
                         break;
                 }
                 return true;
@@ -235,7 +233,6 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             com.lovearthstudio.articles.constant.Constant.binder = (ArticleService.ArticleBinder) service;
-            //  com.lovearthstudio.articles.constant.Constant.binder.getData(channel, "load", 0, mIndexCallBack);
             handler.sendEmptyMessage(INIT_SUCCESS);
         }
 

@@ -1,34 +1,18 @@
 [
     {
-        "merged": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\icon_play.png",
-        "source": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\drawable\\icon_play.png"
+        "merged": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/build/intermediates/res/merged/androidTest/debug/drawable/icon_pause.png",
+        "source": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/build/intermediates/bundles/debug/res/drawable/icon_pause.png"
     },
     {
-        "merged": "C:\\Users\\admin\\AndroidStudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\icon_play.png",
-        "source": "C:\\Users\\admin\\AndroidStudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\drawable\\icon_play.png"
+        "merged": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/build/intermediates/res/merged/androidTest/debug/drawable/icon_play.png",
+        "source": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/build/intermediates/bundles/debug/res/drawable/icon_play.png"
     },
     {
-        "merged": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\icon_pause.png",
-        "source": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\drawable\\icon_pause.png"
+        "merged": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/C:\\Users\\Administrator\\Documents\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\icon_pause.png",
+        "source": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/C:\\Users\\Administrator\\Documents\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\drawable\\icon_pause.png"
     },
     {
-        "merged": "C:\\Users\\zhaoliang\\Documents\\AndroidStudioProjects\\study\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\icon_pause.png",
-        "source": "C:\\Users\\zhaoliang\\Documents\\AndroidStudioProjects\\study\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\drawable\\icon_pause.png"
-    },
-    {
-        "merged": "C:\\Users\\zhaoliang\\Documents\\AndroidStudioProjects\\study\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\icon_play.png",
-        "source": "C:\\Users\\zhaoliang\\Documents\\AndroidStudioProjects\\study\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\drawable\\icon_play.png"
-    },
-    {
-        "merged": "C:\\Users\\Administrator\\Documents\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\icon_play.png",
-        "source": "C:\\Users\\Administrator\\Documents\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\drawable\\icon_play.png"
-    },
-    {
-        "merged": "C:\\Users\\Administrator\\Documents\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\icon_pause.png",
-        "source": "C:\\Users\\Administrator\\Documents\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\drawable\\icon_pause.png"
-    },
-    {
-        "merged": "C:\\Users\\admin\\AndroidStudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\icon_pause.png",
-        "source": "C:\\Users\\admin\\AndroidStudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\drawable\\icon_pause.png"
+        "merged": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/C:\\Users\\Administrator\\Documents\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\icon_play.png",
+        "source": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/C:\\Users\\Administrator\\Documents\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\bundles\\debug\\res\\drawable\\icon_play.png"
     }
 ]

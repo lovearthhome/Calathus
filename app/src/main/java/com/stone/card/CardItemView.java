@@ -12,15 +12,16 @@ import com.zky.articleproj.R;
 
 /**
  * 卡片View项
+ *
  * @author xmuSistone
  */
 @SuppressLint("NewApi")
 public class CardItemView extends LinearLayout {
 
-//    public ImageView imageView;
-//    private TextView userNameTv;
-//    private TextView imageNumTv;
-//    private TextView likeNumTv;
+    public ImageView imageView;
+    private TextView userNameTv;
+    private TextView imageNumTv;
+    private TextView likeNumTv;
 
     public CardItemView(Context context) {
         this(context, null);
@@ -32,17 +33,17 @@ public class CardItemView extends LinearLayout {
 
     public CardItemView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-//        inflate(context, R.layout.card_item, this);
-//        imageView = (ImageView) findViewById(R.id.card_image_view);
-//        userNameTv = (TextView) findViewById(R.id.card_user_name);
-//        imageNumTv = (TextView) findViewById(R.id.card_pic_num);
-//        likeNumTv = (TextView) findViewById(R.id.card_like);
+        inflate(context, R.layout.card_item, this);
+        imageView = (ImageView) findViewById(R.id.card_image_view);
+        userNameTv = (TextView) findViewById(R.id.card_user_name);
+        imageNumTv = (TextView) findViewById(R.id.card_pic_num);
+        likeNumTv = (TextView) findViewById(R.id.card_like);
     }
 
-//    public void fillData(CardDataItem itemData) {
-//        ImageLoader.getInstance().displayImage(itemData.imagePath, imageView);
-//        userNameTv.setText(itemData.userName);
-//        imageNumTv.setText(itemData.imageNum + "");
-//        likeNumTv.setText(itemData.likeNum + "");
-//    }
+    public void fillData(CardDataItem itemData) {
+        ImageLoader.getInstance().displayImage(itemData.imagePath, imageView);
+        userNameTv.setText(itemData.userName);
+        imageNumTv.setText(itemData.imageNum + "");
+        likeNumTv.setText(itemData.likeNum + "");
+    }
 }
