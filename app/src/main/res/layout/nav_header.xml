@@ -30,16 +30,16 @@
 
         <ImageView
             android:id="@+id/user_icon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@mipmap/head" />
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@mipmap/dummy_avatar" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margintop_15"
             android:layout_marginTop="@dimen/margintop_15"
-            android:text="赵亮"
+            android:text="登录/注册"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
 
