@@ -35,11 +35,12 @@
             android:src="@mipmap/dummy_avatar" />
 
         <TextView
+            android:id="@+id/textView_user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margintop_15"
             android:layout_marginTop="@dimen/margintop_15"
-            android:text="登录/注册"
+            android:text="@string/prompt_uer_name_default"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </LinearLayout>
 

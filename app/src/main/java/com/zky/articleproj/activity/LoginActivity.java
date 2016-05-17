@@ -15,15 +15,12 @@ import android.widget.EditText;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lovearthstudio.duasdk.Dua;
-import com.lovearthstudio.duasdk.MyCallBack;
-import com.lovearthstudio.duasdk.util.DuaCollector;
+import com.lovearthstudio.duasdk.DuaCallback;
 import com.lovearthstudio.duasdk.util.LogUtil;
-import com.lovearthstudio.duasdk.util.security.MD5;
 import com.zky.articleproj.R;
 import com.zky.articleproj.base.BaseActivity;
 import com.zky.articleproj.constant.Constant;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
@@ -79,7 +76,7 @@ public class LoginActivity extends BaseActivity {
                     mPasswordView.setText("请输入密码");
                     return;
                 }
-                Dua.getInstance().login("+86-" + phone, password, "reviewer", new MyCallBack() {
+                Dua.getInstance().login("+86-" + phone, password, "reviewer", new DuaCallback() {
                     @Override
                     public void onSuccess(String s) {
                         try {

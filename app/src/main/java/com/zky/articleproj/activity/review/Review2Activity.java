@@ -12,6 +12,9 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.lovearthstudio.articles.net.IndexRequestParams;
+import com.lovearthstudio.duasdk.util.JsonUtil;
+import com.lovearthstudio.duasdk.util.LogUtil;
+import com.nostra13.universalimageloader.utils.L;
 import com.zky.articleproj.R;
 import com.zky.articleproj.activity.review.item.ImageFragment;
 import com.zky.articleproj.activity.review.item.MusicFragment;
@@ -30,6 +33,7 @@ import org.xutils.view.annotation.ViewInject;
 import java.io.IOException;
 import java.util.HashMap;
 
+import io.realm.internal.android.JsonUtils;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -47,6 +51,9 @@ public class Review2Activity extends BaseActivity {
 
     @ViewInject(R.id.card_right_btn)
     private Button card_right_btn;
+
+    @ViewInject(R.id.card_home_button)
+    private Button card_home_button;
 
     private IndexRequestParams getArtParams;
     private long artId;
@@ -84,7 +91,29 @@ public class Review2Activity extends BaseActivity {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             try {
-                JSONObject jsonResponse = new JSONObject(response.body().string());
+                String bodyStr=response.body().string();
+
+                try {
+                    JSONObject jsonObject= JsonUtil.toJsonObject(bodyStr);
+                    if(jsonObject!=null){
+                        LogUtil.e(jsonObject.toString());
+                        String url=jsonObject.getJSONObject("result")
+                                .getJSONArray("data")
+                                .getJSONObject(0)
+                                .getJSONObject("content")
+                                .getJSONArray("files")
+                                .getJSONObject(0)
+                                .getJSONArray("farray")
+                                .getJSONObject(0)
+                                .getString("src");
+                        LogUtil.e(url);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+
+                }
+
+                JSONObject jsonResponse = new JSONObject(bodyStr);
                 JSONObject jsonResult = new JSONObject(jsonResponse.optString("result"));
                 JSONArray data = jsonResult.optJSONArray("data");
                 String strData0 = data.get(0).toString();
@@ -105,7 +134,7 @@ public class Review2Activity extends BaseActivity {
         }
     };
 
-    @Event({R.id.card_left_btn, R.id.card_right_btn})
+    @Event({R.id.card_left_btn, R.id.card_right_btn,R.id.card_home_button})
     private void click(View view) {
         switch (view.getId()) {
             // FIXME:审稿不通过, 通知服务器不通过的稿子的id, 并请求新的审稿
@@ -117,6 +146,8 @@ public class Review2Activity extends BaseActivity {
             case R.id.card_right_btn:
                 post(getArtParams, reviewCallBack);
                 break;
+
+            case R.id.card_home_button:
         }
     }
 
@@ -146,7 +177,6 @@ public class Review2Activity extends BaseActivity {
 
         post(getArtParams, reviewCallBack);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

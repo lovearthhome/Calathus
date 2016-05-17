@@ -24,10 +24,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.lovearthstudio.articles.service.ArticleService;
 import com.lovearthstudio.duasdk.Dua;
+import com.lovearthstudio.duasdk.util.LogUtil;
 import com.zky.articleproj.R;
 import com.zky.articleproj.activity.menu.About_Activity;
 import com.zky.articleproj.activity.menu.followee.FolloweeActivity;
@@ -44,7 +47,7 @@ import org.xutils.view.annotation.ViewInject;
 @SuppressLint("NewApi")
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
-
+    public static final int DUA_LOGIN_REQUEST_CODE=10086;
     private static final int INIT_SUCCESS = 1;
     @ViewInject(R.id.tool_bar)
     private Toolbar mToolbar;
@@ -61,7 +64,8 @@ public class MainActivity extends BaseActivity {
 
     private ActionBarDrawerToggle mDrawerToggle;
     private ImageView user_icon;
-
+    private TextView userName;
+    private MenuItem reviewItem;
     private RomoteServiceConnection ArticleServiceConnection;
 
     Handler handler = new Handler() {
@@ -81,6 +85,7 @@ public class MainActivity extends BaseActivity {
         }
     };
 
+    public Dua dua;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,8 +95,8 @@ public class MainActivity extends BaseActivity {
 
         getConstant();
 
-        Dua.init(getApplicationContext());
-//        Dua.getInstance().getCurrentDuaId(new MyCallBack() {
+        dua=Dua.init(getApplicationContext());
+//        dua.getCurrentDuaId(new MyCallBack() {
 //            @Override
 //            public void onSuccess(String s) {
 //                //System.out.println("--------" + s);
@@ -104,16 +109,10 @@ public class MainActivity extends BaseActivity {
 //            }
 //        });
 
+
         headView = mNavigationView.getHeaderView(0);
         user_icon = (ImageView) headView.findViewById(R.id.user_icon);
-        user_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                Toast.makeText(MainActivity.this, "登录", Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        userName=(TextView)headView.findViewById(R.id.textView_user_name);
         mToolbar.setTitleTextColor(Color.WHITE);
         mToolbar.setTitle("马拉松");
         setSupportActionBar(mToolbar);
@@ -126,34 +125,57 @@ public class MainActivity extends BaseActivity {
 
 
 
-
+        reviewItem=mNavigationView.getMenu().findItem(R.id.nav_review);
+        reviewItem.setVisible(false);
 
 
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_settings:
-                        startActivity(new Intent(MainActivity.this, SettingActivity.class));
-                        break;
-                    case R.id.nav_about:
-                        startActivity(new Intent(MainActivity.this, About_Activity.class));
-                        break;
-                    case R.id.nav_fans:
-                        startActivity(new Intent(MainActivity.this, FollowerActivity.class));
-                        break;
-                    case R.id.nav_following:
-                        startActivity(new Intent(MainActivity.this, FolloweeActivity.class));
-                        break;
-                    case R.id.nav_review:
-                        startActivity(new Intent(MainActivity.this, Review2Activity.class));
-                        break;
+                if(dua.getLoginState()){
+                    switch (item.getItemId()) {
+                        case R.id.nav_settings:
+                            startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                            break;
+                        case R.id.nav_about:
+                            startActivity(new Intent(MainActivity.this, About_Activity.class));
+                            break;
+                        case R.id.nav_fans:
+                            startActivity(new Intent(MainActivity.this, FollowerActivity.class));
+                            break;
+                        case R.id.nav_following:
+                            startActivity(new Intent(MainActivity.this, FolloweeActivity.class));
+                            break;
+                        case R.id.nav_review:
+                            startActivity(new Intent(MainActivity.this, Review2Activity.class));
+                            break;
+                    }
+                }else {
+                    switch (item.getItemId()){
+                        case R.id.nav_settings:
+                            startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                            break;
+                        case R.id.nav_about:
+                            startActivity(new Intent(MainActivity.this, About_Activity.class));
+                            break;
+                        default:
+                            goLogin();
+                    }
+
                 }
                 return true;
             }
         });
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==DUA_LOGIN_REQUEST_CODE&&data!=null){
+            Bundle extra=data.getExtras();
+            if(extra!=null){
+                String result = data.getExtras().getString("result");//得到新Activity 关闭后返回的数据
+            }
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -212,7 +234,30 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         //dua.duaAwake();
+        LogUtil.e("onResume is called");
+        if(dua.getLoginState()){
+//            user_icon.setImageURI();  //更改头像图片
+            userName.setText("已经登录");
+            if(dua.getCurrentRules().contains("review_article")){
+                reviewItem.setVisible(true);
+            }
+        }else {
+            //user_icon.setImageAlpha(0);  //默认头像
+            userName.setText(R.string.prompt_uer_name_default);
+            user_icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    goLogin();
+                }
+            });
+        }
     }
+
+    public void goLogin(){
+        startActivityForResult(new Intent(MainActivity.this, com.lovearthstudio.duasdk.ui.DuaActivityLogin.class),DUA_LOGIN_REQUEST_CODE);
+    }
+
+
 
     @Override
     protected void onPause() {

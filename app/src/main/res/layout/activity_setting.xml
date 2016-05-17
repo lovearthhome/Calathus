@@ -12,5 +12,13 @@
         android:id="@+id/settings"
         android:name="com.zky.articleproj.activity.menu.settings.SettingsFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_logout"
+        android:background="@color/colorPrimary"
+        android:text="退出账号"/>
 </LinearLayout>

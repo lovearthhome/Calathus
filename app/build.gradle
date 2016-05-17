@@ -44,6 +44,8 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     /* bibi jkplayer */
     compile(name: 'duasdk-debug', ext: 'aar')
+    compile 'net.rimoto:intlphoneinput:0.9.3'
+    compile 'cn.qqtheme.framework:WheelPicker:1.1.2'
     /* compile 'com.facebook.fresco:fresco:0.9.0.+'*/
     // Glide's OkHttp3 Integration
     compile project(':articles')
