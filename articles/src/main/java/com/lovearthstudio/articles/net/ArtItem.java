@@ -37,7 +37,15 @@ public class ArtItem extends RealmObject {
     public String getData() {return data;}
     public void setData(String  data) {this.data = data;}
 
+
+
     /*
+    //文章的FLAG. 2=审核中, 3=发布
+    //@Required
+    private int flag;
+
+    public int getFlag() {return flag;}
+    public void setFlag(int tmpl) {this.flag = flag;}
     //文章的media:Text,Video,Audio,
     @Required
     private String media;

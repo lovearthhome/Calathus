@@ -54,10 +54,21 @@ public class ArticleService extends Service {
 
     public class ArticleBinder extends Binder implements ArticleInterface {
 
-
         @Override
         public String getData(String channel, String action,long tid, MyCallBack myCallBack) {
-            ArticleHelper.find(channel,action,tid, myCallBack);
+            ArticleHelper.getChannelArticles(channel,action,tid, myCallBack);
+            return null;
+        }
+
+        @Override
+        public String getReviewArticle( MyCallBack myCallBack) {
+            ArticleHelper.getReviewArticles(myCallBack);
+            return null;
+        }
+
+        @Override
+        public String setReviewArticle( long tid,int pass, MyCallBack myCallBack) {
+            ArticleHelper.reviewArticle(tid,pass, myCallBack);
             return null;
         }
 

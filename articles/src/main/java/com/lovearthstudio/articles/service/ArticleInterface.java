@@ -9,5 +9,9 @@ public interface ArticleInterface {
 
     String getData(String channel, String action,long tid, MyCallBack myCallBack);
 
+    String getReviewArticle(MyCallBack myCallBack);
+
+    String setReviewArticle(long tid, int pass,MyCallBack myCallBack);
+
     void netSuccess(String response);
 }

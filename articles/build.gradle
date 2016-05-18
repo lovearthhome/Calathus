@@ -44,6 +44,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile(name: 'duasdk-debug', ext: 'aar')
+    compile 'com.squareup.okhttp3:okhttp:3.1.2'
     /**
      * if 0.89.1 faild try 0.88.0
      *

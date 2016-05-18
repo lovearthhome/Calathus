@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Created by pro on 16/2/23.
  */
-public class IndexRequestParams {
+public class GetArtParams {
 
     public long dua_id;
     public String action;

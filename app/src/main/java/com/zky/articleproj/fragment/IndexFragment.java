@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.lovearthstudio.articles.constant.Constant;
-import com.lovearthstudio.articles.net.IndexRequestParams;
+import com.lovearthstudio.articles.net.GetArtParams;
 import com.lovearthstudio.articles.net.MyCallBack;
 import com.zky.articleproj.R;
 import com.zky.articleproj.adapter.adapter.IndexListAdapter;
@@ -45,7 +45,7 @@ public class IndexFragment extends BaseFragment {
     private boolean pull;
     private boolean push;
 
-    private IndexRequestParams getArtPrama;
+    private GetArtParams getArtPrama;
     private IndexCallBack mIndexCallBack;
 
     @ViewInject(R.id.list_view)
@@ -190,13 +190,14 @@ public class IndexFragment extends BaseFragment {
     class IndexCallBack implements MyCallBack {
 
         @Override
-        public void onFailure(String reason) {
+        public void onFailure(JSONObject reason) {
             mHandler.sendEmptyMessage(PARSE_DATA_ERROR);
         }
 
         @Override
-        public void onResponse(JSONArray articles) {
+        public void onResponse(JSONObject response) {
             try {
+                JSONArray articles = response.optJSONArray("data");
                 //这个地方,我们把服务器回来的数据和result合并
                 if (pull) {
                     if (articles == null || articles.length() == 0) {
@@ -220,11 +221,9 @@ public class IndexFragment extends BaseFragment {
                     }
                     push = false;
                     mHandler.sendEmptyMessage(PUSH);
-
                     Log.i("Channel-push "+channel, "load article count "+articles.length()+" to "+adapter.jsonArray.length() + "articles");
                     //System.out.println("----------:push");
                 } else {
-
                     if (articles == null || articles.length() == 0) {
                         Log.i("Channel-load "+channel, "load article count "+articles.length());
                         mHandler.sendEmptyMessage(LOAD_NOMORE);

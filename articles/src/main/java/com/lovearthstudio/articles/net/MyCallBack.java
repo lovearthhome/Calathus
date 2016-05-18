@@ -1,13 +1,13 @@
 package com.lovearthstudio.articles.net;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by zhaoliang on 16/4/6.
  */
 public interface MyCallBack {
 
-    void onFailure(String reason);
+    void onFailure(JSONObject result);
 
-    void onResponse(JSONArray articles);
+    void onResponse(JSONObject result);
 }

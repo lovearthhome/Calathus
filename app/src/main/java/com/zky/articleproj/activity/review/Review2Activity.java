@@ -11,17 +11,17 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.lovearthstudio.articles.net.IndexRequestParams;
+import com.lovearthstudio.articles.constant.Constant;
+import com.lovearthstudio.articles.net.GetArtParams;
+import com.lovearthstudio.articles.net.MyCallBack;
 import com.lovearthstudio.duasdk.util.JsonUtil;
 import com.lovearthstudio.duasdk.util.LogUtil;
-import com.nostra13.universalimageloader.utils.L;
 import com.zky.articleproj.R;
 import com.zky.articleproj.activity.review.item.ImageFragment;
 import com.zky.articleproj.activity.review.item.MusicFragment;
 import com.zky.articleproj.activity.review.item.TextFragment;
 import com.zky.articleproj.activity.review.item.VideoFragment;
 import com.zky.articleproj.base.BaseActivity;
-import com.zky.articleproj.net.NetCallBack;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,13 +29,6 @@ import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
-
-import java.io.IOException;
-import java.util.HashMap;
-
-import io.realm.internal.android.JsonUtils;
-import okhttp3.Call;
-import okhttp3.Response;
 
 @ContentView(R.layout.activity_review2)
 public class Review2Activity extends BaseActivity {
@@ -55,9 +48,11 @@ public class Review2Activity extends BaseActivity {
     @ViewInject(R.id.card_home_button)
     private Button card_home_button;
 
-    private IndexRequestParams getArtParams;
+    private GetArtParams getArtParams;
     private long artId;
     private int tmpl;
+    private getReviewArticleCallBack getReviewArticleCB;
+    private setReviewArticleCallBack setReviewArticleCB;
 
     Handler mHandler = new Handler() {
         @Override
@@ -76,30 +71,42 @@ public class Review2Activity extends BaseActivity {
                 case 401:
                     getSupportFragmentManager().beginTransaction().replace(R.id.review_fl_content, VideoFragment.newInstance(data)).commit();
                     break;
+                case 0:
+                    Toast.makeText(Review2Activity.this, data, Toast.LENGTH_SHORT).show();
+                    break;
                 default:
                     Toast.makeText(Review2Activity.this, "不可预料的模板: " + tmpl, Toast.LENGTH_SHORT).show();
             }
         }
     };
 
-    NetCallBack reviewCallBack = new NetCallBack() {
+
+    class getReviewArticleCallBack implements MyCallBack {
+
         @Override
-        public void onFailure(Call call, IOException e) {
+        public void onFailure(JSONObject reason) {
 
         }
 
         @Override
-        public void onResponse(Call call, Response response) throws IOException {
+        public void onResponse(JSONObject result) {
             try {
-                String bodyStr=response.body().string();
-
-                try {
-                    JSONObject jsonObject= JsonUtil.toJsonObject(bodyStr);
-                    if(jsonObject!=null){
-                        LogUtil.e(jsonObject.toString());
-                        String url=jsonObject.getJSONObject("result")
-                                .getJSONArray("data")
-                                .getJSONObject(0)
+                JSONArray articles = result.getJSONArray("data");
+                if(articles.length() == 0)
+                {
+                    Message obtain = Message.obtain();
+                    obtain.what = 0;
+                    obtain.obj = "没有文章了！";
+                    mHandler.sendMessage(obtain);
+                    return;
+                }else{
+                    String artStr = articles.get(0).toString();
+                    JSONObject artJson= JsonUtil.toJsonObject(artStr);
+                    tmpl = artJson.getJSONObject("content").getInt("tmpl");
+                    artId = artJson.getJSONObject("content").getLong("inc");
+                    if(artJson != null){
+                        LogUtil.e(artJson.toString());
+                        String url=artJson
                                 .getJSONObject("content")
                                 .getJSONArray("files")
                                 .getJSONObject(0)
@@ -108,43 +115,63 @@ public class Review2Activity extends BaseActivity {
                                 .getString("src");
                         LogUtil.e(url);
                     }
-                }catch (Exception e){
-                    e.printStackTrace();
 
+                    Message obtain = Message.obtain();
+                    obtain.what = tmpl;
+                    obtain.obj = artJson;
+                    mHandler.sendMessage(obtain);
                 }
-
-                JSONObject jsonResponse = new JSONObject(bodyStr);
-                JSONObject jsonResult = new JSONObject(jsonResponse.optString("result"));
-                JSONArray data = jsonResult.optJSONArray("data");
-                String strData0 = data.get(0).toString();
-                JSONObject jsodata0 = new JSONObject(strData0);
-
-                System.out.println("==========稿子数据" + jsonResult);
-
-                tmpl = jsodata0.getInt("tmpl");
-                artId = jsodata0.getLong("inc");
-
-                Message obtain = Message.obtain();
-                obtain.what = tmpl;
-                obtain.obj = strData0;
-                mHandler.sendMessage(obtain);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-    };
+    }
+
+    class setReviewArticleCallBack implements MyCallBack {
+
+        @Override
+        public void onFailure(JSONObject reason) {
+
+        }
+
+        @Override
+        public void onResponse(JSONObject result) {
+            try {
+                //FIXME: do nothing
+                int good = result.getInt("good");
+                int bad = result.getInt("bad");
+                if(result !=null)
+                {
+                    Message obtain = Message.obtain();
+                    obtain.what = 0;
+                    obtain.obj = "good:bad = "+good+"/"+bad;
+                    mHandler.sendMessage(obtain);
+                }
+                return;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Event({R.id.card_left_btn, R.id.card_right_btn,R.id.card_home_button})
     private void click(View view) {
         switch (view.getId()) {
             // FIXME:审稿不通过, 通知服务器不通过的稿子的id, 并请求新的审稿
             case R.id.card_left_btn:
-                post(getArtParams, reviewCallBack);
+                //当第一次加载这个Activity的时候，会加载一个审阅类文章
+                if (Constant.binder != null) {
+                    Constant.binder.setReviewArticle(artId,1/*通过*/, setReviewArticleCB);
+                    Constant.binder.getReviewArticle(getReviewArticleCB);
+                }
                 break;
 
             // FIXME:审稿通过, 通知服务器通过的稿子的id, 并请求新的审稿
             case R.id.card_right_btn:
-                post(getArtParams, reviewCallBack);
+                if (Constant.binder != null) {
+                    Constant.binder.setReviewArticle(artId,0/*通过*/, setReviewArticleCB);
+                    Constant.binder.getReviewArticle(getReviewArticleCB);
+                }
                 break;
 
             case R.id.card_home_button:
@@ -163,19 +190,17 @@ public class Review2Activity extends BaseActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-         /*
-        初始化请求参数
-         */
-        getArtParams = new IndexRequestParams();
-        getArtParams.action = "get_reviewArtile";
-        getArtParams.order = "inc DESC";
-        getArtParams.fields = new String[]{"inc", "star", "comt", "content", "good", "bad", "shar"};
-        getArtParams.rows = 1;
-        getArtParams.channel = "All";
-        getArtParams.filter = new HashMap<>();
-        getArtParams.filter.put("inc[>]", 0);
+        getReviewArticleCB = new getReviewArticleCallBack();
+        setReviewArticleCB = new setReviewArticleCallBack();
 
-        post(getArtParams, reviewCallBack);
+
+
+
+        //当第一次加载这个Activity的时候，会加载一个审阅类文章
+        if (Constant.binder != null) {
+            Constant.binder.getReviewArticle(getReviewArticleCB);
+        }
+
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

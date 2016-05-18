@@ -42,6 +42,7 @@ public class ArtDB {
                 String dataStr = data.get(i).toString();
                 JSONObject jsonItem = new JSONObject(dataStr);
                 int tmpl = jsonItem.optInt("tmpl");
+                int flag = jsonItem.optInt("flag");
 
 
 
@@ -66,8 +67,6 @@ public class ArtDB {
                     Log.e("insert2realm",dbitem.toString());
                 }
                 realm.commitTransaction();
-
-
             }
             //System.out.println("---------begin:" );
 
@@ -117,7 +116,27 @@ public class ArtDB {
 
     }
 
+    //获取审核的文章
+    public JSONArray loadReviewArticles(long tidref)
+    {
+        JSONArray result = new JSONArray();
+        //realm要求创建realm对象的语句和获取数据的语句必须在同一个线程
+        //所以这个要在这个地方getDefaultInstance
+        realm = Realm.getDefaultInstance();
+        //https://realm.io/docs/swift/latest/#limiting-results
+        //上面这个网页解释了为什么realm没有limit这个选项
+        RealmResults<ArtItem> items = realm.where(ArtItem.class)
+                .equalTo("flag",2)
+                .greaterThan("tid",tidref)
+                .findAll();
+        items.sort("tid",Sort.ASCENDING);
 
+        if (items.size() > 0)
+        {
+            result.put(items.get(0).getData());
+        }
+        return result;
+    }
 
     //第一次打开应用
     public JSONArray loadArticles(String channel,int limit)
@@ -246,6 +265,39 @@ public class ArtDB {
                         .greaterThanOrEqualTo("tid",tidmin)
                         .findAll();
                 items.sort("tid",Sort.DESCENDING);
+
+                limit = items.size()>limit?limit:items.size();
+                if(limit > 0)
+                {
+                    for (int i =  0; i <limit; i++) {
+                        result.put(items.get(i).getData());
+                    }
+                }
+            }
+        }
+        realm.commitTransaction();
+        return result;
+    }
+
+    //翻阅tid比tidref大的紧接着的limit的文章
+    public JSONArray nextArticles(String channel,long tidref,int limit)
+    {
+        JSONArray result = new JSONArray();
+        realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        ArtViewBlock avb = realm.where(ArtViewBlock.class).equalTo("channel",channel).findFirst();
+        if(avb != null)
+        {
+            long tidmin = avb.getTidmin();
+            if(tidmin < tidref)
+            {
+                //https://realm.io/docs/swift/latest/#limiting-results
+                //上面这个网页解释了为什么realm没有limit这个选项
+                RealmResults<ArtItem> items = realm.where(ArtItem.class)
+                        .equalTo("channel",channel)
+                        .greaterThan("tid",tidref)
+                        .findAll();
+                items.sort("tid",Sort.ASCENDING);
 
                 limit = items.size()>limit?limit:items.size();
                 if(limit > 0)

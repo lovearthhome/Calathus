@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/build/intermediates/res/merged/release/values/values.xml",
+        "outputFile": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\release\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,13 +11,13 @@
                     "endOffset": 468
                 },
                 "from": {
-                    "file": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/res/values/dimens.xml",
+                    "file": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
-                        "startOffset": 63,
+                        "startOffset": 65,
                         "endColumn": 49,
-                        "endOffset": 108
+                        "endOffset": 110
                     }
                 }
             },
@@ -30,13 +30,13 @@
                     "endOffset": 517
                 },
                 "from": {
-                    "file": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/res/values/dimens.xml",
+                    "file": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 113,
+                        "startOffset": 116,
                         "endColumn": 48,
-                        "endOffset": 157
+                        "endOffset": 160
                     }
                 }
             },
@@ -49,13 +49,13 @@
                     "endOffset": 564
                 },
                 "from": {
-                    "file": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/res/values/dimens.xml",
+                    "file": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 1,
                         "startColumn": 4,
-                        "startOffset": 16,
+                        "startOffset": 17,
                         "endColumn": 46,
-                        "endOffset": 58
+                        "endOffset": 59
                     }
                 }
             }
