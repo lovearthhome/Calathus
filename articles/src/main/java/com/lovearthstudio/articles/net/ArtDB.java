@@ -42,9 +42,6 @@ public class ArtDB {
                 String dataStr = data.get(i).toString();
                 JSONObject jsonItem = new JSONObject(dataStr);
                 int tmpl = jsonItem.optInt("tmpl");
-                int flag = jsonItem.optInt("flag");
-
-
 
                 //如果是广告的话，因为没有inc字段，所以在下一条解析inc的时候就出错了，这时候就没有调用后面的callback导致app一直在那旋转等待...
                 if(tmpl == 501)
@@ -285,12 +282,7 @@ public class ArtDB {
         JSONArray result = new JSONArray();
         realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        ArtViewBlock avb = realm.where(ArtViewBlock.class).equalTo("channel",channel).findFirst();
-        if(avb != null)
-        {
-            long tidmin = avb.getTidmin();
-            if(tidmin < tidref)
-            {
+
                 //https://realm.io/docs/swift/latest/#limiting-results
                 //上面这个网页解释了为什么realm没有limit这个选项
                 RealmResults<ArtItem> items = realm.where(ArtItem.class)
@@ -306,8 +298,7 @@ public class ArtDB {
                         result.put(items.get(i).getData());
                     }
                 }
-            }
-        }
+
         realm.commitTransaction();
         return result;
     }

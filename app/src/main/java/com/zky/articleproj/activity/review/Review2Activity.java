@@ -102,8 +102,9 @@ public class Review2Activity extends BaseActivity {
                 }else{
                     String artStr = articles.get(0).toString();
                     JSONObject artJson= JsonUtil.toJsonObject(artStr);
-                    tmpl = artJson.getJSONObject("content").getInt("tmpl");
-                    artId = artJson.getJSONObject("content").getLong("inc");
+                    JSONObject contentJson = artJson.getJSONObject("content");
+                    tmpl  = artJson.optInt("tmpl");
+                    artId = artJson.optLong("inc");
                     if(artJson != null){
                         LogUtil.e(artJson.toString());
                         String url=artJson
@@ -118,7 +119,7 @@ public class Review2Activity extends BaseActivity {
 
                     Message obtain = Message.obtain();
                     obtain.what = tmpl;
-                    obtain.obj = artJson;
+                    obtain.obj = artStr;
                     mHandler.sendMessage(obtain);
                 }
             } catch (JSONException e) {

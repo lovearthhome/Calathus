@@ -49,8 +49,9 @@ public class Articles {
      * load: 一开始的加载
      * pull: 获取新的数据
      * push: 获取旧的数据
+     * next: 大于tidref的数据
      */
-    public void getChannelArticles(String channel,String action, long tidref/*参考的tid*/, final MyCallBack myCallBack) {
+    public void getChannelArticles(String channel,final String action,final long tidref/*参考的tid*/, final MyCallBack myCallBack) {
         try {
             Log.i("articles.find", channel + "-" + action + " " + tidref);
 
@@ -96,6 +97,7 @@ public class Articles {
 
             mMyCallBack = myCallBack;
             getArtParams.action = "get_articles";
+            getArtParams.how = action;
             getArtParams.fields = new String[]{"inc", "star", "comt", "content", "good", "bad", "shar"};
             getArtParams.channel = channel;
             getArtParams.filter = new HashMap<>();
@@ -120,7 +122,6 @@ public class Articles {
                 getArtParams.rows = 20;
                 getArtParams.order = "inc ASC";
                 getArtParams.filter.clear();
-
                 getArtParams.filter.put("inc[>]", tidref);
             }
 
@@ -146,19 +147,27 @@ public class Articles {
                         }
                         //FIXME: 这个地方保存加载更新和加载更多的参数
                         JSONObject echo     = jsonResponse.optJSONObject("echo");
-                        JSONObject result   = jsonResponse.optJSONObject("result");
+                        String echo_how     = echo.optString("how");
                         String echo_channel = echo.optString("channel");
+                        JSONObject result   = jsonResponse.optJSONObject("result");
                         JSONArray data      = result.getJSONArray("data");
                         int count           = data.length();
-                        long new_inc_min    = Long.parseLong(result.getString("inc_min"));
-                        long new_inc_max    = Long.parseLong(result.getString("inc_max"));
-                        int nomore          = Integer.parseInt(result.optString("nomore"));
+                        long new_inc_min    = result.optLong("inc_min");
+                        long new_inc_max    = result.optLong("inc_max");
+                        int nomore          = result.optInt("nomore");
 
                         //如果服务器返回的数据都是有意义的，不是广告，也有数据
                         if(count > 0)
                         {
                             artdb.storeArticles(echo_channel,data,new_inc_max,new_inc_min,nomore);
-                            JSONArray myArticles = artdb.loadArticles(echo_channel,new_inc_min,new_inc_max);
+                            JSONArray myArticles;
+                            if(action == "pull"|| action == "push" || action == "load" )
+                            {
+                                myArticles = artdb.loadArticles(echo_channel,new_inc_min,new_inc_max);
+                            }else{
+                                myArticles = artdb.nextArticles(echo_channel,tidref,1);
+                            }
+
                             JSONObject myResult = new JSONObject();
                             myResult.put("data",myArticles);
                             myCallBack.onResponse(myResult);
@@ -218,6 +227,7 @@ public class Articles {
             Log.i("getReviewArticle","begin");
 
             setArtParams.tid = tid;
+            setArtParams.action = "set_article";
             setArtParams.filter.clear();
             if(pass == 1)
                 setArtParams.filter.put("good[+]",1);
@@ -226,30 +236,17 @@ public class Articles {
             artnb.setArticle(setArtParams,new MyCallBack(){
                 @Override
                 public void onFailure(JSONObject result) {
+                    Log.e("Articles","reviewArticle onFailure: "+result.toString());
                     myCallBack.onFailure(result);
                 }
                 @Override
                 public void onResponse(JSONObject jsonResponse) {
                     try {
-                        if(jsonResponse == null)
-                        {
-                            myCallBack.onFailure(null);
-                            return;
-                        }
-
-                        if(jsonResponse.optInt("status") != 0)
-                        {
-                            //FIXME: 把错误信息发前端显示
-
-                            return;
-                        }
                         myCallBack.onResponse(jsonResponse);
-                        //FIXME: 这个地方保存加载更新和加载更多的参数
-
                     }catch (Exception e) {
                         Log.e("Error",e.toString());
                         e.printStackTrace();
-                        myCallBack.onResponse(null);
+                        myCallBack.onFailure(null);
                     }
                 }
             });
