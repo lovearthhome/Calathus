@@ -10,6 +10,7 @@ public class SetArtParams {
     public long dua_id;
     public long tid;
     public String action;
+    public String how;
     public Map<String, Object> filter;
 
     public class Filter {

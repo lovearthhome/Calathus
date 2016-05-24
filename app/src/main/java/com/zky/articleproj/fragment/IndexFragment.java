@@ -112,7 +112,7 @@ public class IndexFragment extends BaseFragment {
         Log.i("Channel-"+channel, " try to Load article of " + channel);
         if (Constant.binder != null) {
             Log.i("Channel-"+channel, "do  to Load article of " + channel);
-            Constant.binder.getData(channel, "load", 0, mIndexCallBack);
+            Constant.binder.getChannelArticles(channel, "load", 0, mIndexCallBack);
         }
 
     }
@@ -164,7 +164,7 @@ public class IndexFragment extends BaseFragment {
                         tidref = jsonObject.getInt("inc");
                     }
                     if(Constant.binder != null)
-                    Constant.binder.getData(channel, "pull", tidref, mIndexCallBack);
+                    Constant.binder.getChannelArticles(channel, "pull", tidref, mIndexCallBack);
                 } catch (JSONException e) {
                     Log.e("jsonError", e.toString());
                 }
@@ -179,7 +179,7 @@ public class IndexFragment extends BaseFragment {
                     JSONObject jsonObject = new JSONObject(adapter.jsonArray.get(maxi).toString());
                     long tid = jsonObject.getInt("inc");
                     if(Constant.binder != null)
-                    Constant.binder.getData(channel, "push", tid, mIndexCallBack);
+                    Constant.binder.getChannelArticles(channel, "push", tid, mIndexCallBack);
                 } catch (JSONException e) {
                     Log.e("jsonError", e.toString());
                 }
@@ -256,17 +256,5 @@ public class IndexFragment extends BaseFragment {
         return fragment;
     }
 
-//    class RomoteServiceConnection implements ServiceConnection {
-//
-//        @Override
-//        public void onServiceConnected(ComponentName name, IBinder service) {
-//            Constant.binder = (ArticleService.ArticleBinder) service;
-//            Constant.binder.getData(channel, "load", 0, mIndexCallBack);
-//        }
-//
-//        @Override
-//        public void onServiceDisconnected(ComponentName name) {
-//
-//        }
-//    }
+
 }

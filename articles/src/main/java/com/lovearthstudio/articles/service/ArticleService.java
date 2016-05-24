@@ -47,34 +47,20 @@ public class ArticleService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public String getData() {
-        //System.out.println("------------Service getData");
-        return "haha";
-    }
-
     public class ArticleBinder extends Binder implements ArticleInterface {
 
         @Override
-        public String getData(String channel, String action,long tid, MyCallBack myCallBack) {
-            ArticleHelper.getChannelArticles(channel,action,tid, myCallBack);
+        public String getChannelArticles(String channel, String action, long tid, MyCallBack myCallBack) {
+            ArticleHelper.getArticles(channel,action,tid, myCallBack);
             return null;
         }
 
+
         @Override
-        public String getReviewArticle( MyCallBack myCallBack) {
-            ArticleHelper.getReviewArticles(myCallBack);
+        public String setArticle(long tid,String from,String which, int param, MyCallBack myCallBack) {
+            ArticleHelper.setArticle(tid,from,which,param, myCallBack);
             return null;
         }
 
-        @Override
-        public String setReviewArticle( long tid,int pass, MyCallBack myCallBack) {
-            ArticleHelper.reviewArticle(tid,pass, myCallBack);
-            return null;
-        }
-
-        @Override
-        public void netSuccess(String response) {
-            //System.out.println("--------------远程收到数据:" + response);
-        }
     }
 }

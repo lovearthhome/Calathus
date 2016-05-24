@@ -89,6 +89,7 @@ public class VideoCard extends BaseCardView {
         JSONObject video_file = video_farray.getJSONObject(0);
         video_src = video_file.optString("src");
 
+        //早期，有些图片没有缩略图
         JSONObject file1 = art_files.getJSONObject(1);
         JSONArray image_farray = file1.optJSONArray("farray");
         JSONObject image_file = image_farray.getJSONObject(0);

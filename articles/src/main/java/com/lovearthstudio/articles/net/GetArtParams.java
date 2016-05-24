@@ -7,11 +7,13 @@ import java.util.Map;
  */
 public class GetArtParams {
     public long dua_id;
+    public String channel;
     public String action;
     public String how;
+    public long tidref;
     public String order;
     public int rows;
-    public String channel;
+
 
     public Map<String, Object> filter;
 

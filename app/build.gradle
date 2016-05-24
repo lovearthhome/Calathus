@@ -44,13 +44,13 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     /* bibi jkplayer */
     compile(name: 'duasdk-debug', ext: 'aar')
-    compile 'net.rimoto:intlphoneinput:0.9.3'
-    compile 'cn.qqtheme.framework:WheelPicker:1.1.2'
     /* compile 'com.facebook.fresco:fresco:0.9.0.+'*/
     // Glide's OkHttp3 Integration
     compile project(':articles')
     // compile 'com.github.iammert:MusicPlayerView:e3b937c729'
     compile project(':mpv')
+    compile 'net.rimoto:intlphoneinput:0.9.3'
+    compile 'cn.qqtheme.framework:WheelPicker:1.1.2'
     compile 'com.squareup.okhttp3:okhttp:3.1.2'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.android.support:appcompat-v7:24.0.0-alpha2'

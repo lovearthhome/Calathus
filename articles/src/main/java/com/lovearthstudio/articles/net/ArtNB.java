@@ -28,16 +28,25 @@ public class ArtNB {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     public static int NETWORK_FAILURE = 1;
-    public static int SERVER_FAILURE  = 2;
-    public static int SERVER_NOARTICLE = 3;
+    public static int JSON_FAILURE    = 2;
+    public static int SERVER_FAILURE  = 3;
+
 
     public ArtNB() {
         httpClient = new OkHttpClient();
     }
 
-
     /**
-     * 对tid的文章设置各个域
+     * 根据setArtParams指定的参数，发送网络请求，并在response时回掉myCallBack
+     * 回调接口返回如下
+     * 1： OnFailure(JSONObject(1=网络通讯错误,"错误原因"));
+     * 3： OnFailure(JSONObject(2=数据格式错误,"错误原因"));
+     * 2： OnFailure(JSONObject(>100000=服务逻辑错误,"错误原因"));
+     *
+     *
+     * 4： OnResponse(jsonResponse)//成功返回
+     * @param setArtParams 在Articles.java中设置
+     * @param myCallBack 回掉接口
      */
     public void setArticle(SetArtParams setArtParams,final  MyCallBack myCallBack) {
 
@@ -55,29 +64,19 @@ public class ArtNB {
             @Override
             public void onResponse(Call call, Response response) throws  IOException{
                 try {
+                    //下面解析如果解析错了，就会进入try catch 里面，所以不要专门为它判断null
                     JSONObject jsonResponse = new JSONObject(response.body().string());
-                    //FIXME: 这个地方，如果出错了，那么就是服务器数据链路出错或者服务器返回500等错误
-                    if (jsonResponse == null) {
-                        myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail to transfer response body to JSONObject"));
-                        return;
+                    if (jsonResponse.optInt("status") !=  0) {
+                        myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail with error code:"+ jsonResponse.optInt("status")));
+                    }else{
+                        myCallBack.onResponse(jsonResponse);
                     }
-                    int ret_status = jsonResponse.optInt("status");
-                    //FIXME: 这个地方，如果出错了，没有获得服务器的文章，那么就应该合适的告诉APP.不应该把错误蔓延下去。
-                    if (ret_status !=  0) {
-                        myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail with error code:"+ ret_status));
-                        return;
-                    }
-                    myCallBack.onResponse(jsonResponse);
-
                 } catch (JSONException e) {
-                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail with JSONExecption:" + e.toString()));
-                    return;
+                    myCallBack.onFailure(doOnFailure(JSON_FAILURE,"Fail with JSONExecption:" + e.toString()));
                 }catch (IOException e){
                     myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail with IOExecption: "+e.toString()));
-                    return;
                 }catch (Exception e){
                     myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail with Execption: "+e.toString()));
-                    return;
                 }
             }
         });
@@ -85,9 +84,16 @@ public class ArtNB {
 
 
     /**
-     * 获取审核文章
+     * 根据setArtParams指定的参数，发送网络请求，并在response时回掉myCallBack
+     * 回调接口返回如下
+     * 1： OnFailure(JSONObject(1=网络通讯错误,"错误原因"));
+     * 3： OnFailure(JSONObject(2=数据格式错误,"错误原因"));
+     * 2： OnFailure(JSONObject(>100000=服务逻辑错误,"错误原因"));
+     *
+     * 4： OnResponse(jsonResponse)//成功返回
+     * @param getArtParams
+     * @param myCallBack
      */
-
     public void getArticles(GetArtParams getArtParams, final MyCallBack myCallBack) {
         String requestParams = com.alibaba.fastjson.JSON.toJSONString(getArtParams);
         Log.i("Articles-ArtNB","getArticles "+requestParams);
@@ -109,35 +115,20 @@ public class ArtNB {
                     //FIXME: 这个地方，有可能是网管服务器给的错误，比如，计算所。返回：﻿﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"开头的计算所无线网络portal认证页面
                     //fixme: 这种情况下，jsonResponse不确定是谁，直接跳到catch JSONException这个语句.
                     JSONObject jsonResponse = new JSONObject(response_body_string);
-
-                    if (jsonResponse == null) {
-                        myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail to transfer response body to JSONObject"));
-                        return;
+                    if (jsonResponse.optInt("status") !=  0) {
+                        myCallBack.onFailure(jsonResponse);
+                    }else{
+                        myCallBack.onResponse(jsonResponse);
                     }
-                    int ret_status = jsonResponse.optInt("status");
-                    //FIXME: 100120=没有数据
-                    if (ret_status == 100120) {
-                        myCallBack.onFailure(doOnFailure(SERVER_NOARTICLE,"No article found in server!"));
-                        return;
-                    }
-                    //FIXME: 这个地方，如果出错了，没有获得服务器的文章，那么就应该合适的告诉APP.不应该把错误蔓延下去。
-                    if (ret_status !=  0) {
-                        myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail with error code:"+ ret_status));
-                        return;
-                    }
-                    myCallBack.onResponse(jsonResponse);
-                    return;
                 } catch (JSONException e) {
-                    Log.e("Error",e.toString());
                     e.printStackTrace();
-                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail with JSONExecption: "+e.toString()));
-                    return;
+                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"JSONExecption: "+e.toString()));
                 } catch (IOException e){
-                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail with IOExecption: "+e.toString()));
-                    return;
+                    e.printStackTrace();
+                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"IOExecption: "+e.toString()));
                 }catch (Exception e){
-                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail with Execption: "+e.toString()));
-                    return;
+                    e.printStackTrace();
+                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Execption: "+e.toString()));
                 }
             }
         });

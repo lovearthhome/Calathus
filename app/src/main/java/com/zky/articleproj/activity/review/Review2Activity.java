@@ -138,18 +138,11 @@ public class Review2Activity extends BaseActivity {
         @Override
         public void onResponse(JSONObject result) {
             try {
-                //FIXME: do nothing
-                int good = result.getInt("good");
-                int bad = result.getInt("bad");
-                if(result !=null)
+                if(result.optInt("status") == 0)
                 {
-                    Message obtain = Message.obtain();
-                    obtain.what = 0;
-                    obtain.obj = "good:bad = "+good+"/"+bad;
-                    mHandler.sendMessage(obtain);
+                    Constant.binder.getChannelArticles("Review","next",0,getReviewArticleCB);
                 }
-                return;
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -162,16 +155,14 @@ public class Review2Activity extends BaseActivity {
             case R.id.card_left_btn:
                 //当第一次加载这个Activity的时候，会加载一个审阅类文章
                 if (Constant.binder != null) {
-                    Constant.binder.setReviewArticle(artId,1/*通过*/, setReviewArticleCB);
-                    Constant.binder.getReviewArticle(getReviewArticleCB);
+                    Constant.binder.setArticle(artId,"Review","good[+]",1, setReviewArticleCB);
                 }
                 break;
 
             // FIXME:审稿通过, 通知服务器通过的稿子的id, 并请求新的审稿
             case R.id.card_right_btn:
                 if (Constant.binder != null) {
-                    Constant.binder.setReviewArticle(artId,0/*通过*/, setReviewArticleCB);
-                    Constant.binder.getReviewArticle(getReviewArticleCB);
+                    Constant.binder.setArticle(artId,"Review","bad[+]",1, setReviewArticleCB);
                 }
                 break;
 
@@ -195,11 +186,9 @@ public class Review2Activity extends BaseActivity {
         setReviewArticleCB = new setReviewArticleCallBack();
 
 
-
-
         //当第一次加载这个Activity的时候，会加载一个审阅类文章
         if (Constant.binder != null) {
-            Constant.binder.getReviewArticle(getReviewArticleCB);
+            Constant.binder.getChannelArticles("Review","next",0,getReviewArticleCB);
         }
 
     }
