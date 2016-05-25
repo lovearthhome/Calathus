@@ -11,6 +11,8 @@ public class SetArtParams {
     public long tid;
     public String action;
     public String how;
+    public String field;
+    public int param;
     public Map<String, Object> filter;
 
     public class Filter {

@@ -217,9 +217,12 @@ public class Articles {
         try{
             setArtParams.tid = tid;
             setArtParams.action = "set_article";
-            setArtParams.how = from;
+            setArtParams.how = from; //"Review"
+            setArtParams.field = which; //"good"
+            setArtParams.param = param; // 1
             setArtParams.filter.clear();
             setArtParams.filter.put(which,param);
+
 
             Log.i("Articles",setArtParams.tid+" "+setArtParams.how);
 
