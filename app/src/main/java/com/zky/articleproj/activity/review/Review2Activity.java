@@ -16,7 +16,6 @@ import com.lovearthstudio.articles.net.GetArtParams;
 import com.lovearthstudio.articles.net.MyCallBack;
 import com.lovearthstudio.duasdk.util.JsonUtil;
 import com.lovearthstudio.duasdk.util.LogUtil;
-import com.nostra13.universalimageloader.utils.L;
 import com.zky.articleproj.R;
 import com.zky.articleproj.activity.review.item.GifFragment;
 import com.zky.articleproj.activity.review.item.ImageFragment;
@@ -159,14 +158,14 @@ public class Review2Activity extends BaseActivity {
             case R.id.card_left_btn:
                 //当第一次加载这个Activity的时候，会加载一个审阅类文章
                 if (Constant.binder != null) {
-                    Constant.binder.setArticle(artId,"Review","good[+]",1, setReviewArticleCB);
+                    Constant.binder.setArticle(artId,"Review","good",1, setReviewArticleCB);
                 }
                 break;
 
             // FIXME:审稿通过, 通知服务器通过的稿子的id, 并请求新的审稿
             case R.id.card_right_btn:
                 if (Constant.binder != null) {
-                    Constant.binder.setArticle(artId,"Review","bad[+]",1, setReviewArticleCB);
+                    Constant.binder.setArticle(artId,"Review","bad",1, setReviewArticleCB);
                 }
                 break;
 

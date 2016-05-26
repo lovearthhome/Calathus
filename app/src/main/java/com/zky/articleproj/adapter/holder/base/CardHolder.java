@@ -11,6 +11,7 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.TextView;
 
+import com.lovearthstudio.articles.net.MyCallBack;
 import com.squareup.picasso.Picasso;
 import com.zky.articleproj.R;
 import com.zky.articleproj.activity.MoreActivity;
@@ -64,12 +65,19 @@ public abstract class CardHolder extends BaseHolder {
 
     private JSONObject jsonObject;
 
+    /**
+     * 文章的id
+     */
+    private long mTid;
+
     // 点赞+1动画
     public Animation animation;
     public ScaleAnimation scaleAnimation;
     public RotateAnimation rotateAnimation;
     public AnimationSet animationSet;
 
+
+    private setViewArticleCallBack setViewArticleCB;
 
     public CardHolder(View itemView) {
         super(itemView);
@@ -113,18 +121,30 @@ public abstract class CardHolder extends BaseHolder {
             case R.id.tv_arrow:
                 view.startAnimation(animationSet);
                 playAnimation(tv_arrow_animation);
-                event.put("act", "good");
+                //event.put("act", "good");
+                if (com.lovearthstudio.articles.constant.Constant.binder != null) {
+                    com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid,"View","good",1, setViewArticleCB);
+                }
                 break;
             case R.id.tv_narrow:
                 view.startAnimation(animationSet);
                 playAnimation(tv_narrow_animation);
-                event.put("act", "bad");
+                //event.put("act", "bad");
+                if (com.lovearthstudio.articles.constant.Constant.binder != null) {
+                    com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid,"View","bad",1, setViewArticleCB);
+                }
                 break;
             case R.id.tv_comment:
-                event.put("act", "comt");
+                //event.put("act", "comt");
+                if (com.lovearthstudio.articles.constant.Constant.binder != null) {
+                    com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid,"View","comt",1, setViewArticleCB);
+                }
                 break;
             case R.id.tv_share:
-                event.put("act", "shar");
+                //event.put("act", "shar");
+                if (com.lovearthstudio.articles.constant.Constant.binder != null) {
+                    com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid,"View","shar",1, setViewArticleCB);
+                }
                 break;
             case R.id.iv_more:
                 context.startActivity(new Intent(context, MoreActivity.class));
@@ -135,6 +155,19 @@ public abstract class CardHolder extends BaseHolder {
         //postArtState(arcStateParam);
     }
 
+
+    class setViewArticleCallBack implements MyCallBack {
+
+        @Override
+        public void onFailure(JSONObject reason) {
+
+        }
+
+        @Override
+        public void onResponse(JSONObject result) {
+
+        }
+    }
     public void playAnimation(final View view) {
         view.setVisibility(View.VISIBLE);
         view.startAnimation(animation);
@@ -155,6 +188,7 @@ public abstract class CardHolder extends BaseHolder {
              *
              * */
             //String editor_name = jsonObject.optString("editor_name");
+            mTid = jsonObject.optLong("inc");
             /**
              * 头部信息
              */
