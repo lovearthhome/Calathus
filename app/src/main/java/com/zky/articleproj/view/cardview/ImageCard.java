@@ -18,6 +18,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.lovearthstudio.duasdk.Dua;
 import com.zky.articleproj.R;
 import com.zky.articleproj.constant.Constant;
 import com.zky.articleproj.net.glideprogress.ProgressListener;
@@ -31,6 +35,7 @@ import org.xutils.view.annotation.Event;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -184,6 +189,11 @@ public class ImageCard extends BaseCardView implements View.OnClickListener {
         Glide.get(context).register(GlideUrl.class, InputStream.class,
                 new OkHttpUrlLoader.Factory(mOkHttpClient));
 
+        /***
+         * You return true if want to handle things like animations yourself and false if want glide to handle them for you.
+         * 用listener就可以获取glide的各个事件
+         */
+        final long  pmcBeginTime = Calendar.getInstance().getTimeInMillis();
         Glide.with(context)
                 // .load("http://pic36.nipic.com/20131217/6704106_233034463381_2.jpg")
                 .load(Constant.baseFileUrl + img_src)
@@ -194,6 +204,21 @@ public class ImageCard extends BaseCardView implements View.OnClickListener {
                 // You may want to enable caching again in production
                 .fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        long pmcOverTime = Calendar.getInstance().getTimeInMillis();
+
+
+                        Dua.getInstance().setAppPmc("GetImage",img_size/(50*1024),"50kb",pmcOverTime - pmcBeginTime,"ms");
+                        return false;
+                    }
+                })
                 .into(iv_img);
 
 

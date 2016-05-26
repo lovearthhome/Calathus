@@ -2,17 +2,13 @@ package com.zky.articleproj.view.cardview;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,8 +17,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.model.GlideUrl;
-import com.lovearthstudio.duasdk.util.JsonUtil;
-import com.lovearthstudio.duasdk.util.LogUtil;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.lovearthstudio.duasdk.Dua;
 import com.zky.articleproj.R;
 import com.zky.articleproj.constant.Constant;
 import com.zky.articleproj.net.glideprogress.ProgressListener;
@@ -32,10 +30,10 @@ import com.zky.articleproj.view.cardview.base.BaseCardView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xutils.view.annotation.Event;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Calendar;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -164,6 +162,7 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
                 new OkHttpUrlLoader.Factory(mOkHttpClient));
 
         gif_url = Constant.baseFileUrl + img_src;
+        final long  pmcBeginTime = Calendar.getInstance().getTimeInMillis();
         Glide.with(context)
                 //.load("http://ww2.sinaimg.cn/large/85cccab3tw1esjq9r0pcpg20d3086qtr.jpg")
                 .load(gif_url)
@@ -174,6 +173,19 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
                 // You may want to enable caching again in production
                 .fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        long pmcOverTime = Calendar.getInstance().getTimeInMillis();
+                        Dua.getInstance().setAppPmc("GetGif",img_size/(50*1024),"50kb",pmcOverTime - pmcBeginTime,"ms");
+                        return false;
+                    }
+                })
                 .into(iv_gif);
 
         if ("null".equals(gif_title) || TextUtils.isEmpty(gif_title)) {
