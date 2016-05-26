@@ -43,10 +43,10 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     /* bibi jkplayer */
-    compile(name: 'duasdk-debug', ext: 'aar')
     /* compile 'com.facebook.fresco:fresco:0.9.0.+'*/
     // Glide's OkHttp3 Integration
     compile project(':articles')
+    compile(name: 'duasdk-debug', ext: 'aar')
     // compile 'com.github.iammert:MusicPlayerView:e3b937c729'
     compile project(':mpv')
     compile 'net.rimoto:intlphoneinput:0.9.3'

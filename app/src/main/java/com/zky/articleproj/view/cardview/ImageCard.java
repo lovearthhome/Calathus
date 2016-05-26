@@ -41,7 +41,6 @@ import okhttp3.Response;
  * Created by zhaoliang on 16/5/12.
  */
 public class ImageCard extends BaseCardView implements View.OnClickListener {
-
     private static final String TAG = "========" + ImageCard.class.getName();
 
     private TextView tv_music_title;

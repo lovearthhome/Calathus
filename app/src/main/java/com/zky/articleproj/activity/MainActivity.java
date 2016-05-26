@@ -30,6 +30,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.lovearthstudio.articles.service.ArticleService;
 import com.lovearthstudio.duasdk.Dua;
+import com.lovearthstudio.duasdk.ui.DuaActivityLogin;
+import com.lovearthstudio.duasdk.ui.DuaActivityProfile;
 import com.lovearthstudio.duasdk.util.LogUtil;
 import com.zky.articleproj.R;
 import com.zky.articleproj.activity.menu.About_Activity;
@@ -94,22 +96,7 @@ public class MainActivity extends BaseActivity {
         bindService(new Intent(this, ArticleService.class), ArticleServiceConnection, Context.BIND_AUTO_CREATE);
 
         getConstant();
-
         dua=Dua.init(getApplicationContext());
-//        dua.getCurrentDuaId(new MyCallBack() {
-//            @Override
-//            public void onSuccess(String s) {
-//                //System.out.println("--------" + s);
-//                Constant.dua_id=Long.parseLong(s);
-//            }
-//
-//            @Override
-//            public void onError(String s) {
-//
-//            }
-//        });
-
-
         headView = mNavigationView.getHeaderView(0);
         user_icon = (ImageView) headView.findViewById(R.id.user_icon);
         userName=(TextView)headView.findViewById(R.id.textView_user_name);
@@ -132,7 +119,7 @@ public class MainActivity extends BaseActivity {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-                if(dua.getLoginState()){
+                if(dua.getCurrentDuaUser().logon){
                     switch (item.getItemId()) {
                         case R.id.nav_settings:
                             startActivity(new Intent(MainActivity.this, SettingActivity.class));
@@ -235,10 +222,16 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         //dua.duaAwake();
         LogUtil.e("onResume is called");
-        if(dua.getLoginState()){
+        if(dua.getCurrentDuaUser().logon){
 //            user_icon.setImageURI();  //更改头像图片
+            user_icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this,DuaActivityProfile.class));
+                }
+            });
             userName.setText("已经登录");
-            if(dua.getCurrentRules().contains("review_article")){
+            if(dua.duaUser.rules.contains("review_article")){
                 reviewItem.setVisible(true);
             }
         }else {
@@ -254,7 +247,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void goLogin(){
-        startActivityForResult(new Intent(MainActivity.this, com.lovearthstudio.duasdk.ui.DuaActivityLogin.class),DUA_LOGIN_REQUEST_CODE);
+        startActivityForResult(new Intent(MainActivity.this, DuaActivityLogin.class),DUA_LOGIN_REQUEST_CODE);
     }
 
 

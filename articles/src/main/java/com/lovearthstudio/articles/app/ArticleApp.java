@@ -16,7 +16,6 @@ public class ArticleApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         RealmConfiguration config = new RealmConfiguration.Builder(getApplicationContext()).setModules(new ArtModule()).build();
         Realm.setDefaultConfiguration(config);
     }

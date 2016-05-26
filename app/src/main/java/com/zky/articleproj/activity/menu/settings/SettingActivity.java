@@ -35,7 +35,7 @@ public class SettingActivity extends BaseActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if(!Dua.getInstance().getLoginState()){
+        if(!Dua.getInstance().getCurrentDuaUser().logon){
             button_logout.setEnabled(false);
             button_logout.setVisibility(View.GONE);
         }

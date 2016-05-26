@@ -16,7 +16,9 @@ import com.lovearthstudio.articles.net.GetArtParams;
 import com.lovearthstudio.articles.net.MyCallBack;
 import com.lovearthstudio.duasdk.util.JsonUtil;
 import com.lovearthstudio.duasdk.util.LogUtil;
+import com.nostra13.universalimageloader.utils.L;
 import com.zky.articleproj.R;
+import com.zky.articleproj.activity.review.item.GifFragment;
 import com.zky.articleproj.activity.review.item.ImageFragment;
 import com.zky.articleproj.activity.review.item.MusicFragment;
 import com.zky.articleproj.activity.review.item.TextFragment;
@@ -65,6 +67,9 @@ public class Review2Activity extends BaseActivity {
                 case 201:
                     getSupportFragmentManager().beginTransaction().replace(R.id.review_fl_content, ImageFragment.newInstance(data)).commit();
                     break;
+                case 202:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.review_fl_content, GifFragment.newInstance(data)).commit();
+                    break;
                 case 301:
                     getSupportFragmentManager().beginTransaction().replace(R.id.review_fl_content, MusicFragment.newInstance(data)).commit();
                     break;
@@ -106,7 +111,6 @@ public class Review2Activity extends BaseActivity {
                     tmpl  = artJson.optInt("tmpl");
                     artId = artJson.optLong("inc");
                     if(artJson != null){
-                        LogUtil.e(artJson.toString());
                         String url=artJson
                                 .getJSONObject("content")
                                 .getJSONArray("files")

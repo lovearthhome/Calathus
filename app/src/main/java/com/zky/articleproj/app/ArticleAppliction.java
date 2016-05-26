@@ -3,6 +3,8 @@ package com.zky.articleproj.app;
 import android.app.Application;
 
 
+import com.lovearthstudio.duasdk.Dua;
+
 import org.xutils.x;
 
 
@@ -16,7 +18,10 @@ public class ArticleAppliction extends Application {
         super.onCreate();
 
         initXutils();
-
+        /**
+         * 为保证使用dua的时候dua已经初始化了，在这个地方init一下。
+        * */
+        Dua.init(this);
     }
 
     /**
