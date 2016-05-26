@@ -25,5 +25,10 @@ public class Constant {
     public static float mainPadding;
     public static float mainItemPadding;
 
+    /*每次向网络文章请求的文章数目*/
+    public static final int artnbArticleCountPerFetch = 20;
+    /*每次向数据库文章请求的文章数目*/
+    public static final int artdbArticleCountPerFetch = 20;
+
     public static ArticleService.ArticleBinder binder;
 }

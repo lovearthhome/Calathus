@@ -5,10 +5,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.lovearthstudio.articles.constant.Constant;
+import com.lovearthstudio.duasdk.Dua;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
 import io.realm.Realm;
@@ -75,14 +79,14 @@ public class Articles {
             JSONObject dbresult = new JSONObject();
             JSONArray dbarticles;
             if (action == "load") {
-                dbarticles = artdb.loadArticles(channel, 20);
+                dbarticles = artdb.loadArticles(channel, Constant.artdbArticleCountPerFetch);
                 dbresult.put("data", dbarticles);
                 myCallBack.onResponse(dbresult);
                 return;
             }
 
             if (action == "pull") {
-                dbarticles = artdb.pullArticles(channel, tidref, 20);
+                dbarticles = artdb.pullArticles(channel, tidref, Constant.artdbArticleCountPerFetch);
                 if (dbarticles.length() != 0) {
                     dbresult.put("data", dbarticles);
                     myCallBack.onResponse(dbresult);
@@ -91,7 +95,7 @@ public class Articles {
             }
 
             if (action == "push") {
-                dbarticles = artdb.pushArticles(channel, tidref, 20);
+                dbarticles = artdb.pushArticles(channel, tidref, Constant.artdbArticleCountPerFetch);
                 if (dbarticles.length() != 0) {
                     dbresult.put("data", dbarticles);
                     myCallBack.onResponse(dbresult);
@@ -118,25 +122,27 @@ public class Articles {
 
             if(action == "pull")
             {
-                getArtParams.rows = 20;
+                getArtParams.rows = Constant.artdbArticleCountPerFetch;
                 getArtParams.filter.clear();
                 getArtParams.order = "inc DESC";
                 getArtParams.filter.put("inc[>]", tidref);
             }
             if(action == "push")
             {
-                getArtParams.rows = 20;
+                getArtParams.rows = Constant.artdbArticleCountPerFetch;
                 getArtParams.filter.clear();
                 getArtParams.order = "inc DESC";
                 getArtParams.filter.put("inc[<]", tidref);
             }
             if(action == "next")
             {
-                getArtParams.rows = 20;
+                getArtParams.rows = Constant.artdbArticleCountPerFetch;
                 getArtParams.order = "inc ASC";
                 getArtParams.filter.clear();
                 getArtParams.filter.put("inc[>]", tidref);
             }
+
+            final long  pmcBeginTime = Calendar.getInstance().getTimeInMillis();
 
             artnb.getArticles(getArtParams,new MyCallBack(){
                 @Override
@@ -188,6 +194,8 @@ public class Articles {
                             JSONObject myResult = new JSONObject();
                             myResult.put("data",myArticles);
                             myCallBack.onResponse(myResult);
+                            long pmcOverTime = Calendar.getInstance().getTimeInMillis();
+                            Dua.getInstance().setAppPmc("GetArts",count,pmcOverTime - pmcBeginTime);
                         }else{
                             JSONObject myResult = new JSONObject();
                             myResult.put("data",new JSONArray());
@@ -225,7 +233,7 @@ public class Articles {
 
 
             Log.i("Articles",setArtParams.tid+" "+setArtParams.how);
-
+            final long  pmcBeginTime = Calendar.getInstance().getTimeInMillis();
             artnb.setArticle(setArtParams,new MyCallBack(){
                 @Override
                 public void onFailure(JSONObject result) {
@@ -250,6 +258,8 @@ public class Articles {
                                 //使用toast信息提示框提示成功写入数据
                                 //Toast.makeText(mContext, "数据成功写入SharedPreferences！" , Toast.LENGTH_LONG).show();
                             }
+                            long pmcOverTime = Calendar.getInstance().getTimeInMillis();
+                            Dua.getInstance().setAppPmc("SetArts",1,pmcOverTime - pmcBeginTime);
                             myCallBack.onResponse(jsonResponse);
                         } else{
                             myCallBack.onFailure(jsonResponse);
