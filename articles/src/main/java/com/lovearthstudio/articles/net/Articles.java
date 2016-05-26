@@ -195,7 +195,7 @@ public class Articles {
                             myResult.put("data",myArticles);
                             myCallBack.onResponse(myResult);
                             long pmcOverTime = Calendar.getInstance().getTimeInMillis();
-                            Dua.getInstance().setAppPmc("GetArts",count,pmcOverTime - pmcBeginTime);
+                            Dua.getInstance().setAppPmc("GetArts",count,"1",pmcOverTime - pmcBeginTime,"ms");
                         }else{
                             JSONObject myResult = new JSONObject();
                             myResult.put("data",new JSONArray());
@@ -259,7 +259,7 @@ public class Articles {
                                 //Toast.makeText(mContext, "数据成功写入SharedPreferences！" , Toast.LENGTH_LONG).show();
                             }
                             long pmcOverTime = Calendar.getInstance().getTimeInMillis();
-                            Dua.getInstance().setAppPmc("SetArts",1,pmcOverTime - pmcBeginTime);
+                            Dua.getInstance().setAppPmc("SetArts",1,"1",pmcOverTime - pmcBeginTime,"ms");
                             myCallBack.onResponse(jsonResponse);
                         } else{
                             myCallBack.onFailure(jsonResponse);
