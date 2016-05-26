@@ -48,11 +48,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="com.yimingyu.android.lib.duasdk.DuaService"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity
             android:name=".activity.MoreActivity"
             android:screenOrientation="portrait" />
@@ -70,9 +65,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.menu.followee.FolloweeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.stone.card.ReviewActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.menu.settings.SettingActivity"
