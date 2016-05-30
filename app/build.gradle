@@ -41,9 +41,11 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     /* bibi jkplayer */
+
     /* compile 'com.facebook.fresco:fresco:0.9.0.+'*/
+
     // Glide's OkHttp3 Integration
     compile project(':articles')
     compile(name: 'duasdk-debug', ext: 'aar')
@@ -75,4 +77,5 @@ dependencies {
     compile 'com.github.jhw-dev:CircleLoadingView:v1.3'
     compile 'com.google.android.gms:play-services-ads:8.4.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    compile project(':gallery')
 }

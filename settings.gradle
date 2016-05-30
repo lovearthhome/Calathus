@@ -1,1 +1,1 @@
-include ':app', ':articles', ':mpv'
+include ':app', ':articles', ':mpv', ':rxvolley', ':gallery'

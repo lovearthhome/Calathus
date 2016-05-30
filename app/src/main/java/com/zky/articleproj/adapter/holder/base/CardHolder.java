@@ -185,7 +185,6 @@ public abstract class CardHolder extends BaseHolder {
 
             /**
              * 获取item需要的基本信息
-             *
              * */
             //String editor_name = jsonObject.optString("editor_name");
             mTid = jsonObject.optLong("inc");

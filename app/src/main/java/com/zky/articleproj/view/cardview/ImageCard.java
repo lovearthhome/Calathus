@@ -21,6 +21,7 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.kymjs.gallery.KJGalleryActivity;
 import com.lovearthstudio.duasdk.Dua;
 import com.zky.articleproj.R;
 import com.zky.articleproj.constant.Constant;
@@ -213,8 +214,6 @@ public class ImageCard extends BaseCardView implements View.OnClickListener {
                     @Override
                     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                         long pmcOverTime = Calendar.getInstance().getTimeInMillis();
-
-
                         Dua.getInstance().setAppPmc("GetImage",img_size/(50*1024),"50kb",pmcOverTime - pmcBeginTime,"ms");
                         return false;
                     }
@@ -229,8 +228,12 @@ public class ImageCard extends BaseCardView implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent("com.zky.articleproj.activity.ImageZoomActivity");
+       /* Intent intent = new Intent("com.zky.articleproj.activity.ImageZoomActivity");
         intent.putExtra("image_url", image_url);
         context.startActivity(intent);
+        */
+        String[] urls = new String[1];
+        urls[0] = image_url;
+        KJGalleryActivity.toGallery(context, urls);
     }
 }
