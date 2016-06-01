@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity {
         user_icon = (ImageView) headView.findViewById(R.id.user_icon);
         userName=(TextView)headView.findViewById(R.id.textView_user_name);
         mToolbar.setTitleTextColor(Color.WHITE);
-        mToolbar.setTitle("马拉松");
+        mToolbar.setTitle(R.string.app_name);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_menu);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -186,8 +186,8 @@ public class MainActivity extends BaseActivity {
 
     class MyPagerAdapter extends FragmentPagerAdapter {
 
-        private final String tabTitles[] = new String[]{"推荐", "开心", "美女", "电影", "音乐", "艺术", "广告"};
-        private final String channel[] = {"Recommend", "Happy", "Beauty", "Movie", "Music", "Art", "Advertisement"};
+        private final String tabTitles[] = {"推荐", "段子", "图片","动图","视频", "电影", "音乐", "艺术", "广告"};
+        private final String channel[] = {"Recommend", "Text", "Image","Gif","Video", "Movie", "Music", "Art", "Advertisement"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
