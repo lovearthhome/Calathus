@@ -2,6 +2,9 @@ package com.lovearthstudio.articles.net;
 
 import android.util.Log;
 
+import com.kymjs.rxvolley.RxVolley;
+import com.kymjs.rxvolley.client.HttpCallback;
+import com.kymjs.rxvolley.client.HttpParams;
 import com.lovearthstudio.articles.constant.Constant;
 
 import org.json.JSONException;
@@ -132,6 +135,49 @@ public class ArtNB {
                 }
             }
         });
+    }
+
+
+    public void getArticle(GetArtParams getArtParams, final MyCallBack myCallBack) {
+        String requestParams = com.alibaba.fastjson.JSON.toJSONString(getArtParams);
+        Log.i("Articles-ArtNB","getArticles "+requestParams);
+        HttpParams params = new HttpParams();
+        params.putJsonParams(requestParams);
+        HttpCallback callBack = new HttpCallback(){
+            @Override
+            public void onSuccess(String t) {
+                try {
+                    String response_body_string = t;
+                    Log.i("RxVolley",response_body_string);
+                    JSONObject jsonResponse = new JSONObject(response_body_string);
+                    if (jsonResponse.optInt("status") !=  0) {
+                        myCallBack.onFailure(jsonResponse);
+                    }else{
+                        myCallBack.onResponse(jsonResponse);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"JSONExecption: "+e.toString()));
+                } catch (Exception e){
+                    e.printStackTrace();
+                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Execption: "+e.toString()));
+                }
+            }
+            @Override
+            public void onFailure(int errorNo, String strMsg) {
+                myCallBack.onFailure(doOnFailure(SERVER_FAILURE,errorNo+" "+strMsg));
+            }
+        };
+        new RxVolley.Builder()
+                .url(Constant.baseUrl)
+                .httpMethod(RxVolley.Method.POST) //default GET or POST/PUT/DELETE/HEAD/OPTIONS/TRACE/PATCH
+                .cacheTime(6) //default: get 5min, post 0min
+                .params(params)
+                .contentType(RxVolley.ContentType.JSON)
+                .shouldCache(true) //default: get true, post false
+                .callback(callBack)
+                .encoding("UTF-8") //default
+                .doTask();
     }
 
     /**

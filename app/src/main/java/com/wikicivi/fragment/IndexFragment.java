@@ -113,15 +113,12 @@ public class IndexFragment extends BaseFragment {
             Log.i("Channel-"+channel, "do  to Load article of " + channel);
             Constant.binder.getChannelArticles(channel, "load", 0, mIndexCallBack);
         }
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.i("Channel", "onCreateView      " + channel);
         return super.onCreateView(inflater, container, savedInstanceState);
-
     }
 
     @Override

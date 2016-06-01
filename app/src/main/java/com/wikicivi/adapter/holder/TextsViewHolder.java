@@ -17,12 +17,12 @@ import org.xutils.view.annotation.ViewInject;
  * Author：Mingyu Yi on 2016/4/8 09:42
  * Email：461072496@qq.com
  */
-public class ConversationsListViewHolder extends CardHolder {
+public class TextsViewHolder extends CardHolder {
 
     @ViewInject(R.id.texts_card)
     private TextsCard texts_card;
 
-    public ConversationsListViewHolder(View itemView) {
+    public TextsViewHolder(View itemView) {
         super(itemView);
     }
 

@@ -53,6 +53,7 @@ dependencies {
     compile(name: 'duasdk-debug', ext: 'aar')
     // compile 'com.github.iammert:MusicPlayerView:e3b937c729'
     compile project(':mpv')
+    compile project(':gallery')
     compile 'net.rimoto:intlphoneinput:0.9.3'
     compile 'cn.qqtheme.framework:WheelPicker:1.1.2'
     compile 'com.squareup.okhttp3:okhttp:3.1.2'
@@ -79,5 +80,4 @@ dependencies {
     compile 'com.github.jhw-dev:CircleLoadingView:v1.3'
     compile 'com.google.android.gms:play-services-ads:8.4.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    compile project(':gallery')
 }

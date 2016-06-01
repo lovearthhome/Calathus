@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.zky.articleproj.R;
 import com.wikicivi.adapter.holder.base.BaseHolder;
-import com.wikicivi.adapter.holder.ConversationsListViewHolder;
+import com.wikicivi.adapter.holder.TextsViewHolder;
 import com.wikicivi.adapter.holder.AdHolder;
 import com.wikicivi.adapter.holder.GifPlayerHolder;
 import com.wikicivi.adapter.holder.ImageViewHolder;
@@ -62,7 +62,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
                 holder = new TextViewHolder(v);
                 break;
             case 101:
-                holder = new ConversationsListViewHolder(v);
+                holder = new TextsViewHolder(v);
                 break;
             case 201:
                 holder = new ImageViewHolder(v);

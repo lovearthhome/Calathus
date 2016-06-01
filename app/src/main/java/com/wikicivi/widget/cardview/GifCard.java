@@ -21,6 +21,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.kymjs.gallery.KJGalleryActivity;
 import com.lovearthstudio.duasdk.Dua;
+import com.lovearthstudio.duasdk.util.LogUtil;
 import com.zky.articleproj.R;
 import com.wikicivi.constant.Constant;
 import com.wikicivi.net.glideprogress.ProgressListener;
@@ -163,7 +164,7 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
         gif_url = Constant.baseFileUrl + img_src;
         final long  pmcBeginTime = Calendar.getInstance().getTimeInMillis();
         Glide.with(context)
-                //.load("http://ww2.sinaimg.cn/large/85cccab3tw1esjq9r0pcpg20d3086qtr.jpg")
+//                .load("http://ww2.sinaimg.cn/large/85cccab3tw1esjq9r0pcpg20d3086qtr.jpg")
                 .load(gif_url)
                 .placeholder(R.mipmap.head)
                 //.error(R.mipmap.ic_launcher)
