@@ -19,8 +19,8 @@ public class BaseFragment extends Fragment {
 
     private boolean injected = false;
 
-    /*
-    网络帮助类
+    /**
+     * 网络帮助类
      */
     protected HttpOpenHelper httpOpenHelper;
 
@@ -38,7 +38,6 @@ public class BaseFragment extends Fragment {
             x.view().inject(this, this.getView());
         }
     }
-
     /**
      * 请求数据
      */
