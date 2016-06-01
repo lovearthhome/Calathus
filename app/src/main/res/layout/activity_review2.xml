@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.zky.articleproj.activity.review.Review2Activity">
+    tools:context="com.wikicivi.activity.review.ReviewActivity">
 
     <include layout="@layout/toolbar" />
 

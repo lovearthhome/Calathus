@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.zky.articleproj.view.cardview.MusicCard
+    <com.wikicivi.widget.cardview.MusicCard
         android:id="@+id/music_card"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.zky.articleproj.view.cardview.MusicCard>
+        android:layout_height="match_parent"></com.wikicivi.widget.cardview.MusicCard>
 </LinearLayout>

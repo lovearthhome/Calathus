@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.zky.articleproj.view.cardview.ImageCard
+    <com.wikicivi.widget.cardview.ImageCard
         android:id="@+id/image_card"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.zky.articleproj.view.cardview.ImageCard>
+        android:layout_height="match_parent"></com.wikicivi.widget.cardview.ImageCard>
 </LinearLayout>

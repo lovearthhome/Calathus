@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/black"
     android:gravity="center"
-    tools:context="com.zky.articleproj.activity.MusicPalyerActivity">
+    tools:context="com.wikicivi.activity.MusicPalyerActivity">
 
     <co.mobiwise.MusicPlayerView
         android:id="@+id/mpv"

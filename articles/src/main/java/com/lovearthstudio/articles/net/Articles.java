@@ -113,6 +113,7 @@ public class Articles {
             }
 
             mMyCallBack = myCallBack;
+            getArtParams.dua_id = Dua.getInstance().getCurrentDuaId();
             getArtParams.action = "get_articles";
             getArtParams.how = action;
             getArtParams.fields = new String[]{"inc", "star", "comt", "content", "good", "bad", "shar"};
@@ -147,6 +148,7 @@ public class Articles {
             artnb.getArticles(getArtParams,new MyCallBack(){
                 @Override
                 public void onFailure(JSONObject result) {
+                    //fixme: 这块的onfailure是怎么触发到app主模块里面的？这块应该让app主模块的刷新按钮停止旋转。
                     mMyCallBack.onFailure(result);
                 }
                 @Override
@@ -224,6 +226,7 @@ public class Articles {
     public void setArticle(final long tid,final String from, final String which, final int param,final MyCallBack myCallBack) {
         try{
             setArtParams.tid = tid;
+            setArtParams.dua_id = Dua.getInstance().getCurrentDuaId();
             setArtParams.action = "set_article";
             setArtParams.how = from; //"Review"
             setArtParams.field = which; //"good"

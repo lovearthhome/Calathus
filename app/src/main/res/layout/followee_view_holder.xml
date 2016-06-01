@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.zky.articleproj.view.RoundImageView
+    <com.wikicivi.widget.RoundImageView
         android:id="@+id/followee_avatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

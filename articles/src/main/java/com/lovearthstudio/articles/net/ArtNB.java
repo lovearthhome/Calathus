@@ -138,6 +138,7 @@ public class ArtNB {
      * 把获取的文章Response转换成JSONObject
      */
     private JSONObject doOnFailure(int status,String  reason) {
+        Log.i("DoOnFailure","fail status: "+status+" "+reason);
         try{
             JSONObject result = new JSONObject();
             result.put("status",status);
