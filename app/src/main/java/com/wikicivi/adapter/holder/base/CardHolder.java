@@ -3,6 +3,7 @@ package com.wikicivi.adapter.holder.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -11,6 +12,7 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lovearthstudio.articles.net.MyCallBack;
 import com.squareup.picasso.Picasso;
 import com.zky.articleproj.R;
@@ -192,8 +194,18 @@ public abstract class CardHolder extends BaseHolder {
             /**
              * 头部信息
              */
-            cardHolder.editer_name.setText(jsonObject.getString("editor_name"));
-             Picasso.with(context).load(jsonObject.getString("editor_avatar")).into(cardHolder.editer_icon);
+            String editorName=jsonObject.getString("editor_name");
+            String avatarUrl=jsonObject.getString("editor_avatar");
+
+            if(editorName==null|| TextUtils.isEmpty(editorName)){
+                editorName= "匿名";
+            }
+            if(avatarUrl==null|| TextUtils.isEmpty(avatarUrl)){
+                avatarUrl= Constant.defaultAvatarUrl;
+            }
+            cardHolder.editer_name.setText(editorName);
+            Glide.with(context).load(avatarUrl).into(cardHolder.editer_icon);
+            //Picasso.with(context).load(avatar).into(cardHolder.editer_icon);
 
 //            Glide.with(context).load(jsonObject.getString("editor_avatar")).into(cardHolder.editer_icon);
 

@@ -15,6 +15,10 @@ public class Constant {
     public static final String baseUrl = "http://api.wikicivi.com/articles";
     /* 项目图片基本地址 */
     public static final String baseFileUrl = "http://files.wikicivi.com/files/";
+    /*用户头像基本地址*/
+    public static final String baseAvatarUrl = "http://files.xdua.org/files/avatar/";
+    /*用户头像默认地址*/
+    public static final String defaultAvatarUrl = "http://files.xdua.org/files/avatar/anonymous.png";
     /* dua_id */
     public static long dua_id = 41;
 

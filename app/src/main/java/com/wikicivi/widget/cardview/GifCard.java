@@ -167,7 +167,7 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 //                .load("http://ww2.sinaimg.cn/large/85cccab3tw1esjq9r0pcpg20d3086qtr.jpg")
                 .load(gif_url)
                 .placeholder(R.mipmap.head)
-                //.error(R.mipmap.ic_launcher)
+//                .error(R.mipmap.ic_launcher)
                 .override((int) (Constant.screenwith - Constant.mainItemPadding - Constant.mainPadding), (int) (img_height * ratio))
                 // Disabling cache to see download progress with every app load
                 // You may want to enable caching again in production
