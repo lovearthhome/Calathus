@@ -101,40 +101,6 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
         }
     }
 
-    /*
-    http://www.68idc.cn/help/mobilesys/android/20160418610015.html
-    * Called when a view created by this adapter has been detached from its window.         *         * <p>Becoming detached from the window is not necessarily a permanent condition;         * the consumer of an Adapter's views may choose to cache views offscreen while they         * are not visible, attaching an detaching them as appropriate.</p>         *         * @param holder Holder of the view being detached
-    * public void onViewDetachedFromWindow(VH holder) {        }
-    Called when a view created by this adapter has been detached from its window.
-    （当适配器创建的view（即列表项view）被窗口分离（即滑动离开了当前窗口界面）就会被调用）
-    *
-    *这个方法就是用来当你的列表项滑出可见窗口之外的时候，需要重写此方法进行相应的一些操作。
-    *
-    *
-    * 这个方法具体什么时候用呢？
-
-比如：
-我有一个列表，列表的每一个列表项里面都要播放一个短视频，这时候，当我滑动一个列表项直至它消失在可视界面时，便会调用onViewDetachedFromWindow()方法，重要的一点，视频控件也会执行它自己的onViewDetachedFromWindow()方法，那么此时我再滑动回来，让该列表项出现在当前界面，会发现视频那一部分就是黑屏或者白屏了。
-注意，出现这个Bug的条件是，该列表项滑动出可视界面，但是滑动距离不长，因为长的话，你再滑回来就会复用View执行onBindViewHolder()方法。
-解决方法就是在RecyclerView中重写onViewDetachedFromWindow()方法，对视频进行一个相应的操作（初始化等等）。
-    *
-    * */
-
-
-// FIXME: 下面的两个函数导致onBindViewHolder运行两次，应该是super.onView*这个函数引起的
-//    @Override
-//    public void onViewAttachedToWindow(BaseHolder holder) {
-//        super.onViewAttachedToWindow(holder);
-//        holder.onAttached();
-//    }
-//
-//    @Override
-//    public void onViewDetachedFromWindow(BaseHolder holder) {
-//        super.onViewDetachedFromWindow(holder);
-//        holder.onDetached();
-//    }
-
-
     @Override
     public int getItemCount() {
         return jsonArray.length();

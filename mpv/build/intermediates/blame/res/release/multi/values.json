@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\release\\values\\values.xml",
+        "outputFile": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/build/intermediates/res/merged/release/values/values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,69 @@
                     "endOffset": 468
                 },
                 "from": {
-                    "file": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\res\\values\\dimens.xml",
+                    "file": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/res/values/dimens.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 63,
+                        "endColumn": 49,
+                        "endOffset": 108
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 473,
+                    "endColumn": 48,
+                    "endOffset": 517
+                },
+                "from": {
+                    "file": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/res/values/dimens.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 113,
+                        "endColumn": 48,
+                        "endOffset": 157
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 522,
+                    "endColumn": 46,
+                    "endOffset": 564
+                },
+                "from": {
+                    "file": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/mpv/res/values/dimens.xml",
+                    "position": {
+                        "startLine": 1,
+                        "startColumn": 4,
+                        "startOffset": 16,
+                        "endColumn": 46,
+                        "endOffset": 58
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\build\\intermediates\\res\\merged\\release\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 423,
+                    "endColumn": 49,
+                    "endOffset": 468
+                },
+                "from": {
+                    "file": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -30,7 +92,7 @@
                     "endOffset": 517
                 },
                 "from": {
-                    "file": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\res\\values\\dimens.xml",
+                    "file": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -49,7 +111,7 @@
                     "endOffset": 564
                 },
                 "from": {
-                    "file": "C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\res\\values\\dimens.xml",
+                    "file": "/Users/zhaoliang/Documents/AndroidStudioProjects/study/Calathus/C:\\Users\\jiao\\StudioProjects\\Calathus\\mpv\\res\\values\\dimens.xml",
                     "position": {
                         "startLine": 1,
                         "startColumn": 4,

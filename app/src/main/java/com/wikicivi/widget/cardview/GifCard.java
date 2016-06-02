@@ -14,18 +14,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.model.GlideUrl;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.kymjs.gallery.KJGalleryActivity;
-import com.lovearthstudio.duasdk.Dua;
-import com.lovearthstudio.duasdk.util.LogUtil;
-import com.zky.articleproj.R;
 import com.wikicivi.constant.Constant;
 import com.wikicivi.net.glideprogress.ProgressListener;
 import com.wikicivi.net.glideprogress.ProgressResponseBody;
+import com.zky.articleproj.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,7 +55,7 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
             "file:///android_asset/test/image5.jpg", "file:///android_asset/test/image6.jpg", "file:///android_asset/test/image7.jpg", "file:///android_asset/test/image8.jpg"};
 
     private String gif_url = "";
-    private String img_src="";
+    private String img_src = "";
     private int img_width;
     private int img_height;
     private String img_type;
@@ -93,7 +87,7 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
     @Override
     public void findView() {
-        ll_gif_title=(LinearLayout)findViewById(R.id.ll_gif_title);
+        ll_gif_title = (LinearLayout) findViewById(R.id.ll_gif_title);
         tv_gif_title = (TextView) findViewById(R.id.tv_gif_title);
         pb_progress = (ProgressBar) findViewById(R.id.pb_progress);
         tv_progress = (TextView) findViewById(R.id.tv_progress);
@@ -162,8 +156,9 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
                 new OkHttpUrlLoader.Factory(mOkHttpClient));
 
         gif_url = Constant.baseFileUrl + img_src;
-        final long  pmcBeginTime = Calendar.getInstance().getTimeInMillis();
-        Glide.with(context)
+        final long pmcBeginTime = Calendar.getInstance().getTimeInMillis();
+        System.out.println("==============:+++++++++++++" + gif_url);
+       /* Glide.with(context)
 //                .load("http://ww2.sinaimg.cn/large/85cccab3tw1esjq9r0pcpg20d3086qtr.jpg")
                 .load(gif_url)
                 .placeholder(R.mipmap.head)
@@ -182,11 +177,14 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
                     @Override
                     public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                         long pmcOverTime = Calendar.getInstance().getTimeInMillis();
-                        Dua.getInstance().setAppPmc("GetGif",img_size/(50*1024),"50kb",pmcOverTime - pmcBeginTime,"ms");
+                        Dua.getInstance().setAppPmc("GetGif", img_size / (50 * 1024), "50kb", pmcOverTime - pmcBeginTime, "ms");
                         return false;
                     }
                 })
                 .into(iv_gif);
+                */
+        Glide.with(context).load(gif_url).
+                override((int) (Constant.screenwith - Constant.mainItemPadding - Constant.mainPadding), (int) (img_height * ratio)).into(iv_gif);
 
         if ("null".equals(gif_title) || TextUtils.isEmpty(gif_title)) {
             ll_gif_title.setVisibility(View.GONE);
