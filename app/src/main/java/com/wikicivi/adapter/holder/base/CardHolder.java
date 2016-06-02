@@ -13,7 +13,9 @@ import android.view.animation.ScaleAnimation;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lovearthstudio.articles.net.MyCallBack;
+import com.lovearthstudio.duasdk.util.LogUtil;
 import com.squareup.picasso.Picasso;
 import com.zky.articleproj.R;
 import com.wikicivi.activity.MoreActivity;
@@ -196,15 +198,21 @@ public abstract class CardHolder extends BaseHolder {
              */
             String editorName=jsonObject.getString("editor_name");
             String avatarUrl=jsonObject.getString("editor_avatar");
-
-            if(editorName==null|| TextUtils.isEmpty(editorName)){
+            //***回来的Json数据里"editor_name":null,getString这个函数就会把null解释成带双音号的“null”
+            if(editorName==null||editorName.equals("null")|| TextUtils.isEmpty(editorName)){
                 editorName= "匿名";
             }
-            if(avatarUrl==null|| TextUtils.isEmpty(avatarUrl)){
+            if(avatarUrl==null||avatarUrl.equals("null")|| TextUtils.isEmpty(avatarUrl)){
                 avatarUrl= Constant.defaultAvatarUrl;
             }
             cardHolder.editer_name.setText(editorName);
-            Glide.with(context).load(avatarUrl).into(cardHolder.editer_icon);
+            LogUtil.e(avatarUrl);
+            Glide.with(context)
+                    .load(avatarUrl)
+                    .placeholder(R.mipmap.ic_launcher)
+                    .fitCenter()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(cardHolder.editer_icon);
             //Picasso.with(context).load(avatar).into(cardHolder.editer_icon);
 
 //            Glide.with(context).load(jsonObject.getString("editor_avatar")).into(cardHolder.editer_icon);
