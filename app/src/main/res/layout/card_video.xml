@@ -5,10 +5,37 @@
     android:layout_gravity="center"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_video_title"
-        style="@style/ListTitieStyle"
-        android:text="凤凰传奇-月亮之上" />
+
+    <LinearLayout
+        android:id="@+id/layout_titleframe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textframe_simple"
+        android:padding="1dp"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/ListTitieStyle"
+            android:text="题目" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_briefframe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textframe_simple"
+        android:padding="1dp"
+        android:layout_weight="1"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/tv_brief"
+            style="@style/ListTitieStyle"
+            android:text="描述" />
+    </LinearLayout>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/video_layout"

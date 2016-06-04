@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -26,7 +28,10 @@ public class VideoCard extends BaseCardView {
     private static final String TAG = "========" + VideoCard.class.getName();
 
     //    控件相关
-    private TextView tv_video_title;
+    private TextView tv_title;
+    private TextView tv_brief;
+    private LinearLayout layout_titleframe;
+    private LinearLayout layout_briefframe;
     private FrameLayout video_layout;
     private JCVideoPlayerStandard video_view;
     private Context context;
@@ -54,7 +59,10 @@ public class VideoCard extends BaseCardView {
 
     @Override
     public void findView() {
-        tv_video_title = (TextView) findViewById(R.id.tv_video_title);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_brief = (TextView) findViewById(R.id.tv_brief);
+        layout_titleframe = (LinearLayout) findViewById(R.id.layout_titleframe);
+        layout_briefframe = (LinearLayout) findViewById(R.id.layout_briefframe);
         video_layout = (FrameLayout) findViewById(R.id.video_layout);
         video_view = (JCVideoPlayerStandard) findViewById(R.id.video_view);
     }
@@ -72,14 +80,24 @@ public class VideoCard extends BaseCardView {
             /*
             内容信息
             */
-        //tvTitle.setText(jsonObject.getString("title"));
-        String content_str = jsonObject.getString("content");
+        String content_str = jsonObject.optString("content");
         JSONObject content_obj = new JSONObject(content_str);
 
-        tv_video_title.setText(content_obj.optString("title"));
+        String title = content_obj.getString("title");
+        if(title == null || title.equals("")  )
+        {
+            layout_titleframe.setVisibility(View.GONE);
+        }else{
+            tv_title.setText(title);
+        }
 
-
-        String art_brief = content_obj.optString("brief");
+        String brief = content_obj.getString("brief");
+        if(brief == null || brief.equals("")  )
+        {
+            layout_titleframe.setVisibility(View.GONE);
+        }else{
+            tv_brief.setText(brief);
+        }
         JSONArray art_files = content_obj.optJSONArray("files");
 
         JSONObject file0 = art_files.getJSONObject(0);

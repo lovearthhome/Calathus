@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_music_title"
+        android:id="@+id/tv_title"
         style="@style/ListTitieStyle"
         android:text="凤凰传奇-月亮" />
 
