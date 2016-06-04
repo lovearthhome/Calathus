@@ -1,38 +1,30 @@
 package com.wikicivi.widget.cardview;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
-import com.bumptech.glide.load.model.GlideUrl;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.kymjs.gallery.KJGalleryActivity;
 import com.wikicivi.constant.Constant;
-import com.wikicivi.net.glideprogress.ProgressListener;
-import com.wikicivi.net.glideprogress.ProgressResponseBody;
+import com.wikicivi.widget.circleprogressbar.RateTextCircularProgressBar;
 import com.zky.articleproj.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Calendar;
-
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
-import pl.droidsonroids.gif.GifImageView;
 
 /**
  * 图片的卡片布局
@@ -43,9 +35,11 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
     private LinearLayout ll_gif_title;
     private TextView tv_gif_title;
-    private ProgressBar pb_progress;
-    private TextView tv_progress;
-    private GifImageView iv_gif;
+    // private GifImageView iv_gif;
+
+    private SimpleDraweeView giv_view;
+
+    private RateTextCircularProgressBar rate_progress_bar;
 
     private Context context;
 
@@ -62,19 +56,6 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
     private int img_size;
     private int img_duration;
 
-    private OkHttpClient mOkHttpClient;
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case UPDATE_PROGRESS:
-                    tv_progress.setText(pb_progress.getProgress() / pb_progress.getMax() + "%");
-                    break;
-            }
-        }
-    };
-
     public GifCard(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
@@ -89,14 +70,21 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
     public void findView() {
         ll_gif_title = (LinearLayout) findViewById(R.id.ll_gif_title);
         tv_gif_title = (TextView) findViewById(R.id.tv_gif_title);
-        pb_progress = (ProgressBar) findViewById(R.id.pb_progress);
-        tv_progress = (TextView) findViewById(R.id.tv_progress);
-        iv_gif = (GifImageView) findViewById(R.id.iv_gif);
+        // iv_gif = (GifImageView) findViewById(R.id.iv_gif);
+        giv_view = (SimpleDraweeView) findViewById(R.id.gif_view);
+
+        GenericDraweeHierarchy hierarchy = giv_view.getHierarchy();
+        hierarchy.setProgressBarImage(new CustomProgressBar());
+        giv_view.setHierarchy(hierarchy);
+
+        rate_progress_bar = (RateTextCircularProgressBar) findViewById(R.id.rate_progress_bar);
+        rate_progress_bar.setMax(10000);
+        rate_progress_bar.getCircularProgressBar().setCircleWidth(20);
     }
 
     @Override
     public void setOnClickListener() {
-        iv_gif.setOnClickListener(this);
+        //iv_gif.setOnClickListener(this);
     }
 
     @Override
@@ -119,7 +107,6 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
         JSONArray img_farray = file0.optJSONArray("farray");
         JSONObject img_file = img_farray.getJSONObject(0);
 
-        pb_progress.setProgress(0);
 //        iv_gif.setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color.image_default)));
 //        iv_gif.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.mipmap.gif_defualt));
 
@@ -132,11 +119,11 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
 
         float ratio = (float) Constant.screenwith / (float) img_width;
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, (int) (ratio * img_height));
-        iv_gif.setLayoutParams(layoutParams);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, (int) (ratio * img_height));
+        giv_view.setLayoutParams(layoutParams);
 
-        final ProgressListener progressListener = new ProgressListener() {
+       /* final ProgressListener progressListener = new ProgressListener() {
             @Override
             public void update(long bytesRead, long contentLength, boolean done) {
                 pb_progress.setMax((int) contentLength);
@@ -155,8 +142,8 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
         Glide.get(context).register(GlideUrl.class, InputStream.class,
                 new OkHttpUrlLoader.Factory(mOkHttpClient));
 
+        final long pmcBeginTime = Calendar.getInstance().getTimeInMillis();*/
         gif_url = Constant.baseFileUrl + img_src;
-        final long pmcBeginTime = Calendar.getInstance().getTimeInMillis();
         System.out.println("==============:+++++++++++++" + gif_url);
        /* Glide.with(context)
 //                .load("http://ww2.sinaimg.cn/large/85cccab3tw1esjq9r0pcpg20d3086qtr.jpg")
@@ -183,8 +170,14 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
                 })
                 .into(iv_gif);
                 */
-        Glide.with(context).load(gif_url).
-                override((int) (Constant.screenwith - Constant.mainItemPadding - Constant.mainPadding), (int) (img_height * ratio)).into(iv_gif);
+        //Glide.with(context).load(gif_url).into(iv_gif);
+
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setUri(Uri.parse(gif_url))
+                .setAutoPlayAnimations(true)
+                // other setters
+                .build();
+        giv_view.setController(controller);
 
         if ("null".equals(gif_title) || TextUtils.isEmpty(gif_title)) {
             ll_gif_title.setVisibility(View.GONE);
@@ -198,5 +191,40 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
         String[] urls = new String[1];
         urls[0] = gif_url;
         KJGalleryActivity.toGallery(context, urls);
+    }
+
+    class CustomProgressBar extends Drawable {
+
+        @Override
+        public void draw(Canvas canvas) {
+
+        }
+
+        @Override
+        public void setAlpha(int alpha) {
+
+        }
+
+        @Override
+        public void setColorFilter(ColorFilter colorFilter) {
+
+        }
+
+        @Override
+        public int getOpacity() {
+            return 0;
+        }
+
+        @Override
+        protected boolean onLevelChange(int level) {
+            // level is on a scale of 0-10,000
+            // where 10,000 means fully downloaded
+
+            // your app's logic to change the drawable's
+            // appearance here based on progress
+            rate_progress_bar.setProgress(level);
+            System.out.println("--------:" + level);
+            return false;
+        }
     }
 }

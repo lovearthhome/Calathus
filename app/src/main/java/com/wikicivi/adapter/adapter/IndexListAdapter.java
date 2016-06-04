@@ -22,7 +22,8 @@ public class IndexListAdapter extends BaseAdapter {
     public int getItemViewType(int position) {
         try {
             JSONObject jsonObject = new JSONObject(jsonArray.get(position).toString());
-            return jsonObject.getInt("tmpl");
+            int tmpl = jsonObject.getInt("tmpl");
+            return tmpl;
         } catch (JSONException e) {
             e.printStackTrace();
         }

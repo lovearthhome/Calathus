@@ -80,4 +80,7 @@ dependencies {
     compile 'com.github.jhw-dev:CircleLoadingView:v1.3'
     compile 'com.google.android.gms:play-services-ads:8.4.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
+    // facebook牛逼图片加载库
+    compile 'com.facebook.fresco:fresco:0.9.0+'
 }

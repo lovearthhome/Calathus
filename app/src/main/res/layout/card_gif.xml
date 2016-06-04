@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_gif_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/titleframe_default"
-        android:padding="0dp"
         android:layout_weight="1"
+        android:background="@drawable/titleframe_default"
         android:gravity="center"
-        android:id="@+id/ll_gif_title">
+        android:padding="0dp">
 
 
         <TextView
@@ -22,34 +22,31 @@
     </LinearLayout>
 
 
-    <ProgressBar
-        android:id="@+id/pb_progress"
-        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
-
-    <TextView
-        android:id="@+id/tv_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_weight="1" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:background="@drawable/titleframe_default"
-        android:padding="4dp"
-        android:layout_weight="1">
+        android:padding="4dp">
 
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/iv_gif"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/image_default"
-            android:scaleType="centerInside"
-            android:src="@mipmap/gif_defualt" />
-    </LinearLayout>
+        <!-- <pl.droidsonroids.gif.GifImageView
+             android:id="@+id/iv_gif"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="@color/image_default"
+             android:scaleType="centerInside"
+             android:src="@mipmap/gif_defualt" />-->
+
+        <com.wikicivi.widget.circleprogressbar.RateTextCircularProgressBar
+            android:id="@+id/rate_progress_bar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/gif_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+    </FrameLayout>
 
 </LinearLayout>
