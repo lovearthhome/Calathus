@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +32,7 @@ import org.json.JSONObject;
 public class GifCard extends BaseCardView implements View.OnClickListener {
     private static final String TAG = "========" + GifCard.class.getName();
 
-    private LinearLayout ll_gif_title;
-    private TextView tv_gif_title;
+
     // private GifImageView iv_gif;
 
     private SimpleDraweeView giv_view;
@@ -42,6 +40,11 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
     private RateTextCircularProgressBar rate_progress_bar;
 
     private Context context;
+
+    private TextView tv_title;
+    private TextView tv_brief;
+    private LinearLayout layout_titleframe;
+    private LinearLayout layout_briefframe;
 
 
     private static final int UPDATE_PROGRESS = 1;
@@ -68,8 +71,11 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
     @Override
     public void findView() {
-        ll_gif_title = (LinearLayout) findViewById(R.id.ll_gif_title);
-        tv_gif_title = (TextView) findViewById(R.id.tv_gif_title);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_brief = (TextView) findViewById(R.id.tv_brief);
+        layout_titleframe = (LinearLayout) findViewById(R.id.layout_titleframe);
+        layout_briefframe = (LinearLayout) findViewById(R.id.layout_briefframe);
+
         // iv_gif = (GifImageView) findViewById(R.id.iv_gif);
         giv_view = (SimpleDraweeView) findViewById(R.id.gif_view);
 
@@ -90,14 +96,30 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
     @Override
     public void parseData(String jsonStr) throws JSONException {
         JSONObject jsonObject = new JSONObject(jsonStr);
+
             /*
             内容信息
             */
-        // tvTitle.setText(jsonObject.getString("title"));
-
         String content_str = jsonObject.optString("content");
-
         JSONObject content_obj = new JSONObject(content_str);
+
+        String title = content_obj.getString("title");
+        if(title == null || title.equals("")  )
+        {
+            layout_titleframe.setVisibility(View.GONE);
+        }else{
+            tv_title.setText(title);
+        }
+
+        String brief = content_obj.getString("brief");
+        if(brief == null || brief.equals("")  )
+        {
+            layout_titleframe.setVisibility(View.GONE);
+        }else{
+            tv_brief.setText(brief);
+        }
+
+
 
         String art_brief = content_obj.optString("brief");
         JSONArray art_files = content_obj.optJSONArray("files");
@@ -178,12 +200,6 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
                 // other setters
                 .build();
         giv_view.setController(controller);
-
-        if ("null".equals(gif_title) || TextUtils.isEmpty(gif_title)) {
-            ll_gif_title.setVisibility(View.GONE);
-        } else {
-            tv_gif_title.setText(gif_title);
-        }
     }
 
     @Override

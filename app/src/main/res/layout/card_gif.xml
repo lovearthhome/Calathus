@@ -6,27 +6,41 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_gif_title"
+        android:id="@+id/layout_titleframe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/textframe_simple"
+        android:padding="1dp"
         android:layout_weight="1"
-        android:background="@drawable/titleframe_default"
-        android:gravity="center"
-        android:padding="0dp">
+        android:gravity="center">
 
 
         <TextView
-            android:id="@+id/tv_gif_title"
+            android:id="@+id/tv_title"
             style="@style/ListTitieStyle"
-            android:text="无题" />
+            android:text="题目" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/layout_briefframe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textframe_simple"
+        android:padding="1dp"
+        android:layout_weight="1"
+        android:gravity="center">
 
+
+        <TextView
+            android:id="@+id/tv_brief"
+            style="@style/ListTitieStyle"
+            android:text="描述" />
+    </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/titleframe_default"
+        android:background="@drawable/textframe_simple"
         android:padding="4dp">
 
         <!-- <pl.droidsonroids.gif.GifImageView
