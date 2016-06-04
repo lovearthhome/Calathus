@@ -1,6 +1,11 @@
 package com.lovearthstudio.articles.constant;
 
+import android.util.Log;
+
 import com.lovearthstudio.articles.service.ArticleService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * 常量类
@@ -31,4 +36,28 @@ public class Constant {
     public static final int artdbArticleCountPerFetch = 20;
 
     public static ArticleService.ArticleBinder binder;
+
+    public static int NETWORK_FAILURE = 1;
+    public static int UNKNOWN_FAILURE = 2;
+    public static int JSON_FAILURE    = 3;
+    public static int SERVER_FAILURE  = 4;
+    public static int NOART_NOTICE    = 5;
+    public static int EXCEPTION       = 6;
+
+    /**
+     * 把获取的文章Response转换成JSONObject
+     */
+    public static JSONObject failureObject(int status, String  reason) {
+        Log.i("DoOnFailure","fail status: "+status+" "+reason);
+        try{
+            JSONObject result = new JSONObject();
+            result.put("status",status);
+            result.put("reason",reason);
+            return result;
+        }catch (JSONException e) {
+            Log.e("Error",e.toString());
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

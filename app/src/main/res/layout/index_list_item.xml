@@ -76,7 +76,7 @@
                 <TextView
                     android:id="@+id/tv_arrow"
                     style="@style/ListImageTextStyle"
-                    android:drawableLeft="@mipmap/arrow"
+                    android:drawableLeft="@mipmap/digg"
                     android:text="1.2万" />
 
                 <TextView

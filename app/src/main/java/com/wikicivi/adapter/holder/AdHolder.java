@@ -19,10 +19,8 @@ import org.xutils.view.annotation.ViewInject;
  * Created by zhaoliang on 16/4/22.
  */
 public class AdHolder extends BaseHolder {
-
     @ViewInject(R.id.adView)
     private AdView adView;
-
     /**
      * 头部信息
      */
@@ -37,13 +35,10 @@ public class AdHolder extends BaseHolder {
 
     @Override
     public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
-
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
-
             /**
              * 获取item需要的基本信息
-             *
              * */
             //String editor_name = jsonObject.optString("editor_name");
             /**
@@ -51,13 +46,10 @@ public class AdHolder extends BaseHolder {
              */
             editer_name.setText(jsonObject.getString("editor_name"));
             Picasso.with(context).load(jsonObject.getString("editor_avatar")).resize(60, 60).into(editer_icon);
-
             //   Glide.with(context).load(jsonObject.getString("editor_avatar")).override(100, 100).into(editer_icon);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         //System.out.println("---------------加载广告:");
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);

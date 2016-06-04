@@ -30,9 +30,7 @@ public class ArtNB {
     private OkHttpClient httpClient;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    public static int NETWORK_FAILURE = 1;
-    public static int JSON_FAILURE    = 2;
-    public static int SERVER_FAILURE  = 3;
+
 
 
     public ArtNB() {
@@ -62,7 +60,7 @@ public class ArtNB {
         httpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                myCallBack.onFailure(doOnFailure(NETWORK_FAILURE,e.toString()));
+                myCallBack.onFailure(Constant.failureObject(Constant.NETWORK_FAILURE,e.toString()));
             }
             @Override
             public void onResponse(Call call, Response response) throws  IOException{
@@ -70,16 +68,16 @@ public class ArtNB {
                     //下面解析如果解析错了，就会进入try catch 里面，所以不要专门为它判断null
                     JSONObject jsonResponse = new JSONObject(response.body().string());
                     if (jsonResponse.optInt("status") !=  0) {
-                        myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail with error code:"+ jsonResponse.optInt("status")));
+                        myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"Fail with error code:"+ jsonResponse.optInt("status")));
                     }else{
                         myCallBack.onResponse(jsonResponse);
                     }
                 } catch (JSONException e) {
-                    myCallBack.onFailure(doOnFailure(JSON_FAILURE,"Fail with JSONExecption:" + e.toString()));
+                    myCallBack.onFailure(Constant.failureObject(Constant.JSON_FAILURE,"JSONExecption:" + e.toString()));
                 }catch (IOException e){
-                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail with IOExecption: "+e.toString()));
+                    myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"IOExecption: "+e.toString()));
                 }catch (Exception e){
-                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Fail with Execption: "+e.toString()));
+                    myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"Execption: "+e.toString()));
                 }
             }
         });
@@ -107,7 +105,8 @@ public class ArtNB {
         httpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                myCallBack.onFailure(doOnFailure(SERVER_FAILURE,e.toString()));
+                //IOException e是由于网络原因引起的异常
+                myCallBack.onFailure(Constant.failureObject(Constant.NETWORK_FAILURE,e.toString()));
             }
             @Override
             public void onResponse(Call call, Response response) throws  IOException{
@@ -125,13 +124,13 @@ public class ArtNB {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"JSONExecption: "+e.toString()));
+                    myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"JSONExecption: "+e.toString()));
                 } catch (IOException e){
                     e.printStackTrace();
-                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"IOExecption: "+e.toString()));
+                    myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"IOExecption: "+e.toString()));
                 }catch (Exception e){
                     e.printStackTrace();
-                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Execption: "+e.toString()));
+                    myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"Execption: "+e.toString()));
                 }
             }
         });
@@ -157,15 +156,15 @@ public class ArtNB {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"JSONExecption: "+e.toString()));
+                    myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"JSONExecption: "+e.toString()));
                 } catch (Exception e){
                     e.printStackTrace();
-                    myCallBack.onFailure(doOnFailure(SERVER_FAILURE,"Execption: "+e.toString()));
+                    myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"Execption: "+e.toString()));
                 }
             }
             @Override
             public void onFailure(int errorNo, String strMsg) {
-                myCallBack.onFailure(doOnFailure(SERVER_FAILURE,errorNo+" "+strMsg));
+                myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,errorNo+" "+strMsg));
             }
         };
         new RxVolley.Builder()
@@ -180,22 +179,7 @@ public class ArtNB {
                 .doTask();
     }
 
-    /**
-     * 把获取的文章Response转换成JSONObject
-     */
-    private JSONObject doOnFailure(int status,String  reason) {
-        Log.i("DoOnFailure","fail status: "+status+" "+reason);
-        try{
-            JSONObject result = new JSONObject();
-            result.put("status",status);
-            result.put("reason",reason);
-            return result;
-        }catch (JSONException e) {
-            Log.e("Error",e.toString());
-            e.printStackTrace();
-            return null;
-        }
-    }
+
 
 
 }

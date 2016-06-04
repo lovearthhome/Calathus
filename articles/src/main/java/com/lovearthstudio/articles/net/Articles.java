@@ -156,7 +156,7 @@ public class Articles {
                     try {
                         if(jsonResponse == null)
                         {
-                            myCallBack.onFailure(null);
+                            myCallBack.onFailure(Constant.failureObject(Constant.UNKNOWN_FAILURE,"null jsonResponse"));
                             return;
                         }
 
@@ -199,21 +199,20 @@ public class Articles {
                             long pmcOverTime = Calendar.getInstance().getTimeInMillis();
                             Dua.getInstance().setAppPmc("GetArts",count,"1",pmcOverTime - pmcBeginTime,"ms");
                         }else{
-                            JSONObject myResult = new JSONObject();
-                            myResult.put("data",new JSONArray());
-                            myCallBack.onResponse(myResult);
+                            myCallBack.onFailure(Constant.failureObject(Constant.NOART_NOTICE,"no articles"));
                         }
                     }catch (JSONException e) {
                         Log.e("Error",e.toString());
                         e.printStackTrace();
-                        myCallBack.onResponse(null);
+                        myCallBack.onFailure(Constant.failureObject(Constant.JSON_FAILURE,e.toString()));
                     }
                 }
             });
         }catch (JSONException e) {
-                Log.e("Error",e.toString());
-                e.printStackTrace();
-            }
+            Log.e("Error",e.toString());
+            e.printStackTrace();
+            myCallBack.onFailure(Constant.failureObject(Constant.JSON_FAILURE,e.toString()));
+        }
     }
 
     /**
@@ -239,13 +238,13 @@ public class Articles {
             final long  pmcBeginTime = Calendar.getInstance().getTimeInMillis();
             artnb.setArticle(setArtParams,new MyCallBack(){
                 @Override
-                public void onFailure(JSONObject result) {
-                    Log.e("Articles","reviewArticle onFailure: "+result.toString());
-                    myCallBack.onFailure(result);
+                public void onFailure(JSONObject failureObjcet) {
+                    myCallBack.onFailure(failureObjcet);
                 }
                 @Override
                 public void onResponse(JSONObject jsonResponse) {
                     try {
+                        //FIXME: 这儿注意，能进入这个onResponse,那么nb层已经处理好了
                         if(jsonResponse.optInt("status") == 0)
                         {
                             if(from == "Review")
@@ -270,13 +269,14 @@ public class Articles {
                     }catch (Exception e) {
                         Log.e("Error",e.toString());
                         e.printStackTrace();
-                        myCallBack.onFailure(null);
+                        myCallBack.onFailure(Constant.failureObject(Constant.EXCEPTION,e.toString()));
                     }
                 }
             });
         }catch (Exception e) {
             Log.e("Error",e.toString());
             e.printStackTrace();
+            myCallBack.onFailure(Constant.failureObject(Constant.EXCEPTION,e.toString()));
         }
     }
 }

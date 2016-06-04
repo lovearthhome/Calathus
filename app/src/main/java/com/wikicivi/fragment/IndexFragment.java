@@ -35,10 +35,13 @@ public class IndexFragment extends BaseFragment {
     private static final int UPDATE_DATA = 1;
     private static final int PULL = 2;
     private static final int PUSH = 3;
-    private static final int PARSE_DATA_ERROR = 4;
-    private static final int PULL_NOMORE = 5;
-    private static final int PUSH_NOMORE = 6;
-    private static final int LOAD_NOMORE = 7;
+    private static final int ARTSDK_ERROR = 4;
+    private static final int NETWORK_ERROR = 5;
+    private static final int SERVER_ERROR = 6;
+
+    private static final int PULL_NOMORE = 8;
+    private static final int PUSH_NOMORE = 9;
+    private static final int LOAD_NOMORE = 10;
 
 
     private boolean pull;
@@ -70,8 +73,21 @@ public class IndexFragment extends BaseFragment {
                     adapter.notifyDataSetChanged();
                     listView.loadMoreComplete();
                     break;
-                case PARSE_DATA_ERROR:
-                    Toast.makeText(getActivity(), "数据解析错误,请稍后尝试", Toast.LENGTH_SHORT).show();
+                case ARTSDK_ERROR:
+                    Toast.makeText(getActivity(), "文章SDK错误", Toast.LENGTH_SHORT).show();
+                    listView.refreshComplete();
+                    listView.loadMoreComplete();
+
+                    break;
+                case NETWORK_ERROR:
+                    Toast.makeText(getActivity(), "网络错误", Toast.LENGTH_SHORT).show();
+                    listView.refreshComplete();
+                    listView.loadMoreComplete();
+                    break;
+                case SERVER_ERROR:
+                    Toast.makeText(getActivity(), "服务器错误", Toast.LENGTH_SHORT).show();
+                    listView.refreshComplete();
+                    listView.loadMoreComplete();
                     break;
                 case PULL_NOMORE:
                     Toast.makeText(getContext(), "已经是最新了", Toast.LENGTH_SHORT).show();
@@ -186,8 +202,59 @@ public class IndexFragment extends BaseFragment {
     class IndexCallBack implements MyCallBack {
 
         @Override
-        public void onFailure(JSONObject reason) {
-            mHandler.sendEmptyMessage(PARSE_DATA_ERROR);
+        public void onFailure(JSONObject failObject) {
+            switch (failObject.optInt("status"))
+            {
+                case 1://网络错误
+                case 6://ARTSDK内部例外
+                    if (pull) {
+                        pull = false;
+                    }
+                    if (push) {
+                        push = false;
+                    }
+                    mHandler.sendEmptyMessage(ARTSDK_ERROR);
+                    break;
+                case 2://ArticleSDKn内部不可识别的错误
+                    if (pull) {
+                        pull = false;
+                    }
+                    if (push) {
+                        push = false;
+                    }
+                    mHandler.sendEmptyMessage(ARTSDK_ERROR);
+                    break;
+                case 3://ArticleSDK数据解析错误,这个错误需要调试才能知道是客户端的错还是服务器端的错
+                    if (pull) {
+                        pull = false;
+                    }
+                    if (push) {
+                        push = false;
+                    }
+                    mHandler.sendEmptyMessage(ARTSDK_ERROR);
+                    break;
+                case 4://ArticleSDK数据解析错误,这个错误需要调试才能知道是客户端的错还是服务器端的错
+                    if (pull) {
+                        pull = false;
+                    }
+                    if (push) {
+                        push = false;
+                    }
+                    mHandler.sendEmptyMessage(SERVER_ERROR);
+                    break;
+                case 5://ArticleSDK数据解析错误,这个错误需要调试才能知道是客户端的错还是服务器端的错
+                    if (pull) {
+                        mHandler.sendEmptyMessage(PULL_NOMORE);
+                    }
+                    if (push) {
+                        mHandler.sendEmptyMessage(PUSH_NOMORE);
+                    }
+                    break;
+                default:
+                    mHandler.sendEmptyMessage(ARTSDK_ERROR);
+                    break;
+            }
+
         }
 
         @Override
