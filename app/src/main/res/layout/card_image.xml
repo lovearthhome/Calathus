@@ -6,20 +6,36 @@
     android:layout_gravity="center">
 
     <LinearLayout
+        android:id="@+id/layout_titleframe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/titleframe_default"
-        android:padding="0dp"
+        android:background="@drawable/textframe_simple"
+        android:padding="1dp"
         android:layout_weight="1"
         android:gravity="center">
 
 
         <TextView
-            android:id="@+id/tv_music_title"
+            android:id="@+id/tv_title"
             style="@style/ListTitieStyle"
-            android:text="无题" />
+            android:text="题目" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/layout_briefframe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textframe_simple"
+        android:padding="1dp"
+        android:layout_weight="1"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/tv_brief"
+            style="@style/ListTitieStyle"
+            android:text="描述" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/pb_progress"
@@ -38,7 +54,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/titleframe_default"
+        android:background="@drawable/imageframe_simple"
         android:padding="4dp"
         android:layout_weight="1">
 

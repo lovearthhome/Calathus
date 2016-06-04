@@ -25,7 +25,7 @@ public class MusicCard extends BaseCardView implements View.OnClickListener {
 
     private static final String TAG = "========" + MusicCard.class.getName();
 
-    private TextView tv_music_title;
+    private TextView tv_title;
     private MusicPlayerView mpv;
 
     private String music_src;
@@ -46,7 +46,7 @@ public class MusicCard extends BaseCardView implements View.OnClickListener {
 
 
     public void findView() {
-        tv_music_title = (TextView) findViewById(R.id.tv_music_title);
+        tv_title = (TextView) findViewById(R.id.tv_title);
         mpv = (MusicPlayerView) findViewById(R.id.mpv);
     }
 
@@ -81,7 +81,7 @@ public class MusicCard extends BaseCardView implements View.OnClickListener {
         JSONObject image_file = image_farray.getJSONObject(0);
         image_src = Constant.baseFileUrl + image_file.optString("src");
 
-        tv_music_title.setText(title);
+        tv_title.setText(title);
         if (music_duration == 0) music_duration = 100;
 
         player = new Player(mpv);

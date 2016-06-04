@@ -47,13 +47,16 @@ import okhttp3.Response;
 public class ImageCard extends BaseCardView implements View.OnClickListener {
     private static final String TAG = "========" + ImageCard.class.getName();
 
-    private TextView tv_music_title;
+
     private ProgressBar pb_progress;
     private TextView tv_progress;
     private ImageView iv_img;
 
     private Context context;
-
+    private TextView tv_title;
+    private TextView tv_brief;
+    private LinearLayout layout_titleframe;
+    private LinearLayout layout_briefframe;
 
     private static final int UPDATE_PROGRESS = 1;
     private static String[] imageurl = {"file:///android_asset/test/image1.jpg", "file:///android_asset/test/image2.jpg", "file:///android_asset/test/image3.jpg", "file:///android_asset/test/image4.jpg",
@@ -98,10 +101,14 @@ public class ImageCard extends BaseCardView implements View.OnClickListener {
 
     @Override
     public void findView() {
-        tv_music_title = (TextView) findViewById(R.id.tv_music_title);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_brief = (TextView) findViewById(R.id.tv_brief);
+        layout_titleframe = (LinearLayout) findViewById(R.id.layout_titleframe);
+        layout_briefframe = (LinearLayout) findViewById(R.id.layout_briefframe);
         pb_progress = (ProgressBar) findViewById(R.id.pb_progress);
         tv_progress = (TextView) findViewById(R.id.tv_progress);
         iv_img = (ImageView) findViewById(R.id.iv_img);
+
     }
 
     @Override
@@ -114,15 +121,28 @@ public class ImageCard extends BaseCardView implements View.OnClickListener {
         Log.i(TAG, jsonStr);
 
         JSONObject jsonObject = new JSONObject(jsonStr);
-            /*
-            内容信息
-            */
-        // tvTitle.setText(jsonObject.getString("title"));
-
+        /*
+        内容信息
+        */
         String content_str = jsonObject.optString("content");
         JSONObject content_obj = new JSONObject(content_str);
 
-        String art_brief = content_obj.optString("brief");
+        String title = content_obj.getString("title");
+        if(title == null || title.equals("")  )
+        {
+            layout_titleframe.setVisibility(View.GONE);
+        }else{
+            tv_title.setText(title);
+        }
+
+        String brief = content_obj.getString("brief");
+        if(brief == null || brief.equals("")  )
+        {
+            layout_titleframe.setVisibility(View.GONE);
+        }else{
+            tv_brief.setText(brief);
+        }
+
         JSONArray art_files = content_obj.optJSONArray("files");
 
         JSONObject file0 = art_files.getJSONObject(0);
