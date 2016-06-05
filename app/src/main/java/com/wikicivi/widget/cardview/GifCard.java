@@ -3,8 +3,11 @@ package com.wikicivi.widget.cardview;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +15,15 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.common.logging.FLog;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.image.QualityInfo;
 import com.kymjs.gallery.KJGalleryActivity;
 import com.wikicivi.constant.Constant;
 import com.wikicivi.widget.circleprogressbar.RateTextCircularProgressBar;
@@ -32,19 +40,16 @@ import org.json.JSONObject;
 public class GifCard extends BaseCardView implements View.OnClickListener {
     private static final String TAG = "========" + GifCard.class.getName();
 
-
+    private LinearLayout ll_gif_title;
+    private TextView tv_gif_title;
     // private GifImageView iv_gif;
 
     private SimpleDraweeView giv_view;
+    private TextView tv_bottom_click_look_bigimage;
 
     private RateTextCircularProgressBar rate_progress_bar;
 
     private Context context;
-
-    private TextView tv_title;
-    private TextView tv_brief;
-    private LinearLayout layout_titleframe;
-    private LinearLayout layout_briefframe;
 
 
     private static final int UPDATE_PROGRESS = 1;
@@ -71,11 +76,8 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
     @Override
     public void findView() {
-        tv_title = (TextView) findViewById(R.id.tv_title);
-        tv_brief = (TextView) findViewById(R.id.tv_brief);
-        layout_titleframe = (LinearLayout) findViewById(R.id.layout_titleframe);
-        layout_briefframe = (LinearLayout) findViewById(R.id.layout_briefframe);
-
+        ll_gif_title = (LinearLayout) findViewById(R.id.ll_gif_title);
+        tv_gif_title = (TextView) findViewById(R.id.tv_gif_title);
         // iv_gif = (GifImageView) findViewById(R.id.iv_gif);
         giv_view = (SimpleDraweeView) findViewById(R.id.gif_view);
 
@@ -86,6 +88,8 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
         rate_progress_bar = (RateTextCircularProgressBar) findViewById(R.id.rate_progress_bar);
         rate_progress_bar.setMax(10000);
         rate_progress_bar.getCircularProgressBar().setCircleWidth(20);
+
+        tv_bottom_click_look_bigimage = (TextView) findViewById(R.id.tv_bottom_click_look_bigimage);
     }
 
     @Override
@@ -96,30 +100,16 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
     @Override
     public void parseData(String jsonStr) throws JSONException {
         JSONObject jsonObject = new JSONObject(jsonStr);
-
+        rate_progress_bar.setVisibility(VISIBLE);
+        tv_bottom_click_look_bigimage.setVisibility(INVISIBLE);
             /*
             内容信息
             */
+        // tvTitle.setText(jsonObject.getString("title"));
+
         String content_str = jsonObject.optString("content");
+
         JSONObject content_obj = new JSONObject(content_str);
-
-        String title = content_obj.getString("title");
-        if(title == null || title.equals("")  )
-        {
-            layout_titleframe.setVisibility(View.GONE);
-        }else{
-            tv_title.setText(title);
-        }
-
-        String brief = content_obj.getString("brief");
-        if(brief == null || brief.equals("")  )
-        {
-            layout_titleframe.setVisibility(View.GONE);
-        }else{
-            tv_brief.setText(brief);
-        }
-
-
 
         String art_brief = content_obj.optString("brief");
         JSONArray art_files = content_obj.optJSONArray("files");
@@ -141,8 +131,13 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
 
         float ratio = (float) Constant.screenwith / (float) img_width;
+        int height = (int) (ratio * img_height);
+        if (height > 1500) {
+            height = 700;
+            tv_bottom_click_look_bigimage.setVisibility(VISIBLE);
+        }
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT, (int) (ratio * img_height));
+                FrameLayout.LayoutParams.MATCH_PARENT, height);
         giv_view.setLayoutParams(layoutParams);
 
        /* final ProgressListener progressListener = new ProgressListener() {
@@ -197,9 +192,16 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
         DraweeController controller = Fresco.newDraweeControllerBuilder()
                 .setUri(Uri.parse(gif_url))
                 .setAutoPlayAnimations(true)
+                .setControllerListener(controllerListener)
                 // other setters
                 .build();
         giv_view.setController(controller);
+
+        if ("null".equals(gif_title) || TextUtils.isEmpty(gif_title)) {
+            ll_gif_title.setVisibility(View.GONE);
+        } else {
+            tv_gif_title.setText(gif_title);
+        }
     }
 
     @Override
@@ -243,4 +245,38 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
             return false;
         }
     }
+
+    ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
+        @Override
+        public void onFinalImageSet(
+                String id,
+                @Nullable ImageInfo imageInfo,
+                @Nullable Animatable anim) {
+            if (imageInfo == null) {
+                return;
+            }
+            QualityInfo qualityInfo = imageInfo.getQualityInfo();
+            FLog.d("Final image received! " +
+                            "Size %d x %d",
+                    "Quality level %d, good enough: %s, full quality: %s",
+                    imageInfo.getWidth(),
+                    imageInfo.getHeight(),
+                    qualityInfo.getQuality(),
+                    qualityInfo.isOfGoodEnoughQuality(),
+                    qualityInfo.isOfFullQuality());
+
+            rate_progress_bar.setVisibility(INVISIBLE);
+        }
+
+        @Override
+        public void onIntermediateImageSet(String id, @Nullable ImageInfo imageInfo) {
+            //FLog.d("Intermediate image received");
+        }
+
+        @Override
+        public void onFailure(String id, Throwable throwable) {
+            FLog.e(getClass(), throwable, "Error loading %s", id);
+        }
+    };
+
 }

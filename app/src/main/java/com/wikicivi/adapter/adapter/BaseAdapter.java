@@ -9,15 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.zky.articleproj.R;
-import com.wikicivi.adapter.holder.base.BaseHolder;
-import com.wikicivi.adapter.holder.TextsViewHolder;
 import com.wikicivi.adapter.holder.AdHolder;
 import com.wikicivi.adapter.holder.GifPlayerHolder;
-import com.wikicivi.adapter.holder.ImageViewHolder;
-import com.wikicivi.adapter.holder.TextViewHolder;
 import com.wikicivi.adapter.holder.MusicViewHolder;
+import com.wikicivi.adapter.holder.TextViewHolder;
+import com.wikicivi.adapter.holder.TextsViewHolder;
 import com.wikicivi.adapter.holder.VideoViewHolder;
+import com.wikicivi.adapter.holder.base.BaseHolder;
+import com.zky.articleproj.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,8 +64,9 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
                 holder = new TextsViewHolder(v);
                 break;
             case 201:
-                holder = new ImageViewHolder(v);
-                break;
+                // holder = new ImageViewHolder(v);
+
+                //break;
             case 202:
                 holder = new GifPlayerHolder(v);
                 break;

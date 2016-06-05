@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -51,16 +52,29 @@
              android:scaleType="centerInside"
              android:src="@mipmap/gif_defualt" />-->
 
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/gif_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            fresco:placeholderImage="@color/douya_primary" />
+
         <com.wikicivi.widget.circleprogressbar.RateTextCircularProgressBar
             android:id="@+id/rate_progress_bar"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center" />
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/gif_view"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
+        <TextView
+            android:id="@+id/tv_bottom_click_look_bigimage"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:background="@android:color/holo_orange_dark"
+            android:gravity="center"
+            android:text="点击查看大图"
+            android:visibility="invisible" />
+
+
     </FrameLayout>
 
 </LinearLayout>
