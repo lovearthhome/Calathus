@@ -124,13 +124,17 @@ public class ArtNB {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"JSONExecption: "+e.toString()));
+                    myCallBack.onFailure(Constant.failureObject(Constant.JSON_FAILURE,"JSONExecption: "+e.toString()));
                 } catch (IOException e){
                     e.printStackTrace();
-                    myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"IOExecption: "+e.toString()));
+                    /**
+                     * FIXME: fail status: 4 IOExecption: java.net.SocketTimeoutException
+                     * 如果断网，那么回出现上面这个错误，那么应该是网络错误
+                     * */
+                    myCallBack.onFailure(Constant.failureObject(Constant.NETWORK_FAILURE,"IOExecption: "+e.toString()));
                 }catch (Exception e){
                     e.printStackTrace();
-                    myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"Execption: "+e.toString()));
+                    myCallBack.onFailure(Constant.failureObject(Constant.NETWORK_FAILURE,"Execption: "+e.toString()));
                 }
             }
         });

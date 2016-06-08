@@ -187,7 +187,7 @@ public class MainActivity extends BaseActivity {
     class MyPagerAdapter extends FragmentPagerAdapter {
 
         private final String tabTitles[] = {"推荐", "段子", "图片","动图","视频", "电影", "音乐", "艺术", "广告"};
-        private final String channel[] = {"Recommend", "Text", "Image","Gif","Video", "Movie", "Music", "Art", "Advertisement"};
+        private final String channel[] = {"Recommend", "Text", "Jif","Gif","Video", "Movie", "Music", "Art", "Advertisement"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);

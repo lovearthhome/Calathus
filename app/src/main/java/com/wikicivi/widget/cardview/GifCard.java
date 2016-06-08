@@ -2,12 +2,13 @@ package com.wikicivi.widget.cardview;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,12 +46,20 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
     // private GifImageView iv_gif;
 
     private SimpleDraweeView giv_view;
-    private TextView tv_bottom_click_look_bigimage;
+//    private TextView tv_bottom_click_look_bigimage;
+     private LinearLayout ll_bootom_click_show_bigimage;
 
     private RateTextCircularProgressBar rate_progress_bar;
 
+    private Boolean finalImageSet;
+
+
     private Context context;
 
+    private TextView tv_title;
+    private TextView tv_brief;
+    private LinearLayout layout_titleframe;
+    private LinearLayout layout_briefframe;
 
     private static final int UPDATE_PROGRESS = 1;
     private static String[] imageurl = {"file:///android_asset/test/image1.jpg", "file:///android_asset/test/image2.jpg", "file:///android_asset/test/image3.jpg", "file:///android_asset/test/image4.jpg",
@@ -58,6 +67,7 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
     private String gif_url = "";
     private String img_src = "";
+    private String img_srcbak = "";
     private int img_width;
     private int img_height;
     private String img_type;
@@ -76,8 +86,11 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
     @Override
     public void findView() {
-        ll_gif_title = (LinearLayout) findViewById(R.id.ll_gif_title);
-        tv_gif_title = (TextView) findViewById(R.id.tv_gif_title);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_brief = (TextView) findViewById(R.id.tv_brief);
+        layout_titleframe = (LinearLayout) findViewById(R.id.layout_titleframe);
+        layout_briefframe = (LinearLayout) findViewById(R.id.layout_briefframe);
+
         // iv_gif = (GifImageView) findViewById(R.id.iv_gif);
         giv_view = (SimpleDraweeView) findViewById(R.id.gif_view);
 
@@ -86,10 +99,13 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
         giv_view.setHierarchy(hierarchy);
 
         rate_progress_bar = (RateTextCircularProgressBar) findViewById(R.id.rate_progress_bar);
-        rate_progress_bar.setMax(10000);
-        rate_progress_bar.getCircularProgressBar().setCircleWidth(20);
+        rate_progress_bar.setMax(100);
+        rate_progress_bar.getCircularProgressBar().setCircleWidth(40);
+        rate_progress_bar.getCircularProgressBar().setBackgroundColor(Color.argb(255,232,232,232));//百思不得姐进度条背景色
+        rate_progress_bar.getCircularProgressBar().setPrimaryColor(Color.argb(255,217,217,217));//百思不得姐进度条前景色
+        rate_progress_bar.setTextColor(Color.argb(255,217,217,217));
 
-        tv_bottom_click_look_bigimage = (TextView) findViewById(R.id.tv_bottom_click_look_bigimage);
+        ll_bootom_click_show_bigimage = (LinearLayout) findViewById(R.id.ll_bootom_click_show_bigimage);
     }
 
     @Override
@@ -101,17 +117,30 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
     public void parseData(String jsonStr) throws JSONException {
         JSONObject jsonObject = new JSONObject(jsonStr);
         rate_progress_bar.setVisibility(VISIBLE);
-        tv_bottom_click_look_bigimage.setVisibility(INVISIBLE);
-            /*
-            内容信息
-            */
-        // tvTitle.setText(jsonObject.getString("title"));
-
+        finalImageSet = false;
+        ll_bootom_click_show_bigimage.setVisibility(INVISIBLE);
+        /*
+        内容信息
+        */
         String content_str = jsonObject.optString("content");
-
         JSONObject content_obj = new JSONObject(content_str);
 
-        String art_brief = content_obj.optString("brief");
+        String title = content_obj.getString("title");
+        if(title == null || title.equals("")  )
+        {
+            layout_titleframe.setVisibility(View.GONE);
+        }else{
+            tv_title.setText(title);
+        }
+
+        String brief = content_obj.getString("brief");
+        if(brief == null || brief.equals("")  )
+        {
+            layout_titleframe.setVisibility(View.GONE);
+        }else{
+            tv_brief.setText(brief);
+        }
+
         JSONArray art_files = content_obj.optJSONArray("files");
 
         JSONObject file0 = art_files.getJSONObject(0);
@@ -124,6 +153,7 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
 
         img_src = img_file.optString("src");
+        img_srcbak = img_file.optString("srcbak");
         img_height = img_file.optInt("height");
         img_width = img_file.optInt("width");
         img_type = img_file.optString("type");
@@ -134,7 +164,7 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
         int height = (int) (ratio * img_height);
         if (height > 1500) {
             height = 700;
-            tv_bottom_click_look_bigimage.setVisibility(VISIBLE);
+            ll_bootom_click_show_bigimage.setVisibility(VISIBLE);
         }
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT, height);
@@ -161,6 +191,7 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
         final long pmcBeginTime = Calendar.getInstance().getTimeInMillis();*/
         gif_url = Constant.baseFileUrl + img_src;
+        //gif_url = img_srcbak;
         System.out.println("==============:+++++++++++++" + gif_url);
        /* Glide.with(context)
 //                .load("http://ww2.sinaimg.cn/large/85cccab3tw1esjq9r0pcpg20d3086qtr.jpg")
@@ -197,11 +228,6 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
                 .build();
         giv_view.setController(controller);
 
-        if ("null".equals(gif_title) || TextUtils.isEmpty(gif_title)) {
-            ll_gif_title.setVisibility(View.GONE);
-        } else {
-            tv_gif_title.setText(gif_title);
-        }
     }
 
     @Override
@@ -240,8 +266,13 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
             // your app's logic to change the drawable's
             // appearance here based on progress
-            rate_progress_bar.setProgress(level);
+            rate_progress_bar.setProgress(level/20);
             System.out.println("--------:" + level);
+            if(level >= 10000)
+            {
+                MyAsyncTask pbtask = new MyAsyncTask();
+                pbtask.execute();
+            }
             return false;
         }
     }
@@ -265,7 +296,8 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
                     qualityInfo.isOfGoodEnoughQuality(),
                     qualityInfo.isOfFullQuality());
 
-            rate_progress_bar.setVisibility(INVISIBLE);
+            //rate_progress_bar.setVisibility(INVISIBLE);
+            finalImageSet = true;
         }
 
         @Override
@@ -278,5 +310,62 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
             FLog.e(getClass(), throwable, "Error loading %s", id);
         }
     };
+
+    /**
+     * 我们假设GIF渲染的过程是个必不可少的环节，这个环节必然会损失时间，这个过程必须要模拟
+     * 我们先假设渲染时间是下载时间相等
+     *
+     *
+     */
+    class MyAsyncTask extends AsyncTask<Void,Integer,Void> {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            // 这个方法是在执行异步任务之前的时候执行，并且是在UI Thread当中执行的，通常我们在这个方法里做一些UI控件的初始化的操作，
+            super.onPreExecute();
+            rate_progress_bar.setProgress(50);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            // TODO Auto-generated method stub
+            super.onProgressUpdate();
+            rate_progress_bar.setProgress(values[0]);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            // TODO Auto-generated method stub
+            float timePast = 5.0f;//假设过去了5秒
+            float timeLeft = 5.0f;//假设剩下五秒就会渲染成功，那么总时间就是10秒
+            while(true)
+            {
+                try
+                {
+                    Thread.sleep(100);
+                    timeLeft -= 0.1f;
+                    timePast += 0.1f;
+                    if(timeLeft < 2.5f && finalImageSet == false)
+                    {
+                        timeLeft += 1.0f;
+                    }
+                    if(timeLeft <0.0f)
+                        break;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                publishProgress((int)(timePast/(timeLeft+timePast)*100));
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            rate_progress_bar.setVisibility(INVISIBLE);
+        }
+
+    }
+
 
 }

@@ -32,6 +32,7 @@
     <color name="window_background_light">@color/grey_50</color>
     <color name="card_background_light">@android:color/white</color>
     <color name="card_background_dark">@color/grey_800</color>
+    <color name="card_largeimagenote_dark">#77000000</color>
 
     <color name="douya_primary">@color/green_500</color>
     <color name="douya_primary_dark">@color/green_700</color>

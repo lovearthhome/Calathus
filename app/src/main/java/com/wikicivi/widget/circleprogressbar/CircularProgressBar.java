@@ -21,9 +21,11 @@ public class CircularProgressBar extends View {
 	private Paint mPaint = new Paint();
 	private RectF mRectF = new RectF();
 	
-	private int mBackgroundColor = Color.LTGRAY;
-	private int mPrimaryColor = Color.parseColor("#6DCAEC");
-	private float mStrokeWidth = 10F;
+	//private int mBackgroundColor = Color.LTGRAY;
+	private int mBackgroundColor = Color.argb(255,232,232,232);
+	//private int mPrimaryColor = Color.parseColor("#6DCAEC");
+	private int mPrimaryColor = Color.argb(255,217,217,217);
+	private float mStrokeWidth = 20F;
 	
 	/**
 	 * 进度条改变监听

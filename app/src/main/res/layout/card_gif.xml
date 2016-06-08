@@ -10,7 +10,7 @@
         android:id="@+id/layout_titleframe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/textframe_simple"
+        android:background="@drawable/frame3px"
         android:padding="1dp"
         android:layout_weight="1"
         android:gravity="center">
@@ -26,7 +26,7 @@
         android:id="@+id/layout_briefframe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/textframe_simple"
+        android:background="@drawable/frame3px"
         android:padding="1dp"
         android:layout_weight="1"
         android:gravity="center">
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/textframe_simple"
+        android:background="@drawable/frame3px"
         android:padding="4dp">
 
         <!-- <pl.droidsonroids.gif.GifImageView
@@ -56,7 +56,7 @@
             android:id="@+id/gif_view"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            fresco:placeholderImage="@color/douya_primary" />
+            fresco:placeholderImage="@drawable/post_placeholderimage" />
 
         <com.wikicivi.widget.circleprogressbar.RateTextCircularProgressBar
             android:id="@+id/rate_progress_bar"
@@ -64,15 +64,30 @@
             android:layout_height="100dp"
             android:layout_gravity="center" />
 
-        <TextView
-            android:id="@+id/tv_bottom_click_look_bigimage"
+
+        <LinearLayout
+            android:id="@+id/ll_bootom_click_show_bigimage"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:background="@android:color/holo_orange_dark"
+            android:background="@color/card_largeimagenote_dark"
             android:gravity="center"
-            android:text="点击查看大图"
-            android:visibility="invisible" />
+            android:orientation="horizontal"
+            android:layout_gravity="bottom">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/see_big_picture2x"/>
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:id="@+id/tv_bottom_click_look_bigimage"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:text="点击查看全图" />
+        </LinearLayout>
+
 
 
     </FrameLayout>
