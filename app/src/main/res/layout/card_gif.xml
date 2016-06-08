@@ -10,10 +10,9 @@
         android:id="@+id/layout_titleframe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/frame3px"
-        android:padding="1dp"
         android:layout_weight="1"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="1dp">
 
 
         <TextView
@@ -26,10 +25,9 @@
         android:id="@+id/layout_briefframe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/frame3px"
-        android:padding="1dp"
         android:layout_weight="1"
-        android:gravity="center">
+        android:gravity="center"
+        android:padding="1dp">
 
 
         <TextView
@@ -37,11 +35,11 @@
             style="@style/ListTitieStyle"
             android:text="描述" />
     </LinearLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/frame3px"
         android:padding="4dp">
 
         <!-- <pl.droidsonroids.gif.GifImageView
@@ -69,25 +67,25 @@
             android:id="@+id/ll_bootom_click_show_bigimage"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_gravity="bottom"
             android:background="@color/card_largeimagenote_dark"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:layout_gravity="bottom">
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/see_big_picture2x"/>
+                android:layout_height="25dp" />
+
             <TextView
-                android:layout_marginLeft="20dp"
                 android:id="@+id/tv_bottom_click_look_bigimage"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:textColor="#ffffff"
-                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
                 android:gravity="center"
-                android:text="点击查看全图" />
+                android:text="点击查看全图"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
         </LinearLayout>
-
 
 
     </FrameLayout>
