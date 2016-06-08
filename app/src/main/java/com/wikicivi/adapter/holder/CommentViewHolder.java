@@ -6,7 +6,6 @@ import android.view.View;
 import com.wikicivi.adapter.holder.base.BaseHolder;
 import com.wikicivi.adapter.holder.base.CardHolder;
 import com.wikicivi.widget.cardview.CommentCard;
-import com.zky.articleproj.R;
 
 import org.json.JSONException;
 import org.xutils.view.annotation.ViewInject;
