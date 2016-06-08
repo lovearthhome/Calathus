@@ -17,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lovearthstudio.articles.net.MyCallBack;
 import com.lovearthstudio.duasdk.util.LogUtil;
 import com.wikicivi.R;
+import com.wikicivi.activity.CommentActivity;
 import com.wikicivi.activity.MoreActivity;
 import com.wikicivi.constant.Constant;
 import com.wikicivi.domain.ArcState;
@@ -127,7 +128,7 @@ public abstract class CardHolder extends BaseHolder {
                 playAnimation(tv_arrow_animation);
                 //event.put("act", "good");
                 if (com.lovearthstudio.articles.constant.Constant.binder != null) {
-                    com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid,"View","good",1, setViewArticleCB);
+                    com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid, "View", "good", 1, setViewArticleCB);
                 }
                 break;
             case R.id.tv_narrow:
@@ -135,19 +136,20 @@ public abstract class CardHolder extends BaseHolder {
                 playAnimation(tv_narrow_animation);
                 //event.put("act", "bad");
                 if (com.lovearthstudio.articles.constant.Constant.binder != null) {
-                    com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid,"View","bad",1, setViewArticleCB);
+                    com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid, "View", "bad", 1, setViewArticleCB);
                 }
                 break;
             case R.id.tv_comment:
                 //event.put("act", "comt");
                 if (com.lovearthstudio.articles.constant.Constant.binder != null) {
-                    com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid,"View","comt",1, setViewArticleCB);
+                    com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid, "View", "comt", 1, setViewArticleCB);
                 }
+                context.startActivity(new Intent(context, CommentActivity.class));
                 break;
             case R.id.tv_share:
                 //event.put("act", "shar");
                 if (com.lovearthstudio.articles.constant.Constant.binder != null) {
-                    com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid,"View","shar",1, setViewArticleCB);
+                    com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid, "View", "shar", 1, setViewArticleCB);
                 }
                 break;
             case R.id.iv_more:
@@ -172,6 +174,7 @@ public abstract class CardHolder extends BaseHolder {
 
         }
     }
+
     public void playAnimation(final View view) {
         view.setVisibility(View.VISIBLE);
         view.startAnimation(animation);
@@ -195,14 +198,14 @@ public abstract class CardHolder extends BaseHolder {
             /**
              * 头部信息
              */
-            String editorName=jsonObject.getString("editor_name");
-            String avatarUrl=jsonObject.getString("editor_avatar");
+            String editorName = jsonObject.getString("editor_name");
+            String avatarUrl = jsonObject.getString("editor_avatar");
             //***回来的Json数据里"editor_name":null,getString这个函数就会把null解释成带双音号的“null”
-            if(editorName==null||editorName.equals("null")|| TextUtils.isEmpty(editorName)){
-                editorName= "匿名";
+            if (editorName == null || editorName.equals("null") || TextUtils.isEmpty(editorName)) {
+                editorName = "匿名";
             }
-            if(avatarUrl==null||avatarUrl.equals("null")|| TextUtils.isEmpty(avatarUrl)){
-                avatarUrl= Constant.defaultAvatarUrl;
+            if (avatarUrl == null || avatarUrl.equals("null") || TextUtils.isEmpty(avatarUrl)) {
+                avatarUrl = Constant.defaultAvatarUrl;
             }
             cardHolder.editer_name.setText(editorName);
             LogUtil.e(avatarUrl);

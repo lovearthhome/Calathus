@@ -3,6 +3,7 @@ package com.wikicivi.adapter.holder;
 import android.content.Context;
 import android.view.View;
 
+import com.wikicivi.R;
 import com.wikicivi.adapter.holder.base.BaseHolder;
 import com.wikicivi.adapter.holder.base.CardHolder;
 import com.wikicivi.widget.cardview.CommentCard;

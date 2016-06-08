@@ -29,7 +29,7 @@ public class CommentActivity extends BaseActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.root_view, IndexFragment.newInstance(100)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.root_view, IndexFragment.newInstance("Gif")).commit();
     }
 
     @Override
