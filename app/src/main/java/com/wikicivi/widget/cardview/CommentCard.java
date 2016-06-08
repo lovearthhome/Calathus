@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 
 import org.json.JSONException;
 
