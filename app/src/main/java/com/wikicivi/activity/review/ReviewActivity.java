@@ -16,13 +16,13 @@ import com.lovearthstudio.articles.net.GetArtParams;
 import com.lovearthstudio.articles.net.MyCallBack;
 import com.lovearthstudio.duasdk.util.JsonUtil;
 import com.lovearthstudio.duasdk.util.LogUtil;
-import com.zky.articleproj.R;
+import com.wikicivi.R;
+import com.wikicivi.activity.BaseActivity;
 import com.wikicivi.activity.review.item.GifFragment;
 import com.wikicivi.activity.review.item.ImageFragment;
 import com.wikicivi.activity.review.item.MusicFragment;
 import com.wikicivi.activity.review.item.TextFragment;
 import com.wikicivi.activity.review.item.VideoFragment;
-import com.wikicivi.activity.BaseActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

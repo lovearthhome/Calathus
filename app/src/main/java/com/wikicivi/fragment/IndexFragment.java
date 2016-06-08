@@ -17,7 +17,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.lovearthstudio.articles.constant.Constant;
 import com.lovearthstudio.articles.net.GetArtParams;
 import com.lovearthstudio.articles.net.MyCallBack;
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 import com.wikicivi.adapter.adapter.IndexListAdapter;
 
 import org.json.JSONArray;

@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 import com.wikicivi.widget.RoundImageView;
 
 import org.xutils.view.annotation.ViewInject;

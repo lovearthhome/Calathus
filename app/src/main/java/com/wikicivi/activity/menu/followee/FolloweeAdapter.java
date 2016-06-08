@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

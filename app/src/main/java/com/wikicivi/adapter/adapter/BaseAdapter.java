@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.wikicivi.R;
 import com.wikicivi.adapter.holder.AdHolder;
 import com.wikicivi.adapter.holder.GifPlayerHolder;
 import com.wikicivi.adapter.holder.MusicViewHolder;
@@ -16,7 +17,6 @@ import com.wikicivi.adapter.holder.TextViewHolder;
 import com.wikicivi.adapter.holder.TextsViewHolder;
 import com.wikicivi.adapter.holder.VideoViewHolder;
 import com.wikicivi.adapter.holder.base.BaseHolder;
-import com.zky.articleproj.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

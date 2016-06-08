@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.lovearthstudio.articles.constant.Constant;
-import com.zky.articleproj.R;
+
+import com.wikicivi.R;
 import com.wikicivi.manager.Player;
 
 import org.json.JSONArray;

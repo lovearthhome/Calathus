@@ -26,9 +26,9 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.image.QualityInfo;
 import com.kymjs.gallery.KJGalleryActivity;
+import com.wikicivi.R;
 import com.wikicivi.constant.Constant;
 import com.wikicivi.widget.circleprogressbar.RateTextCircularProgressBar;
-import com.zky.articleproj.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -16,7 +16,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
-import com.zky.articleproj.R;
+import com.wikicivi.R;
+
 
 public class ScratchCardView extends TextView {
 

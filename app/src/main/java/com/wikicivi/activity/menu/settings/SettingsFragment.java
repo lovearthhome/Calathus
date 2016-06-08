@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
-import com.zky.articleproj.R;
+import com.wikicivi.R;
+
 
 /**
  * A simple {@link Fragment} subclass.

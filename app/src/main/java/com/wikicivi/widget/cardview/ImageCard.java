@@ -22,7 +22,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.kymjs.gallery.KJGalleryActivity;
 import com.lovearthstudio.duasdk.Dua;
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 import com.wikicivi.constant.Constant;
 import com.wikicivi.net.glideprogress.ProgressListener;
 import com.wikicivi.net.glideprogress.ProgressResponseBody;

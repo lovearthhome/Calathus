@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 import com.wikicivi.activity.BaseActivity;
 
 import org.xutils.view.annotation.ContentView;

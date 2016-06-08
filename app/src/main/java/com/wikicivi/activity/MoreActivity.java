@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.x;

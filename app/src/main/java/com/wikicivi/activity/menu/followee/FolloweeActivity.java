@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.lovearthstudio.duasdk.util.OkHttpUtil;
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 import com.wikicivi.activity.BaseActivity;
 import com.wikicivi.constant.Constant;
 

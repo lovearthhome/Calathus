@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 import com.wikicivi.manager.Player;
 
 import org.xutils.view.annotation.ContentView;

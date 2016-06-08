@@ -5,7 +5,8 @@ import android.content.Context;
 import android.os.Build;
 import android.view.View;
 
-import com.zky.articleproj.R;
+
+import com.wikicivi.R;
 import com.wikicivi.adapter.holder.base.BaseHolder;
 import com.wikicivi.adapter.holder.base.CardHolder;
 import com.wikicivi.widget.cardview.TextsCard;

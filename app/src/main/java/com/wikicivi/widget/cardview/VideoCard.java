@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 import com.wikicivi.constant.Constant;
 
 import org.json.JSONArray;

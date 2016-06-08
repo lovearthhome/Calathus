@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.squareup.picasso.Picasso;
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 import com.wikicivi.adapter.holder.base.BaseHolder;
 import com.wikicivi.widget.RoundImageView;
 

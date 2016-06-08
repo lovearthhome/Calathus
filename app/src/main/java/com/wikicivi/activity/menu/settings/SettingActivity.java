@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.lovearthstudio.duasdk.Dua;
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 import com.wikicivi.activity.BaseActivity;
 
 import org.xutils.view.annotation.ContentView;

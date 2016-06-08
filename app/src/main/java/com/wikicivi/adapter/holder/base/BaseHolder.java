@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 
 import org.json.JSONException;
 

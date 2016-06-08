@@ -18,7 +18,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 
 
 /**

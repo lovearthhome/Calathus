@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 import com.wikicivi.fragment.BaseFragment;
 import com.wikicivi.widget.cardview.MusicCard;
 

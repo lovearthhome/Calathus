@@ -31,7 +31,7 @@ import com.lovearthstudio.duasdk.Dua;
 import com.lovearthstudio.duasdk.ui.DuaActivityLogin;
 import com.lovearthstudio.duasdk.ui.DuaActivityProfile;
 import com.lovearthstudio.duasdk.util.LogUtil;
-import com.zky.articleproj.R;
+import com.wikicivi.R;
 import com.wikicivi.activity.menu.About_Activity;
 import com.wikicivi.activity.menu.followee.FolloweeActivity;
 import com.wikicivi.activity.menu.follower.FollowerActivity;
