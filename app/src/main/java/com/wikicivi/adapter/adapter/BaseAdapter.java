@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.wikicivi.R;
 import com.wikicivi.adapter.holder.AdHolder;
+import com.wikicivi.adapter.holder.CommentViewHolder;
 import com.wikicivi.adapter.holder.GifPlayerHolder;
 import com.wikicivi.adapter.holder.MusicViewHolder;
 import com.wikicivi.adapter.holder.TextViewHolder;
@@ -80,6 +81,9 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
                 holder = new AdHolder(v);
                 //System.out.println("---------------加载广告!");
                 break;
+            case 601:
+                holder = new CommentViewHolder(v);
+                break;
             default:
                 //FIXME: 这个地方，如果出错了，没有获得服务器的文章，那么就应该合适的告诉APP.不应该把错误蔓延下去。
                 Log.e("######", "收到意料外的view type" + viewType);
@@ -105,6 +109,5 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
     public int getItemCount() {
         return jsonArray.length();
     }
-
 
 }
