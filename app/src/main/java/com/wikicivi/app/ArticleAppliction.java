@@ -1,8 +1,6 @@
 package com.wikicivi.app;
 
-import android.app.Application;
-
-
+import com.chaowen.commentlibrary.BaseContext;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.lovearthstudio.duasdk.Dua;
 
@@ -12,7 +10,7 @@ import org.xutils.x;
 /**
  * Created by pro on 16/3/11.
  */
-public class ArticleAppliction extends Application {
+public class ArticleAppliction extends BaseContext {
 
     @Override
     public void onCreate() {

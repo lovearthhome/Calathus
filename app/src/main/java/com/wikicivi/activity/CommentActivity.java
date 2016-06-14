@@ -7,35 +7,57 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.lovearthstudio.articles.constant.Constant;
+import com.chaowen.commentlibrary.CommentView;
 import com.lovearthstudio.articles.net.MyCallBack;
-import com.lovearthstudio.duasdk.Dua;
-import com.lovearthstudio.duasdk.ui.DuaActivityLogin;
 import com.wikicivi.R;
 import com.wikicivi.fragment.IndexFragment;
 
 import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
 @ContentView(R.layout.activity_common)
 public class CommentActivity extends BaseActivity {
 
     private long tid = 0;
-    private String  channel;
+    private String channel;
 
 
     @ViewInject(R.id.other_toolbar)
     private Toolbar toolbar;
 
+    @ViewInject(R.id.compose)
+    private CommentView compose;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        compose.setOperationDelegate(new CommentView.OnComposeOperationDelegate() {
+            @Override
+            public void onSendText(String text) {
+                System.out.println("评论内容:" + text);
+            }
+
+            @Override
+            public void onSendVoice(String file, int length) {
+
+            }
+
+            @Override
+            public void onSendImageClicked(View v) {
+
+            }
+
+            @Override
+            public void onSendLocationClicked(View v) {
+
+            }
+        });
+
         Intent intent = getIntent();
         channel = intent.getStringExtra("channel");
-        tid = intent.getLongExtra("tid",0);
+        tid = intent.getLongExtra("tid", 0);
 
         toolbar.setTitle(getResources().getString(R.string.settings_comment));
         toolbar.setTitleTextColor(Color.WHITE);
@@ -48,7 +70,7 @@ public class CommentActivity extends BaseActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.root_view, IndexFragment.newInstance(channel, tid)).commit();
     }
 
-    @Event({R.id.btn_comment})
+    /*@Event({R.id.btn_comment})
     private void click(View v) {
         switch (v.getId()) {
             case R.id.btn_comment:
@@ -65,19 +87,20 @@ public class CommentActivity extends BaseActivity {
 
                 break;
         }
-    }
+    }*/
     class addArticleCallBack implements MyCallBack {
 
         @Override
         public void onFailure(JSONObject reason) {
-            System.out.println("发送评论失败"+reason.toString());
+            System.out.println("发送评论失败" + reason.toString());
         }
 
         @Override
         public void onResponse(JSONObject result) {
-            System.out.println("发送评论成功"+result.toString());
+            System.out.println("发送评论成功" + result.toString());
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
