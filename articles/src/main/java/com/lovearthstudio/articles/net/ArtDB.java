@@ -31,12 +31,11 @@ public class ArtDB {
 
     }
 
-    public boolean storeArticles(String channel, JSONArray data,long tidmax, long tidmin, int nomore)
+    public boolean storeArticles(String channel,long rid, JSONArray data,long tidmax, long tidmin, int nomore)
     {
         try{
             //System.out.println("---------beginn:" );
             realm = Realm.getDefaultInstance();
-
             for (int i = 0; i < data.length(); i++) {
 
                 String dataStr = data.get(i).toString();
@@ -59,6 +58,7 @@ public class ArtDB {
                 }else{
                     dbitem = realm.createObject(ArtItem.class);
                     dbitem.setChannel(channel);
+                    dbitem.setRid(rid);
                     dbitem.setTid(tid);
                     dbitem.setData(dataStr);
                     Log.e("insert2realm",dbitem.toString());
@@ -70,12 +70,14 @@ public class ArtDB {
             realm.beginTransaction();
             ArtViewBlock avb = realm.where(ArtViewBlock.class)
                     .equalTo("channel",channel)
+                    .equalTo("rid",rid)
                     .findFirst();
 
             if(avb == null)
             {
                 avb = realm.createObject(ArtViewBlock.class);
                 avb.setChannel(channel);
+                avb.setRid(rid);
                 avb.setTidmin(tidmin);
                 avb.setTidmax(tidmax);
                 avb = realm.where(ArtViewBlock.class)
@@ -105,12 +107,7 @@ public class ArtDB {
             //System.out.println("---------excep :"+e.toString() );
 
         }
-
-
-
         return true;
-
-
     }
 
     //获取审核的文章
@@ -136,20 +133,21 @@ public class ArtDB {
     }
 
     //第一次打开应用
-    public JSONArray loadArticles(String channel,int limit)
+    public JSONArray loadArticles(String channel,long ridref,int limit)
     {
         JSONArray result = new JSONArray();
         //realm要求创建realm对象的语句和获取数据的语句必须在同一个线程
         //所以这个要在这个地方getDefaultInstance
         realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        ArtViewBlock avb = realm.where(ArtViewBlock.class).equalTo("channel",channel).findFirst();
+        ArtViewBlock avb = realm.where(ArtViewBlock.class).equalTo("channel",channel).equalTo("rid",ridref).findFirst();
         if(avb != null)
         {
             //https://realm.io/docs/swift/latest/#limiting-results
             //上面这个网页解释了为什么realm没有limit这个选项
             RealmResults<ArtItem> items = realm.where(ArtItem.class)
                     .equalTo("channel",channel)
+                    .equalTo("rid",ridref)
                     .lessThanOrEqualTo("tid",avb.getTidmax())
                     .greaterThanOrEqualTo("tid",avb.getTidmin())
                     .findAll();
@@ -169,13 +167,14 @@ public class ArtDB {
     }
 
     //一个特定的只要求某个特定字段的借口
-    public JSONArray loadArticles(String channel,long tidmin,long tidmax)
+    public JSONArray loadArticles(String channel,long ridref,long tidmin,long tidmax)
     {
+        Log.i("ArtDB.loadArticles","Channel = "+channel+" rid = "+ridref+" tidmin = "+tidmin+" tidmax = "+tidmax);
         JSONArray result = new JSONArray();
         //realm要求创建realm对象的语句和获取数据的语句必须在同一个线程
         //所以这个要在这个地方getDefaultInstance
         realm = Realm.getDefaultInstance();
-        ArtViewBlock avb = realm.where(ArtViewBlock.class).equalTo("channel",channel).findFirst();
+        ArtViewBlock avb = realm.where(ArtViewBlock.class).equalTo("channel",channel).equalTo("rid",ridref).findFirst();
 
         if(avb != null)
         {
@@ -183,6 +182,7 @@ public class ArtDB {
             //上面这个网页解释了为什么realm没有limit这个选项
             RealmResults<ArtItem> items = realm.where(ArtItem.class)
                     .equalTo("channel",channel)
+                    .equalTo("rid",ridref)
                     .lessThanOrEqualTo("tid",tidmax)
                     .greaterThanOrEqualTo("tid",tidmin)
                     .findAll();
@@ -197,7 +197,7 @@ public class ArtDB {
             }
 
         }
-
+        Log.i("ArtDB.loadArticles","Result = "+result.toString());
         return result;
     }
 
@@ -205,13 +205,13 @@ public class ArtDB {
     * 在数据库中寻找比reftid大的紧连着的20条记录
     *
     * */
-    public JSONArray pullArticles(String channel,long tidref,int limit)
+    public JSONArray pullArticles(String channel,long ridref,long tidref,int limit)
     {
         JSONArray result = new JSONArray();
         realm = Realm.getDefaultInstance();
         realm.beginTransaction();
 
-        ArtViewBlock avb = realm.where(ArtViewBlock.class).equalTo("channel",channel).findFirst();
+        ArtViewBlock avb = realm.where(ArtViewBlock.class).equalTo("channel",channel).equalTo("rid",ridref).findFirst();
         if(avb != null)
         {
             long tidmax = avb.getTidmax();
@@ -222,6 +222,7 @@ public class ArtDB {
                 //上面这个网页解释了为什么realm没有limit这个选项
                 RealmResults<ArtItem> items = realm.where(ArtItem.class)
                         .equalTo("channel",channel)
+                        .equalTo("rid",ridref)
                         .greaterThan("tid",tidref)
                         .lessThanOrEqualTo("tid",tidmax)
                         .findAll();
@@ -243,12 +244,12 @@ public class ArtDB {
     }
 
     //翻阅旧的文章
-    public JSONArray pushArticles(String channel,long tidref,int limit)
+    public JSONArray pushArticles(String channel,long ridref,long tidref,int limit)
     {
         JSONArray result = new JSONArray();
         realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        ArtViewBlock avb = realm.where(ArtViewBlock.class).equalTo("channel",channel).findFirst();
+        ArtViewBlock avb = realm.where(ArtViewBlock.class).equalTo("channel",channel).equalTo("rid",ridref).findFirst();
         if(avb != null)
         {
             long tidmin = avb.getTidmin();
@@ -258,6 +259,7 @@ public class ArtDB {
                 //上面这个网页解释了为什么realm没有limit这个选项
                 RealmResults<ArtItem> items = realm.where(ArtItem.class)
                         .equalTo("channel",channel)
+                        .equalTo("rid",ridref)
                         .lessThan("tid",tidref)
                         .greaterThanOrEqualTo("tid",tidmin)
                         .findAll();
@@ -277,7 +279,7 @@ public class ArtDB {
     }
 
     //翻阅tid比tidref大的紧接着的limit的文章
-    public JSONArray nextArticles(String channel,long tidref,int limit)
+    public JSONArray nextArticles(String channel,long ridref,long tidref,int limit)
     {
         JSONArray result = new JSONArray();
         realm = Realm.getDefaultInstance();
@@ -287,6 +289,7 @@ public class ArtDB {
                 //上面这个网页解释了为什么realm没有limit这个选项
                 RealmResults<ArtItem> items = realm.where(ArtItem.class)
                         .equalTo("channel",channel)
+                        .equalTo("rid",ridref)
                         .greaterThan("tid",tidref)
                         .findAll();
                 items.sort("tid",Sort.ASCENDING);
@@ -298,6 +301,32 @@ public class ArtDB {
                         result.put(items.get(i).getData());
                     }
                 }
+
+        realm.commitTransaction();
+        return result;
+    }
+
+    //把tidref对应的文章从本地数据库读出来到一个array中
+    public JSONArray loadArticle(long tidref)
+    {
+        JSONArray result = new JSONArray();
+        realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        int limit = 1;
+
+        //https://realm.io/docs/swift/latest/#limiting-results
+        //上面这个网页解释了为什么realm没有limit这个选项
+        RealmResults<ArtItem> items = realm.where(ArtItem.class)
+                .equalTo("tid",tidref)
+                .findAll();
+        items.sort("tid",Sort.ASCENDING);
+
+        limit = items.size()>limit?limit:items.size();
+        if(limit > 0) {
+            for (int i =  0; i <limit; i++) {
+                result.put(items.get(i).getData());
+            }
+        }
 
         realm.commitTransaction();
         return result;

@@ -83,7 +83,38 @@ public class ArtNB {
         });
     }
 
-
+    public void addArticle(AddArtParams addArtParams,final  MyCallBack myCallBack) {
+        Log.i("addArticle","begin");
+        String requestParams = com.alibaba.fastjson.JSON.toJSONString(addArtParams);
+        System.out.println("---------request:" + requestParams);
+        //{"action":"get_articles","channel":"Recommend","dua_id":0,"fields":["inc","star","comt","content","good","bad","shar"],"filter":{"inc[>]":0},"order":"inc DESC","rows":20}
+        RequestBody body = RequestBody.create(JSON, requestParams);
+        Request request = new Request.Builder().url(Constant.baseUrl).post(body).build();
+        httpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                myCallBack.onFailure(Constant.failureObject(Constant.NETWORK_FAILURE,e.toString()));
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws  IOException{
+                try {
+                    //下面解析如果解析错了，就会进入try catch 里面，所以不要专门为它判断null
+                    JSONObject jsonResponse = new JSONObject(response.body().string());
+                    if (jsonResponse.optInt("status") !=  0) {
+                        myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"Fail with error code:"+ jsonResponse.optInt("status")));
+                    }else{
+                        myCallBack.onResponse(jsonResponse);
+                    }
+                } catch (JSONException e) {
+                    myCallBack.onFailure(Constant.failureObject(Constant.JSON_FAILURE,"JSONExecption:" + e.toString()));
+                }catch (IOException e){
+                    myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"IOExecption: "+e.toString()));
+                }catch (Exception e){
+                    myCallBack.onFailure(Constant.failureObject(Constant.SERVER_FAILURE,"Execption: "+e.toString()));
+                }
+            }
+        });
+    }
     /**
      * 根据setArtParams指定的参数，发送网络请求，并在response时回掉myCallBack
      * 回调接口返回如下

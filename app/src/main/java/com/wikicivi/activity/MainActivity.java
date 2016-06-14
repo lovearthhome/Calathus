@@ -195,7 +195,7 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return IndexFragment.newInstance(channel[position]);
+            return IndexFragment.newInstance(channel[position],0/*rid*/);
         }
 
 //        @Override

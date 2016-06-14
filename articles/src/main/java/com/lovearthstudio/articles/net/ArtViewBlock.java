@@ -1,7 +1,7 @@
 package com.lovearthstudio.articles.net;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Author：Mingyu Yi on 2016/4/30 16:56
@@ -11,9 +11,19 @@ public class ArtViewBlock extends RealmObject {
     //主键,realm现在不支持自增字段
     //@PrimaryKey
     //private int inc;
+    //文章根节点
 
+    private long rid;
+
+    public long getRid() {
+        return rid;
+    }
+
+    public void setRid(long  rid) {
+        this.rid = rid;
+    }
     //频道名字
-    @PrimaryKey
+    @Required
     private String channel;
 
     public String getChannel() {

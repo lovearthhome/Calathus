@@ -25,6 +25,7 @@ public class Articles {
 
     private GetArtParams getArtParams;
     private SetArtParams setArtParams;
+    private AddArtParams addArtParams;
     private Context mContext;
     private MyCallBack mMyCallBack;
     private ArtDB artdb;
@@ -40,10 +41,29 @@ public class Articles {
         artnb = new ArtNB();
         getArtParams = new GetArtParams();
         setArtParams = new SetArtParams();
+        addArtParams = new AddArtParams();
         getArtParams.filter = new HashMap<>();
         setArtParams.filter = new HashMap<>();
     }
 
+    /**
+     * 根据tidref获取本地文章
+     * 只有三种动作：
+     * load: 一开始的加载
+     * pull: 获取新的数据
+     * push: 获取旧的数据
+     * next: 大于tidref的数据
+     * 对于评论，我们使用的是仅仅支持网络加载
+     */
+    public JSONArray getLocalArticle(long tidref/*参考的tid*/) {
+        JSONArray tmpdbarticles = new JSONArray();
+        try {
+            tmpdbarticles = artdb.loadArticle(tidref);
+            return tmpdbarticles;
+        }catch(Exception e){
+            return tmpdbarticles;
+        }
+    }
     /**
      * 请求数据
      * 只有三种动作：
@@ -51,19 +71,18 @@ public class Articles {
      * pull: 获取新的数据
      * push: 获取旧的数据
      * next: 大于tidref的数据
+     * 对于评论，我们使用的是仅仅支持网络加载
      */
-    public void getArticles(String pchannel, String paction, long ptidref/*参考的tid*/, final MyCallBack myCallBack) {
+    public void getArticles(String pchannel, String paction, long ptidref/*参考的tid*/, long pridref, final MyCallBack myCallBack) {
         try {
             /**
              * 预处理参数
              */
-            if(pchannel == "Review")
-            {
+            if ("Review".equals(pchannel)) {
                 //首先,从本地存储中读出本用户已经审阅过的文章的curReviewTid
                 long curReviewTid = 0;
                 SharedPreferences sharedPreferences = mContext.getSharedPreferences("articles", Activity.MODE_PRIVATE);
-                if(sharedPreferences != null)
-                {
+                if (sharedPreferences != null) {
                     curReviewTid = sharedPreferences.getLong("curReviewTid", 0);
                 }
                 pchannel = "Review";
@@ -73,20 +92,22 @@ public class Articles {
             final String channel = pchannel;
             final String action = paction;
             final long tidref = ptidref;
+            final long ridref = pridref;
+
 
             Log.i("articles.find", channel + "-" + action + " " + tidref);
             //Fixme: 那么我们要从本地加载数据,加载数据只会加载数据库最新的20条数据
             JSONObject dbresult = new JSONObject();
             JSONArray dbarticles;
-            if (action == "load") {
-                dbarticles = artdb.loadArticles(channel, Constant.artdbArticleCountPerFetch);
+            if ("load".equals(action)) {
+                dbarticles = artdb.loadArticles(channel, ridref, Constant.artdbArticleCountPerFetch);
                 dbresult.put("data", dbarticles);
                 myCallBack.onResponse(dbresult);
                 return;
             }
 
-            if (action == "pull") {
-                dbarticles = artdb.pullArticles(channel, tidref, Constant.artdbArticleCountPerFetch);
+            if ("pull".equals(action)) {
+                dbarticles = artdb.pullArticles(channel, ridref, tidref, Constant.artdbArticleCountPerFetch);
                 if (dbarticles.length() != 0) {
                     dbresult.put("data", dbarticles);
                     myCallBack.onResponse(dbresult);
@@ -94,8 +115,8 @@ public class Articles {
                 }
             }
 
-            if (action == "push") {
-                dbarticles = artdb.pushArticles(channel, tidref, Constant.artdbArticleCountPerFetch);
+            if ("push".equals(action)) {
+                dbarticles = artdb.pushArticles(channel, ridref, tidref, Constant.artdbArticleCountPerFetch);
                 if (dbarticles.length() != 0) {
                     dbresult.put("data", dbarticles);
                     myCallBack.onResponse(dbresult);
@@ -103,8 +124,8 @@ public class Articles {
                 }
             }
 
-            if (action == "next") {
-                dbarticles = artdb.nextArticles(channel, tidref, 1);
+            if ("next".equals(action)) {
+                dbarticles = artdb.nextArticles(channel, ridref, tidref, 1);
                 if (dbarticles.length() != 0) {
                     dbresult.put("data", dbarticles);
                     myCallBack.onResponse(dbresult);
@@ -121,99 +142,126 @@ public class Articles {
             getArtParams.filter = new HashMap<>();
             getArtParams.filter.put("inc[>]", 0);
 
-            if(action == "pull")
-            {
+            if (action == "pull") {
                 getArtParams.rows = Constant.artdbArticleCountPerFetch;
                 getArtParams.filter.clear();
                 getArtParams.order = "inc DESC";
                 getArtParams.filter.put("inc[>]", tidref);
+                getArtParams.filter.put("rid", ridref);
             }
-            if(action == "push")
-            {
+
+            if (action == "push") {
                 getArtParams.rows = Constant.artdbArticleCountPerFetch;
                 getArtParams.filter.clear();
                 getArtParams.order = "inc DESC";
                 getArtParams.filter.put("inc[<]", tidref);
+                getArtParams.filter.put("rid", ridref);
             }
-            if(action == "next")
-            {
+
+            if (action == "next") {
                 getArtParams.rows = Constant.artdbArticleCountPerFetch;
                 getArtParams.order = "inc ASC";
                 getArtParams.filter.clear();
                 getArtParams.filter.put("inc[>]", tidref);
+                getArtParams.filter.put("rid", ridref);
             }
 
-            final long  pmcBeginTime = Calendar.getInstance().getTimeInMillis();
+            final long pmcBeginTime = Calendar.getInstance().getTimeInMillis();
 
-            artnb.getArticles(getArtParams,new MyCallBack(){
+            artnb.getArticles(getArtParams, new MyCallBack() {
                 @Override
                 public void onFailure(JSONObject result) {
                     //fixme: 这块的onfailure是怎么触发到app主模块里面的？这块应该让app主模块的刷新按钮停止旋转。
                     mMyCallBack.onFailure(result);
                 }
+
                 @Override
                 public void onResponse(JSONObject jsonResponse) {
                     try {
-                        if(jsonResponse == null)
-                        {
-                            myCallBack.onFailure(Constant.failureObject(Constant.UNKNOWN_FAILURE,"null jsonResponse"));
+                        if (jsonResponse == null) {
+                            myCallBack.onFailure(Constant.failureObject(Constant.UNKNOWN_FAILURE, "null jsonResponse"));
                             return;
                         }
 
-                        if(jsonResponse.optInt("status") != 0)
-                        {
+                        if (jsonResponse.optInt("status") != 0) {
                             //FIXME: 把错误信息发前端显示
                             myCallBack.onFailure(jsonResponse);
                             return;
                         }
                         //FIXME: 这个地方保存加载更新和加载更多的参数
-                        JSONObject echo     = jsonResponse.optJSONObject("echo");
+                        JSONObject echo = jsonResponse.optJSONObject("echo");
                         String echo_channel = echo.optString("channel");
-                        String echo_action  = echo.optString("action");
-                        String echo_how     = echo.optString("how");
-                        long echo_tidref    = echo.optLong("tidref");
+                        String echo_action = echo.optString("action");
+                        String echo_how = echo.optString("how");
+                        long echo_tidref = echo.optLong("tidref");
 
 
-                        JSONObject result   = jsonResponse.optJSONObject("result");
-                        JSONArray data      = result.getJSONArray("data");
-                        int count           = data.length();
-                        long new_inc_min    = result.optLong("inc_min");
-                        long new_inc_max    = result.optLong("inc_max");
-                        int nomore          = result.optInt("nomore");
+                        JSONObject result = jsonResponse.optJSONObject("result");
+                        JSONArray data = result.getJSONArray("data");
+                        int count = data.length();
+                        long new_inc_min = result.optLong("inc_min");
+                        long new_inc_max = result.optLong("inc_max");
+                        int nomore = result.optInt("nomore");
 
                         //如果服务器返回的数据都是有意义的，不是广告，也有数据
-                        if(count > 0)
-                        {
-                            artdb.storeArticles(channel,data,new_inc_max,new_inc_min,nomore);
+                        if (count > 0) {
+                            artdb.storeArticles(channel, ridref, data, new_inc_max, new_inc_min, nomore);
                             JSONArray myArticles;
-                            if(action == "pull"|| action == "push" || action == "load" )
+                            if ("pull".equals(action) || "push".equals(action) || "load".equals(action)) {
+                                myArticles = artdb.loadArticles(channel, ridref, new_inc_min, new_inc_max);
+                            } else {
+                                myArticles = artdb.nextArticles(channel, ridref, tidref, 1);
+                            }
+                            /**
+                             *  根据当前指针添加广告到结尾
+                             * */
+                            if(Constant.adflag)
                             {
-                                myArticles = artdb.loadArticles(channel,new_inc_min,new_inc_max);
-                            }else{
-                                myArticles = artdb.nextArticles(channel,tidref,1);
+                                int tmpCount = myArticles.length();
+                                Constant.artsSinceLastAd+=tmpCount;
+                                if(Constant.artsSinceLastAd > Constant.ArtsPerAd)
+                                {
+                                    /**在myArticles里插入ad*/
+                                    myArticles.put(makeAd());
+                                    Constant.artsSinceLastAd = 0;
+                                }
+
                             }
 
+
                             JSONObject myResult = new JSONObject();
-                            myResult.put("data",myArticles);
+                            myResult.put("data", myArticles);
                             myCallBack.onResponse(myResult);
                             long pmcOverTime = Calendar.getInstance().getTimeInMillis();
-                            Dua.getInstance().setAppPmc("GetArts",count,"1",pmcOverTime - pmcBeginTime,"ms");
-                        }else{
-                            myCallBack.onFailure(Constant.failureObject(Constant.NOART_NOTICE,"no articles"));
+                            Dua.getInstance().setAppPmc("GetArts", count, "1", pmcOverTime - pmcBeginTime, "ms");
+                        } else {
+                            myCallBack.onFailure(Constant.failureObject(Constant.NOART_NOTICE, "no articles"));
                         }
-                    }catch (JSONException e) {
-                        Log.e("Error",e.toString());
+                    } catch (JSONException e) {
+                        Log.e("Error", e.toString());
                         e.printStackTrace();
-                        myCallBack.onFailure(Constant.failureObject(Constant.JSON_FAILURE,e.toString()));
+                        myCallBack.onFailure(Constant.failureObject(Constant.JSON_FAILURE, e.toString()));
                     }
                 }
             });
-        }catch (JSONException e) {
-            Log.e("Error",e.toString());
+        } catch (JSONException e) {
+            Log.e("Error", e.toString());
             e.printStackTrace();
-            myCallBack.onFailure(Constant.failureObject(Constant.JSON_FAILURE,e.toString()));
+            myCallBack.onFailure(Constant.failureObject(Constant.JSON_FAILURE, e.toString()));
         }
     }
+
+    private  String makeAd() {
+        JSONObject adjson = new JSONObject();
+        try {
+            adjson.put("tmpl",501);
+            adjson.put("editor_name","木瓜推广");
+            adjson.put("editor_sex","F");
+            adjson.put("editor_avatar","http://files.xdua.org/files/avatar/2016042382a703a15270d93ec34b724249450c5e.png");
+        } catch (Exception e){}
+        return adjson.toString();
+    }
+
 
     /**
      * 获取审核文章
@@ -222,8 +270,8 @@ public class Articles {
      * pull: 获取新的数据
      * push: 获取旧的数据
      */
-    public void setArticle(final long tid,final String from, final String which, final int param,final MyCallBack myCallBack) {
-        try{
+    public void setArticle(final long tid, final String from, final String which, final int param, final MyCallBack myCallBack) {
+        try {
             setArtParams.tid = tid;
             setArtParams.dua_id = Dua.getInstance().getCurrentDuaId();
             setArtParams.action = "set_article";
@@ -231,26 +279,25 @@ public class Articles {
             setArtParams.field = which; //"good"
             setArtParams.param = param; // 1
             setArtParams.filter.clear();
-            setArtParams.filter.put(which,param);
+            setArtParams.filter.put(which, param);
 
 
-            Log.i("Articles",setArtParams.tid+" "+setArtParams.how);
-            final long  pmcBeginTime = Calendar.getInstance().getTimeInMillis();
-            artnb.setArticle(setArtParams,new MyCallBack(){
+            Log.i("Articles", setArtParams.tid + " " + setArtParams.how);
+            final long pmcBeginTime = Calendar.getInstance().getTimeInMillis();
+            artnb.setArticle(setArtParams, new MyCallBack() {
                 @Override
                 public void onFailure(JSONObject failureObjcet) {
                     myCallBack.onFailure(failureObjcet);
                 }
+
                 @Override
                 public void onResponse(JSONObject jsonResponse) {
                     try {
                         //FIXME: 这儿注意，能进入这个onResponse,那么nb层已经处理好了
-                        if(jsonResponse.optInt("status") == 0)
-                        {
-                            if(from == "Review")
-                            {
+                        if (jsonResponse.optInt("status") == 0) {
+                            if (from == "Review") {
                                 //实例化SharedPreferences对象（第一步）
-                                SharedPreferences mySharedPreferences= mContext.getSharedPreferences("articles", Activity.MODE_PRIVATE);
+                                SharedPreferences mySharedPreferences = mContext.getSharedPreferences("articles", Activity.MODE_PRIVATE);
                                 //实例化SharedPreferences.Editor对象（第二步）
                                 SharedPreferences.Editor editor = mySharedPreferences.edit();
                                 //用putString的方法保存数据
@@ -261,22 +308,76 @@ public class Articles {
                                 //Toast.makeText(mContext, "数据成功写入SharedPreferences！" , Toast.LENGTH_LONG).show();
                             }
                             long pmcOverTime = Calendar.getInstance().getTimeInMillis();
-                            Dua.getInstance().setAppPmc("SetArts",1,"1",pmcOverTime - pmcBeginTime,"ms");
+                            Dua.getInstance().setAppPmc("SetArts", 1, "1", pmcOverTime - pmcBeginTime, "ms");
                             myCallBack.onResponse(jsonResponse);
-                        } else{
+                        } else {
                             myCallBack.onFailure(jsonResponse);
                         }
-                    }catch (Exception e) {
-                        Log.e("Error",e.toString());
+                    } catch (Exception e) {
+                        Log.e("Error", e.toString());
                         e.printStackTrace();
-                        myCallBack.onFailure(Constant.failureObject(Constant.EXCEPTION,e.toString()));
+                        myCallBack.onFailure(Constant.failureObject(Constant.EXCEPTION, e.toString()));
                     }
                 }
             });
-        }catch (Exception e) {
-            Log.e("Error",e.toString());
+        } catch (Exception e) {
+            Log.e("Error", e.toString());
             e.printStackTrace();
-            myCallBack.onFailure(Constant.failureObject(Constant.EXCEPTION,e.toString()));
+            myCallBack.onFailure(Constant.failureObject(Constant.EXCEPTION, e.toString()));
         }
     }
+
+    /**
+     * 添加文章
+     * 只有三种动作：
+     * load: 一开始的加载
+     * pull: 获取新的数据
+     * push: 获取旧的数据
+     */
+    public void addArticle(long rid, String cato, String media, int flag, int tmpl, String content, final MyCallBack myCallBack) {
+        try {
+            addArtParams.rid = rid;
+            addArtParams.dua_id = Dua.getInstance().getCurrentDuaId();
+            addArtParams.action = "add_article";
+            addArtParams.from = "com.lovearthstudio.calathus"; //"Review"
+            addArtParams.cato = cato; // 1
+            addArtParams.media = media; // 1
+            addArtParams.flag = flag; // 1
+            addArtParams.tmpl = tmpl; // 1
+            addArtParams.content = content; // 1
+
+            Log.i("Articles", addArtParams.rid + " ");
+            final long pmcBeginTime = Calendar.getInstance().getTimeInMillis();
+            artnb.addArticle(addArtParams, new MyCallBack() {
+                @Override
+                public void onFailure(JSONObject failureObjcet) {
+                    myCallBack.onFailure(failureObjcet);
+                }
+
+                @Override
+                public void onResponse(JSONObject jsonResponse) {
+                    try {
+                        //FIXME: 这儿注意，能进入这个onResponse,那么nb层已经处理好了
+                        if (jsonResponse.optInt("status") == 0) {
+                            long pmcOverTime = Calendar.getInstance().getTimeInMillis();
+                            Dua.getInstance().setAppPmc("AddArts", 1, "1", pmcOverTime - pmcBeginTime, "ms");
+                            myCallBack.onResponse(jsonResponse);
+                        } else {
+                            myCallBack.onFailure(jsonResponse);
+                        }
+                    } catch (Exception e) {
+                        Log.e("Error", e.toString());
+                        e.printStackTrace();
+                        myCallBack.onFailure(Constant.failureObject(Constant.EXCEPTION, e.toString()));
+                    }
+                }
+            });
+        } catch (Exception e) {
+            Log.e("Error", e.toString());
+            e.printStackTrace();
+            myCallBack.onFailure(Constant.failureObject(Constant.EXCEPTION, e.toString()));
+        }
+    }
+
+
 }

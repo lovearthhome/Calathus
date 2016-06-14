@@ -143,7 +143,7 @@ public class ReviewActivity extends BaseActivity {
             try {
                 if(result.optInt("status") == 0)
                 {
-                    Constant.binder.getChannelArticles("Review","next",0,getReviewArticleCB);
+                    Constant.binder.getChannelArticles("Review","next",0,0,getReviewArticleCB);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -191,7 +191,7 @@ public class ReviewActivity extends BaseActivity {
 
         //当第一次加载这个Activity的时候，会加载一个审阅类文章
         if (Constant.binder != null) {
-            Constant.binder.getChannelArticles("Review","next",0,getReviewArticleCB);
+            Constant.binder.getChannelArticles("Review","next",0,0,getReviewArticleCB);
         }
 
     }

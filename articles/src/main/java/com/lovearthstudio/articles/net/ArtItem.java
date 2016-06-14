@@ -18,6 +18,18 @@ public class ArtItem extends RealmObject {
 
     public void setTid(long content) {this.tid = tid;}
 
+    //文章根节点
+
+    private long rid;
+
+    public long getRid() {
+        return rid;
+    }
+
+    public void setRid(long  rid) {
+        this.rid = rid;
+    }
+
     //频道名字
     @Required
     private String channel;

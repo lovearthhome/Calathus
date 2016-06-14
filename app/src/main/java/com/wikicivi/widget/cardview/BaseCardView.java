@@ -11,6 +11,7 @@ import org.json.JSONException;
  * Created by zhaoliang on 16/5/12.
  */
 public abstract class BaseCardView extends LinearLayout {
+    protected  long mTid;
 
     public BaseCardView(Context context, AttributeSet attrs) {
         super(context, attrs);

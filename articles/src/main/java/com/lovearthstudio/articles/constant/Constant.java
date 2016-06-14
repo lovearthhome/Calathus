@@ -35,6 +35,12 @@ public class Constant {
     /*每次向数据库文章请求的文章数目*/
     public static final int artdbArticleCountPerFetch = 20;
 
+    public static Boolean adflag = true;
+    /**距离上次展示广告的文章数目*/
+    public static int artsSinceLastAd = 0;
+    /**平均多少文章展示一个广告*/
+    public static int ArtsPerAd = 20;
+
     public static ArticleService.ArticleBinder binder;
 
     public static int NETWORK_FAILURE = 1;

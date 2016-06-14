@@ -267,7 +267,7 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
             // your app's logic to change the drawable's
             // appearance here based on progress
             rate_progress_bar.setProgress(level/20);
-            System.out.println("--------:" + level);
+            //System.out.println("--------:" + level);
             if(level >= 10000)
             {
                 MyAsyncTask pbtask = new MyAsyncTask();

@@ -144,7 +144,10 @@ public abstract class CardHolder extends BaseHolder {
                 if (com.lovearthstudio.articles.constant.Constant.binder != null) {
                     com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid, "View", "comt", 1, setViewArticleCB);
                 }
-                context.startActivity(new Intent(context, CommentActivity.class));
+                Intent intent = new Intent(context, CommentActivity.class);
+                intent.putExtra("channel", "Comment");
+                intent.putExtra("tid",mTid);
+                context.startActivity(intent);
                 break;
             case R.id.tv_share:
                 //event.put("act", "shar");
