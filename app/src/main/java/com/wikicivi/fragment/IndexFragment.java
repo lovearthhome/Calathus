@@ -299,14 +299,23 @@ public class IndexFragment extends BaseFragment {
                                 sumArticles.put(articles.get(i));
                             }
                         }
-                    }
-
-                    if(adapter.jsonArray.length() > 1)
-                    {
-                        for (int i = 1; i < adapter.jsonArray.length(); i++) {
-                            sumArticles.put(adapter.jsonArray.get(i));
+                        if(adapter.jsonArray.length() > 1)
+                        {
+                            for (int i = 1; i < adapter.jsonArray.length(); i++) {
+                                sumArticles.put(adapter.jsonArray.get(i));
+                            }
+                        }
+                    }else{
+                        sumArticles = articles;
+                        if(adapter.jsonArray.length() > 1)
+                        {
+                            for (int i = 1; i < adapter.jsonArray.length(); i++) {
+                                sumArticles.put(adapter.jsonArray.get(i));
+                            }
                         }
                     }
+
+
 
                     pull = false;
                     adapter.jsonArray = sumArticles;
