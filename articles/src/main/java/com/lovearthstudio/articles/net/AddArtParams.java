@@ -12,6 +12,7 @@ public class AddArtParams {
     public String media;
     public int    flag;
     public int    tmpl;
+    public int    copycheck = 0;/**0:不检查 1：检查*/
     public String content;
     public String action;
 }

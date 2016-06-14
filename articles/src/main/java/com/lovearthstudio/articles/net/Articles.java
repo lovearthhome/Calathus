@@ -346,6 +346,11 @@ public class Articles {
             addArtParams.tmpl = tmpl; // 1
             addArtParams.content = content; // 1
 
+            if(cato == "Comment")
+            {
+                addArtParams.copycheck = 0;
+            }
+
             Log.i("Articles", addArtParams.rid + " ");
             final long pmcBeginTime = Calendar.getInstance().getTimeInMillis();
             artnb.addArticle(addArtParams, new MyCallBack() {
