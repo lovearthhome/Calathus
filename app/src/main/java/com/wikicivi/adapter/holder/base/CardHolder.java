@@ -188,6 +188,8 @@ public abstract class CardHolder extends BaseHolder {
         }, 1000);
     }
 
+
+
     public void bindBaseView(Context context, CardHolder cardHolder, String jsonStr) {
 
         try {

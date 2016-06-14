@@ -4,10 +4,15 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.wikicivi.R;
+import com.wikicivi.widget.RoundImageView;
 
 import org.json.JSONException;
+import org.json.JSONObject;
+import org.xutils.view.annotation.ViewInject;
 
 /**
  * Created by zhaoliang on 16/4/23.
@@ -16,6 +21,14 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder implements Recy
 
     public Context context;
     private FrameLayout root_layout;
+
+    /**
+     * 头部信息
+     */
+    @ViewInject(R.id.editer_icon)
+    public RoundImageView editer_icon;
+    @ViewInject(R.id.editor_name)
+    public TextView editer_name;
 
     public BaseHolder(View itemView) {
         super(itemView);
@@ -44,6 +57,23 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder implements Recy
     public void setView() {
         View view = View.inflate(context, setLayoutFile(), null);
         root_layout.addView(view);
+    }
+
+    public void bindHead(Context context, BaseHolder cardHolder, String jsonStr) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonStr);
+            /**
+             * 获取item需要的基本信息
+             * */
+            //String editor_name = jsonObject.optString("editor_name");
+            /**
+             * 头部信息
+             */
+            editer_name.setText(jsonObject.getString("editor_name"));
+            Picasso.with(context).load(jsonObject.getString("editor_avatar")).resize(60, 60).into(editer_icon);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 //    public void onAttached()

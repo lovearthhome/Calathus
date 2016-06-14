@@ -48,9 +48,13 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
     public BaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.e("RecyclerView", "onCreateViewHolder" + viewType);
         View v = null;
+        System.out.println("--------------" + viewType);
         switch (viewType) {
             case 501:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adindex_list_item, parent, false);
+                break;
+            case 601:
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_index_list_item, parent, false);
                 break;
             default:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.index_list_item, parent, false);

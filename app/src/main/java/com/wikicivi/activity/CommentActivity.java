@@ -59,7 +59,7 @@ public class CommentActivity extends BaseActivity {
                         startActivity(new Intent(CommentActivity.this, DuaActivityLogin.class));
                     }else{
                         //from,tid,cato, media,flag , tmpl,content, myCallBack
-                        Constant.binder.addArticle(tid,"Comment","Text",101,100,"{\"title\":\"\",\"brief\":\"\",\"texts\":[\"。 哈哈哈，评论第一行<br>　评论第二行：<br>　　“评论里引用别人的话”\"],\"files\":[]}", new addArticleCallBack());
+                        Constant.binder.addArticle(tid,"Comment","Text",101,601,"{\"title\":\"\",\"brief\":\"\",\"texts\":[\"。 哈哈哈，评论第一行<br>　评论第二行：<br>　　“评论里引用别人的话”\"],\"files\":[]}", new addArticleCallBack());
                     }
                 }
 
