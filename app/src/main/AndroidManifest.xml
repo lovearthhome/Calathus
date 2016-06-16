@@ -19,38 +19,34 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
-        android:name="com.wikicivi.app.ArticleAppliction"
+        android:name=".app.ArticleAppliction"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.wikicivi.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
-            android:name="com.wikicivi.activity.MoreActivity"
+            android:name=".activity.MoreActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wikicivi.activity.MusicPalyerActivity"
+            android:name=".activity.MusicPalyerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wikicivi.activity.menu.About_Activity"
+            android:name=".activity.menu.About_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wikicivi.activity.menu.follower.FollowerActivity"
+            android:name=".activity.menu.follower.FollowerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wikicivi.activity.menu.followee.FolloweeActivity"
+            android:name=".activity.menu.followee.FolloweeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.wikicivi.activity.menu.settings.SettingActivity"
+            android:name=".activity.menu.settings.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Douya" />
 
@@ -64,13 +60,21 @@
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
-        <activity android:name="com.wikicivi.activity.review.ReviewActivity" />
+        <activity android:name=".activity.review.ReviewActivity" />
         <activity
             android:name="com.kymjs.gallery.KJGalleryActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"></activity>
-        <activity android:name="com.wikicivi.activity.CommentActivity"></activity>
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".activity.CommentActivity" />
+        <activity android:name=".activity.guide.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.guide.GuideActivity"></activity>
     </application>
 
 </manifest>
