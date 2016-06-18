@@ -1,39 +1,41 @@
-package com.wikicivi.adapter.holder;
+package com.wikicivi.holder;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 
+
 import com.wikicivi.R;
-import com.wikicivi.adapter.holder.base.BaseHolder;
-import com.wikicivi.adapter.holder.base.CardHolder;
-import com.wikicivi.widget.cardview.MusicCard;
+import com.wikicivi.widget.cardview.TextsCard;
 
 import org.json.JSONException;
 import org.xutils.view.annotation.ViewInject;
 
-
 /**
- * Created by zhaoliang on 16/4/7.
+ * Author：Mingyu Yi on 2016/4/8 09:42
+ * Email：461072496@qq.com
  */
-public class MusicViewHolder extends CardHolder {
+public class TextsViewHolder extends CardHolder {
 
-    @ViewInject(R.id.music_card)
-    private MusicCard musicCard;
+    @ViewInject(R.id.texts_card)
+    private TextsCard texts_card;
 
-    public MusicViewHolder(View itemView) {
+    public TextsViewHolder(View itemView) {
         super(itemView);
     }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 
     @Override
     public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
         super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
-        musicCard.parseData(jsonStr);
+        texts_card.parseData(jsonStr);
     }
-
 
     @Override
     public int setLayoutFile() {
-        return R.layout.card_music_view_holder;
+        return R.layout.card_texts_view_holder;
     }
 
     @Override

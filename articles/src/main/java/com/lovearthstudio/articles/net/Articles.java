@@ -65,6 +65,10 @@ public class Articles {
         }
     }
 
+    /**
+     *  把JSONArray的article列表组成带inc_max,inc_min的列表
+     *
+     * */
     private JSONObject asmArticles(JSONArray dbarticles)
     {
         try {

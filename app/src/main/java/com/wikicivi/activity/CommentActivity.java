@@ -13,7 +13,7 @@ import com.lovearthstudio.articles.net.MyCallBack;
 import com.lovearthstudio.duasdk.Dua;
 import com.lovearthstudio.duasdk.ui.DuaActivityLogin;
 import com.wikicivi.R;
-import com.wikicivi.fragment.IndexFragment;
+import com.wikicivi.fragment.ArtsFragment;
 
 import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
@@ -72,7 +72,7 @@ public class CommentActivity extends BaseActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.root_view, IndexFragment.newInstance(channel, tid)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.root_view, ArtsFragment.newInstance(channel, tid)).commit();
     }
 
     private void postArticle(String jsonStr)

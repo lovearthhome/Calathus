@@ -38,7 +38,7 @@ import com.wikicivi.activity.menu.follower.FollowerActivity;
 import com.wikicivi.activity.menu.settings.SettingActivity;
 import com.wikicivi.activity.review.ReviewActivity;
 import com.wikicivi.constant.Constant;
-import com.wikicivi.fragment.IndexFragment;
+import com.wikicivi.fragment.ArtsFragment;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -193,7 +193,7 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return IndexFragment.newInstance(channel[position],0/*rid*/);
+            return ArtsFragment.newInstance(channel[position],0/*rid*/);
         }
 
         @Override

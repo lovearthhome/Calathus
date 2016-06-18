@@ -1,4 +1,4 @@
-package com.wikicivi.adapter.holder;
+package com.wikicivi.holder;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.squareup.seismic.ShakeDetector;
 
 import com.wikicivi.R;
-import com.wikicivi.adapter.holder.base.BaseHolder;
-import com.wikicivi.adapter.holder.base.CardHolder;
 
 import org.json.JSONException;
 import org.json.JSONObject;

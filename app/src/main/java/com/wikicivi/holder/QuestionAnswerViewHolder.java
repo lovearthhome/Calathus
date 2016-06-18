@@ -1,4 +1,4 @@
-package com.wikicivi.adapter.holder;
+package com.wikicivi.holder;
 
 import android.content.Context;
 import android.text.Html;
@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.wikicivi.R;
-import com.wikicivi.adapter.holder.base.BaseHolder;
-import com.wikicivi.adapter.holder.base.CardHolder;
 
 import org.json.JSONArray;
 import org.json.JSONException;

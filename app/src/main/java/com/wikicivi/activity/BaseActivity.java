@@ -13,7 +13,6 @@ import org.xutils.x;
  * Created by pro on 16/3/11.
  */
 public class BaseActivity extends AppCompatActivity {
-
     /*
     网络帮助类
      */

@@ -1,4 +1,4 @@
-package com.wikicivi.adapter.holder.base;
+package com.wikicivi.holder;
 
 import android.content.Context;
 import android.content.Intent;

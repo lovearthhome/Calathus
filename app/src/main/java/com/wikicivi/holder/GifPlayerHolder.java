@@ -1,36 +1,37 @@
-package com.wikicivi.adapter.holder;
+package com.wikicivi.holder;
 
 import android.content.Context;
 import android.view.View;
 
 import com.wikicivi.R;
-import com.wikicivi.adapter.holder.base.BaseHolder;
-import com.wikicivi.widget.cardview.CommentCard;
+import com.wikicivi.widget.cardview.GifCard;
 
 import org.json.JSONException;
 import org.xutils.view.annotation.ViewInject;
 
 /**
- * Created by zhaoliang on 16/6/8.
+ * Created by zhaoliang on 16/4/7.
  */
-public class CommentViewHolder extends BaseHolder {
+public class GifPlayerHolder extends CardHolder {
 
-    @ViewInject(R.id.comment_card)
-    private CommentCard commentCard;
+    @ViewInject(R.id.gif_card)
+    private GifCard gifCard;
 
-    public CommentViewHolder(View itemView) {
+    public GifPlayerHolder(View itemView) {
         super(itemView);
     }
 
     @Override
     public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
-        bindHead(context, cardHolder, jsonStr);
-        commentCard.parseData(jsonStr);
+        super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
+
+        gifCard.parseData(jsonStr);
     }
+
 
     @Override
     public int setLayoutFile() {
-        return R.layout.comment_view_holder;
+        return R.layout.card_gif_view_holder;
     }
 
     @Override
@@ -42,4 +43,5 @@ public class CommentViewHolder extends BaseHolder {
     public void onChildViewDetachedFromWindow(View view) {
 
     }
+
 }

@@ -1,4 +1,4 @@
-package com.wikicivi.adapter.holder;
+package com.wikicivi.holder;
 
 import android.content.Context;
 import android.view.View;
@@ -6,7 +6,6 @@ import android.view.View;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.wikicivi.R;
-import com.wikicivi.adapter.holder.base.BaseHolder;
 
 import org.json.JSONException;
 import org.xutils.view.annotation.ViewInject;

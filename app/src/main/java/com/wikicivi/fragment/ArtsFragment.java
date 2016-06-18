@@ -1,6 +1,5 @@
 package com.wikicivi.fragment;
 
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,10 +14,9 @@ import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.lovearthstudio.articles.constant.Constant;
-import com.lovearthstudio.articles.net.GetArtParams;
 import com.lovearthstudio.articles.net.MyCallBack;
 import com.wikicivi.R;
-import com.wikicivi.adapter.adapter.IndexListAdapter;
+import com.wikicivi.adapter.ArtsAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +28,7 @@ import org.xutils.view.annotation.ViewInject;
  * A simple {@link Fragment} subclass.
  */
 @ContentView(R.layout.fragment_index)
-public class IndexFragment extends BaseFragment {
+public class ArtsFragment extends BaseFragment {
 
     private static final int UPDATE_DATA = 1;
     private static final int PULL = 2;
@@ -43,24 +41,21 @@ public class IndexFragment extends BaseFragment {
     private static final int PUSH_NOMORE = 9;
     private static final int LOAD_NOMORE = 10;
 
-
     private boolean pull;
     private boolean push;
 
-    private GetArtParams getArtPrama;
     private IndexCallBack mIndexCallBack;
 
     @ViewInject(R.id.list_view)
-    private XRecyclerView listView;
+    private XRecyclerView xRecyclerView;
 
     private LinearLayoutManager linearLayoutManager;
-    private IndexListAdapter adapter;
+    private ArtsAdapter adapter;
 
     /**
-     * 整个页面的channel，tid,rid.
+     * 整个页面的channel,rid.
      * */
     private String channel = "";
-    private long tid = 0;
     private long rid = 0;
 
     Handler mHandler = new Handler() {
@@ -72,35 +67,35 @@ public class IndexFragment extends BaseFragment {
                     break;
                 case PULL:
                     adapter.notifyDataSetChanged();
-                    listView.refreshComplete();
+                    xRecyclerView.refreshComplete();
                     break;
                 case PUSH:
                     adapter.notifyDataSetChanged();
-                    listView.loadMoreComplete();
+                    xRecyclerView.loadMoreComplete();
                     break;
                 case ARTSDK_ERROR:
                     Toast.makeText(getActivity(), "文章SDK错误", Toast.LENGTH_SHORT).show();
-                    listView.refreshComplete();
-                    listView.loadMoreComplete();
+                    xRecyclerView.refreshComplete();
+                    xRecyclerView.loadMoreComplete();
 
                     break;
                 case NETWORK_ERROR:
                     Toast.makeText(getActivity(), "网络错误", Toast.LENGTH_SHORT).show();
-                    listView.refreshComplete();
-                    listView.loadMoreComplete();
+                    xRecyclerView.refreshComplete();
+                    xRecyclerView.loadMoreComplete();
                     break;
                 case SERVER_ERROR:
                     Toast.makeText(getActivity(), "服务器错误", Toast.LENGTH_SHORT).show();
-                    listView.refreshComplete();
-                    listView.loadMoreComplete();
+                    xRecyclerView.refreshComplete();
+                    xRecyclerView.loadMoreComplete();
                     break;
                 case PULL_NOMORE:
                     Toast.makeText(getContext(), "已经是最新了", Toast.LENGTH_SHORT).show();
-                    listView.refreshComplete();
+                    xRecyclerView.refreshComplete();
                     break;
                 case PUSH_NOMORE:
                     Toast.makeText(getContext(), "已经是最旧了", Toast.LENGTH_SHORT).show();
-                    listView.loadMoreComplete();
+                    xRecyclerView.loadMoreComplete();
                     break;
                 case LOAD_NOMORE:
                     Toast.makeText(getContext(), "本地没有数据", Toast.LENGTH_SHORT).show();
@@ -109,38 +104,31 @@ public class IndexFragment extends BaseFragment {
         }
     };
 
-    public IndexFragment() {
+    public ArtsFragment() {
         // Required empty public constructor
     }
 
-    //在viewpager里，左右移动一下频道页面，这个channel就更新一下，就调用一下onCreate事件
     /**
+     * 在viewpager里，左右移动一下频道页面，这个channel就更新一下，就调用一下onCreate事件
      *  在onCreate的时候注意，activity的参数有两种情况
      *  1：当初始化的时候，indexfragment只有channel这个参数，此时都出来的tid = 0
      *  2: 当进入详情界面的时候，indexfragemnt只有tid这个参数，此时估计channel都出来为""
-     *
+     *  当第一次加载这个framgement的时候，会到数据库寻找最近的数据放置到jsonarray来
      * */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mIndexCallBack = new IndexCallBack();
-        adapter = new IndexListAdapter(getActivity(), new JSONArray());
-
-        // 设置频道
-        if (getArguments() != null) {
-            channel = getArguments().getString("channel");
-            rid = getArguments().getLong("rid");
-            if(channel != null && !channel.equals("") )
-            {
-                //当第一次加载这个framgement的时候，会到数据库寻找最近的数据放置到jsonarray来
-                Log.i("Channel-" + channel, " try to Load article of " + channel+" with rid as "+rid);
-                if (Constant.binder != null) {
-                    Log.i("Channel-" + channel, "do  to Load article of " + channel);
-                    Constant.binder.getChannelArticles(channel, "load", 0/**tid*/,rid/**rid**/, mIndexCallBack);
-                }
-            }
-        }else{
-            Log.e("Channel", "indexfragment没有参数");
+        adapter = new ArtsAdapter(getActivity(), new JSONArray());
+        if (getArguments() == null) {
+            Log.e("ArtsFragment", "ArtsFragment given no arguments!");
+            return;
+        }
+        channel = getArguments().getString("channel");
+        rid = getArguments().getLong("rid");
+        if (channel != null && !channel.equals("") && Constant.binder != null) {
+            Log.i("Channel-" + channel, " try to Load articles with rid as " + rid);
+            Constant.binder.getChannelArticles(channel, "load", 0/**tid*/, rid/**rid**/, mIndexCallBack);
         }
     }
 
@@ -171,19 +159,19 @@ public class IndexFragment extends BaseFragment {
          * listview
          */
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        listView.setLayoutManager(linearLayoutManager);
-        listView.setHasFixedSize(true);
-        listView.setAdapter(adapter);
-        adapter.listView = listView;
+        xRecyclerView.setLayoutManager(linearLayoutManager);
+        xRecyclerView.setHasFixedSize(true);
+        xRecyclerView.setAdapter(adapter);
+        adapter.xRecyclerView = xRecyclerView;
 
-        listView.setLoadingListener(new XRecyclerView.LoadingListener() {
+        xRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 pull = true;
                 try {
                     if (Constant.binder != null){
                         Constant.binder.getChannelArticles(channel, "pull", adapter.maxTid,rid, mIndexCallBack);
-                        Log.d("IndexFragment","pull tid > "+adapter.maxTid);
+                        Log.d("ArtsFragment","pull tid > "+adapter.maxTid);
                     }
                 } catch (Exception e) {
                     Log.e("Error", e.toString());
@@ -196,9 +184,8 @@ public class IndexFragment extends BaseFragment {
                 try {
                     if (Constant.binder != null){
                         Constant.binder.getChannelArticles(channel, "push",adapter.minTid,rid, mIndexCallBack);
-                        Log.d("IndexFragment","push tid < "+adapter.minTid);
+                        Log.d("ArtsFragment","push tid < "+adapter.minTid);
                     }
-
                 } catch (Exception e) {
                     Log.e("Error", e.toString());
                 }
@@ -212,6 +199,14 @@ public class IndexFragment extends BaseFragment {
         public void onFailure(JSONObject failObject) {
             switch (failObject.optInt("status")) {
                 case 1://网络错误
+                    if (pull) {
+                        pull = false;
+                    }
+                    if (push) {
+                        push = false;
+                    }
+                    mHandler.sendEmptyMessage(NETWORK_ERROR);
+                    break;
                 case 6://ARTSDK内部例外
                     if (pull) {
                         pull = false;
@@ -305,7 +300,7 @@ public class IndexFragment extends BaseFragment {
                     pull = false;
                     adapter.jsonArray = sumArticles;
                     adapter.maxTid = new_inc_max;
-                    Log.i("Channel-pull " + channel, "update tid [?,"+adapter.minTid+"]");
+                    Log.i("Channel-pull " + channel, "update tid [?,"+adapter.maxTid+"]");
                     mHandler.sendEmptyMessage(PULL);
                     Log.i("Channel-pull " + channel, "load article count " + articles.length() + " to " + adapter.jsonArray.length() + "articles with tid ["+adapter.minTid+","+adapter.maxTid+"]");
                 } else if (push) {
@@ -345,13 +340,13 @@ public class IndexFragment extends BaseFragment {
     }
 
     /**
-     * 创建Fragment的实例
-     *
-     * @param channel
+     * 创建一个ArtsFragment的实例
+     * @param channel: 这个ArtsFragment对应的频道名字
+     * @param rid : 这个artsFragment对应的root id数目
      * @return
      */
-    public static IndexFragment newInstance(String channel,long rid) {
-        IndexFragment fragment = new IndexFragment();
+    public static ArtsFragment newInstance(String channel, long rid) {
+        ArtsFragment fragment = new ArtsFragment();
         Bundle args = new Bundle();
         args.putString("channel", channel);
         args.putLong("rid", rid);

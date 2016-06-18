@@ -1,4 +1,4 @@
-package com.wikicivi.adapter.adapter;
+package com.wikicivi.adapter;
 
 import android.content.Context;
 import android.hardware.SensorManager;
@@ -10,17 +10,18 @@ import android.view.ViewGroup;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.wikicivi.R;
-import com.wikicivi.adapter.holder.AdHolder;
-import com.wikicivi.adapter.holder.CommentViewHolder;
-import com.wikicivi.adapter.holder.GifPlayerHolder;
-import com.wikicivi.adapter.holder.MusicViewHolder;
-import com.wikicivi.adapter.holder.TextViewHolder;
-import com.wikicivi.adapter.holder.TextsViewHolder;
-import com.wikicivi.adapter.holder.VideoViewHolder;
-import com.wikicivi.adapter.holder.base.BaseHolder;
+import com.wikicivi.holder.AdHolder;
+import com.wikicivi.holder.CommentViewHolder;
+import com.wikicivi.holder.GifPlayerHolder;
+import com.wikicivi.holder.MusicViewHolder;
+import com.wikicivi.holder.TextViewHolder;
+import com.wikicivi.holder.TextsViewHolder;
+import com.wikicivi.holder.VideoViewHolder;
+import com.wikicivi.holder.BaseHolder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.x;
 
 
@@ -29,7 +30,7 @@ import org.xutils.x;
  * 这个adapter是整个recycleview的list的adapter.
  * fixme: 未来应该给它一个优秀的名字:ArtsAdapter
  */
-public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
+public class ArtsAdapter extends RecyclerView.Adapter<BaseHolder> {
 
     public Context context;
 
@@ -46,9 +47,9 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
 
     SensorManager sensorManager;
 
-    public XRecyclerView listView;
+    public XRecyclerView xRecyclerView;
 
-    public BaseAdapter(Context context, JSONArray jsonArray) {
+    public ArtsAdapter(Context context, JSONArray jsonArray) {
         this.context = context;
         this.jsonArray = jsonArray;
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -103,7 +104,7 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
                 //FIXME: 这个地方，如果出错了，没有获得服务器的文章，那么就应该合适的告诉APP.不应该把错误蔓延下去。
                 Log.e("######", "收到意料外的view type" + viewType);
         }
-        listView.addOnChildAttachStateChangeListener(holder);
+        xRecyclerView.addOnChildAttachStateChangeListener(holder);
         x.view().inject(holder, v);
         return holder;
     }
@@ -123,6 +124,20 @@ public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
     @Override
     public int getItemCount() {
         return jsonArray.length();
+    }
+    /*这个是baseAdapter的成员函数,专门用来做多种视图的,这个position是内容array的索引
+    * recycleView的回收机制就依赖于这个viewtype.保证你需要图片的时候给图片控件,需要视频播放的时候给视频播放控件.
+    * */
+    @Override
+    public int getItemViewType(int position) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonArray.get(position).toString());
+            int tmpl = jsonObject.getInt("tmpl");
+            return tmpl;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 }
