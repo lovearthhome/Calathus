@@ -69,6 +69,24 @@ public class CommentCard extends BaseCardView {
             //editer_name.setText("");
             LogUtil.e(avatarUrl);
             tv_comment.setText("哈哈哈");
+
+                  /*
+        内容信息
+        */
+            String content_str = jsonObject.optString("content");
+            JSONObject content_obj = new JSONObject(content_str);
+
+
+            String brief = content_obj.getString("brief");
+            if("".equals(brief) )
+            {
+                System.out.println("----------brief"+brief);
+                //tv_comment.setText(brief);
+                tv_comment.setText("获取不到评论");
+            }else{
+
+                tv_comment.setText(brief);
+            }
             //Picasso.with(context).load(avatar).into(cardHolder.editer_icon);
 
 //            Glide.with(context).load(jsonObject.getString("editor_avatar")).into(cardHolder.editer_icon);

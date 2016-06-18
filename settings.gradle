@@ -1,1 +1,1 @@
-include ':app', ':articles', ':mpv', ':rxvolley', ':gallery', ':commentviewlib'
+include ':app', ':articles', ':mpv', ':rxvolley', ':gallery', ':commentviewlib', ':viewpagerindicator'

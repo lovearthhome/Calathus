@@ -181,23 +181,12 @@ public class IndexFragment extends BaseFragment {
             public void onRefresh() {
                 pull = true;
                 try {
-                    long tidref = 0;
-                    int artCount = adapter.jsonArray.length();
-                    if (artCount > 0) {
-                        Log.i("request", "jsonarray has articles:" + artCount);
-                        JSONObject jsonObject = new JSONObject(adapter.jsonArray.get(0).toString());
-                        tidref = jsonObject.getInt("inc");
-                        /**如果本页面是个评论页面，那么tidref是第1项*/
-                        if("Comment".equals(channel) && artCount > 1)
-                        {
-                            JSONObject jsonObject1 = new JSONObject(adapter.jsonArray.get(1).toString());
-                            tidref =  jsonObject1.getInt("inc");
-                        }
+                    if (Constant.binder != null){
+                        Constant.binder.getChannelArticles(channel, "pull", adapter.maxTid,rid, mIndexCallBack);
+                        Log.d("IndexFragment","pull tid > "+adapter.maxTid);
                     }
-                    if (Constant.binder != null)
-                        Constant.binder.getChannelArticles(channel, "pull", tidref,rid, mIndexCallBack);
-                } catch (JSONException e) {
-                    Log.e("jsonError", e.toString());
+                } catch (Exception e) {
+                    Log.e("Error", e.toString());
                 }
             }
 
@@ -205,14 +194,13 @@ public class IndexFragment extends BaseFragment {
             public void onLoadMore() {
                 push = true;
                 try {
-                    int maxi = adapter.jsonArray.length() - 1;
-                    if (maxi < 0) maxi = 0;
-                    JSONObject jsonObject = new JSONObject(adapter.jsonArray.get(maxi).toString());
-                    long tid = jsonObject.getInt("inc");
-                    if (Constant.binder != null)
-                        Constant.binder.getChannelArticles(channel, "push", tid,rid, mIndexCallBack);
-                } catch (JSONException e) {
-                    Log.e("jsonError", e.toString());
+                    if (Constant.binder != null){
+                        Constant.binder.getChannelArticles(channel, "push",adapter.minTid,rid, mIndexCallBack);
+                        Log.d("IndexFragment","push tid < "+adapter.minTid);
+                    }
+
+                } catch (Exception e) {
+                    Log.e("Error", e.toString());
                 }
             }
         });
@@ -272,13 +260,14 @@ public class IndexFragment extends BaseFragment {
                     mHandler.sendEmptyMessage(ARTSDK_ERROR);
                     break;
             }
-
         }
 
         @Override
         public void onResponse(JSONObject response) {
             try {
                 JSONArray articles = response.optJSONArray("data");
+                long new_inc_min = response.optLong("inc_min");
+                long new_inc_max = response.optLong("inc_max");
                 //这个地方,我们把服务器回来的数据和result合并
                 if (pull) {
                     if (articles == null || articles.length() == 0) {
@@ -292,7 +281,6 @@ public class IndexFragment extends BaseFragment {
                         {
                             sumArticles.put( adapter.jsonArray.get(0));
                         }
-
                         if(articles.length() > 0)
                         {
                             for (int i = 0; i < articles.length(); i++) {
@@ -314,13 +302,12 @@ public class IndexFragment extends BaseFragment {
                             }
                         }
                     }
-
-
-
                     pull = false;
                     adapter.jsonArray = sumArticles;
+                    adapter.maxTid = new_inc_max;
+                    Log.i("Channel-pull " + channel, "update tid [?,"+adapter.minTid+"]");
                     mHandler.sendEmptyMessage(PULL);
-                    Log.i("Channel-push " + channel, "load article count " + articles.length() + " to " + adapter.jsonArray.length() + "articles");
+                    Log.i("Channel-pull " + channel, "load article count " + articles.length() + " to " + adapter.jsonArray.length() + "articles with tid ["+adapter.minTid+","+adapter.maxTid+"]");
                 } else if (push) {
                     if (articles == null || articles.length() == 0) {
                         mHandler.sendEmptyMessage(PUSH_NOMORE);
@@ -330,9 +317,11 @@ public class IndexFragment extends BaseFragment {
                         adapter.jsonArray.put(articles.get(i));
                     }
                     push = false;
+                    adapter.minTid = new_inc_min;
+                    Log.i("Channel-push " + channel, "update tid ["+adapter.minTid+",?]");
                     mHandler.sendEmptyMessage(PUSH);
-                    Log.i("Channel-push " + channel, "load article count " + articles.length() + " to " + adapter.jsonArray.length() + "articles");
-                    //System.out.println("----------:push");
+                    Log.i("Channel-push " + channel, "load article count " + articles.length() + " to " + adapter.jsonArray.length() + "articles with tid ["+adapter.minTid+","+adapter.maxTid+"]");
+
                 } else {
                     if (articles == null || articles.length() == 0) {
                         Log.i("Channel-load " + channel, "load article count " + articles.length());
@@ -342,9 +331,12 @@ public class IndexFragment extends BaseFragment {
                     for (int i = 0; i < articles.length(); i++) {
                         adapter.jsonArray.put(articles.get(i));
                     }
+
+                    adapter.maxTid = new_inc_max;
+                    adapter.minTid = new_inc_min;
+                    Log.i("Channel-load " + channel, "update tid ["+adapter.minTid+","+adapter.maxTid+"]");
                     mHandler.sendEmptyMessage(UPDATE_DATA);
-                    Log.i("Channel-load " + channel, "load article count " + articles.length() + " to " + adapter.jsonArray.length() + "articles");
-                    //System.out.println("-----------:load");
+                    Log.i("Channel-load " + channel, "load article count " + articles.length() + " to " + adapter.jsonArray.length() + "articles with tid ["+adapter.minTid+","+adapter.maxTid+"]");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -366,7 +358,4 @@ public class IndexFragment extends BaseFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-
-
 }

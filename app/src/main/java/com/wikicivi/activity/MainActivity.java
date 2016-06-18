@@ -107,8 +107,6 @@ public class MainActivity extends BaseActivity {
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-
-
         reviewItem=mNavigationView.getMenu().findItem(R.id.nav_review);
         reviewItem.setVisible(false);
 
@@ -198,11 +196,6 @@ public class MainActivity extends BaseActivity {
             return IndexFragment.newInstance(channel[position],0/*rid*/);
         }
 
-//        @Override
-//        public void destroyItem(ViewGroup container, int position, Object object) {
-//
-//        }
-
         @Override
         public int getCount() {
             return tabTitles.length;
@@ -252,7 +245,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        // dua.duaSleep();
     }
 
     @Override

@@ -26,7 +26,8 @@ public class AdHolder extends BaseHolder {
     public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
         bindHead(context, cardHolder, jsonStr);
         //System.out.println("---------------加载广告:");
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
         adView.loadAd(adRequest);
     }
 

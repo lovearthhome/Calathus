@@ -8,7 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.chaowen.commentlibrary.CommentView;
+import com.lovearthstudio.articles.constant.Constant;
 import com.lovearthstudio.articles.net.MyCallBack;
+import com.lovearthstudio.duasdk.Dua;
+import com.lovearthstudio.duasdk.ui.DuaActivityLogin;
 import com.wikicivi.R;
 import com.wikicivi.fragment.IndexFragment;
 
@@ -36,12 +39,14 @@ public class CommentActivity extends BaseActivity {
         compose.setOperationDelegate(new CommentView.OnComposeOperationDelegate() {
             @Override
             public void onSendText(String text) {
-                System.out.println("评论内容:" + text);
+                System.out.println("comment text:" + text);
+                String jsontext = "{\"title\":\"\",\"brief\":\""+text+"\",\"texts\":[],\"files\":[]}";//text的两边必须有双引号，否则在数据库里是: "brief":我是评论
+                postArticle(jsontext);
             }
 
             @Override
             public void onSendVoice(String file, int length) {
-
+                System.out.println("comment voce:" + file);
             }
 
             @Override
@@ -68,6 +73,21 @@ public class CommentActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.root_view, IndexFragment.newInstance(channel, tid)).commit();
+    }
+
+    private void postArticle(String jsonStr)
+    {
+        System.out.println("-----------------");
+        if (Constant.binder != null)
+        {
+            if(!Dua.getInstance().getCurrentDuaUser().logon){
+                startActivity(new Intent(CommentActivity.this, DuaActivityLogin.class));
+            }else{
+                //from,tid,cato, media,flag , tmpl,content, myCallBack
+                Constant.binder.addArticle(tid,"Comment","Text",101,601,jsonStr, new addArticleCallBack());
+            }
+        }
+
     }
 
     /*@Event({R.id.btn_comment})
@@ -110,6 +130,4 @@ public class CommentActivity extends BaseActivity {
         }
         return true;
     }
-
-
 }

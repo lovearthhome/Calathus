@@ -26,12 +26,23 @@ import org.xutils.x;
 
 /**
  * Created by zhaoliang on 16/4/6.
+ * 这个adapter是整个recycleview的list的adapter.
+ * fixme: 未来应该给它一个优秀的名字:ArtsAdapter
  */
 public abstract class BaseAdapter extends RecyclerView.Adapter<BaseHolder> {
 
     public Context context;
 
     public JSONArray jsonArray;
+
+    /**
+     *  整个列表的最小文章id，这个id不包括插入的辅助card的id
+     * */
+    public long minTid;
+    /**
+     *  整个列表的最大文章id，这个id不包括插入的辅助card的id
+     * */
+    public long maxTid;
 
     SensorManager sensorManager;
 

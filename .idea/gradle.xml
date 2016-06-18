@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/gallery" />
             <option value="$PROJECT_DIR$/mpv" />
             <option value="$PROJECT_DIR$/rxvolley" />
+            <option value="$PROJECT_DIR$/viewpagerindicator" />
           </set>
         </option>
         <option name="myModules">
@@ -26,6 +27,7 @@
             <option value="$PROJECT_DIR$/gallery" />
             <option value="$PROJECT_DIR$/mpv" />
             <option value="$PROJECT_DIR$/rxvolley" />
+            <option value="$PROJECT_DIR$/viewpagerindicator" />
           </set>
         </option>
       </GradleProjectSettings>

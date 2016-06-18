@@ -64,6 +64,65 @@ public class Articles {
             return tmpdbarticles;
         }
     }
+
+    private JSONObject asmArticles(JSONArray dbarticles)
+    {
+        try {
+            JSONObject dbresult = new JSONObject();
+            long inc_min = 0;
+            long inc_max = 0;
+            int artCount = dbarticles.length();
+            if (artCount > 0) {
+                Log.i("request", "jsonarray has articles:" + artCount);
+                JSONObject jsonObject = new JSONObject(dbarticles.get(0).toString());
+                long inc0 = jsonObject.optLong("inc");
+                int maxi = dbarticles.length() - 1;
+                if (maxi < 0) maxi = 0;
+                jsonObject = new JSONObject(dbarticles.get(maxi).toString());
+                long inc1 = jsonObject.optLong("inc");
+                if(inc1 > inc0) {
+                    inc_max = inc1;
+                    inc_min = inc0;
+                } else{
+                    inc_max = inc0;
+                    inc_min = inc1;
+                }
+            }
+
+
+            /**
+             *  根据当前指针添加广告到结尾
+             * */
+            JSONArray adarticles = new JSONArray();
+            if(Constant.adflag && Constant.artsSinceLastAd +dbarticles.length()> Constant.ArtsPerAd)
+            {
+                    for(int i=0;i<dbarticles.length();i++)
+                    {
+                        adarticles.put(dbarticles.get(i));
+                        Constant.artsSinceLastAd++;
+                        if(Constant.artsSinceLastAd > Constant.ArtsPerAd)
+                        {
+                            /**在myArticles里插入ad*/
+
+                            adarticles.put(makeAd());
+                            Constant.artsSinceLastAd = 0;
+                        }
+                    }
+
+            }else{
+                adarticles = dbarticles;
+            }
+            dbresult.put("data", adarticles);
+            dbresult.put("inc_min", inc_min);
+            dbresult.put("inc_max", inc_max);
+            return dbresult;
+        }catch (JSONException e){
+            Log.e("Error", e.toString());
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     /**
      * 请求数据
      * 只有三种动作：
@@ -101,16 +160,14 @@ public class Articles {
             JSONArray dbarticles;
             if ("load".equals(action)) {
                 dbarticles = artdb.loadArticles(channel, ridref, Constant.artdbArticleCountPerFetch);
-                dbresult.put("data", dbarticles);
-                myCallBack.onResponse(dbresult);
+                myCallBack.onResponse(asmArticles(dbarticles));
                 return;
             }
 
             if ("pull".equals(action)) {
                 dbarticles = artdb.pullArticles(channel, ridref, tidref, Constant.artdbArticleCountPerFetch);
                 if (dbarticles.length() != 0) {
-                    dbresult.put("data", dbarticles);
-                    myCallBack.onResponse(dbresult);
+                    myCallBack.onResponse(asmArticles(dbarticles));
                     return;
                 }
             }
@@ -118,8 +175,7 @@ public class Articles {
             if ("push".equals(action)) {
                 dbarticles = artdb.pushArticles(channel, ridref, tidref, Constant.artdbArticleCountPerFetch);
                 if (dbarticles.length() != 0) {
-                    dbresult.put("data", dbarticles);
-                    myCallBack.onResponse(dbresult);
+                    myCallBack.onResponse(asmArticles(dbarticles));
                     return;
                 }
             }
@@ -127,8 +183,7 @@ public class Articles {
             if ("next".equals(action)) {
                 dbarticles = artdb.nextArticles(channel, ridref, tidref, 1);
                 if (dbarticles.length() != 0) {
-                    dbresult.put("data", dbarticles);
-                    myCallBack.onResponse(dbresult);
+                    myCallBack.onResponse(asmArticles(dbarticles));
                     return;
                 }
             }
@@ -212,26 +267,7 @@ public class Articles {
                             } else {
                                 myArticles = artdb.nextArticles(channel, ridref, tidref, 1);
                             }
-                            /**
-                             *  根据当前指针添加广告到结尾
-                             * */
-                            if(Constant.adflag)
-                            {
-                                int tmpCount = myArticles.length();
-                                Constant.artsSinceLastAd+=tmpCount;
-                                if(Constant.artsSinceLastAd > Constant.ArtsPerAd)
-                                {
-                                    /**在myArticles里插入ad*/
-                                    myArticles.put(makeAd());
-                                    Constant.artsSinceLastAd = 0;
-                                }
-
-                            }
-
-
-                            JSONObject myResult = new JSONObject();
-                            myResult.put("data", myArticles);
-                            myCallBack.onResponse(myResult);
+                            myCallBack.onResponse(asmArticles(myArticles));
                             long pmcOverTime = Calendar.getInstance().getTimeInMillis();
                             Dua.getInstance().setAppPmc("GetArts", count, "1", pmcOverTime - pmcBeginTime, "ms");
                         } else {
@@ -244,7 +280,7 @@ public class Articles {
                     }
                 }
             });
-        } catch (JSONException e) {
+        } catch (Exception e) {
             Log.e("Error", e.toString());
             e.printStackTrace();
             myCallBack.onFailure(Constant.failureObject(Constant.JSON_FAILURE, e.toString()));
@@ -261,7 +297,6 @@ public class Articles {
         } catch (Exception e){}
         return adjson.toString();
     }
-
 
     /**
      * 获取审核文章
@@ -280,7 +315,6 @@ public class Articles {
             setArtParams.param = param; // 1
             setArtParams.filter.clear();
             setArtParams.filter.put(which, param);
-
 
             Log.i("Articles", setArtParams.tid + " " + setArtParams.how);
             final long pmcBeginTime = Calendar.getInstance().getTimeInMillis();

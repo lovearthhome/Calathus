@@ -7,7 +7,6 @@ import android.graphics.ColorFilter;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -110,7 +109,7 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
     @Override
     public void setOnClickListener() {
-        //iv_gif.setOnClickListener(this);
+        giv_view.setOnClickListener(this);
     }
 
     @Override
@@ -163,7 +162,7 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
         float ratio = (float) Constant.screenwith / (float) img_width;
         int height = (int) (ratio * img_height);
         if (height > 1500) {
-            height = 700;
+            height = 1200;
             ll_bootom_click_show_bigimage.setVisibility(VISIBLE);
         }
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
@@ -266,12 +265,13 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
             // your app's logic to change the drawable's
             // appearance here based on progress
-            rate_progress_bar.setProgress(level/20);
+            rate_progress_bar.setProgress(level/100);
             //System.out.println("--------:" + level);
             if(level >= 10000)
             {
-                MyAsyncTask pbtask = new MyAsyncTask();
-                pbtask.execute();
+//                MyAsyncTask pbtask = new MyAsyncTask();
+//                pbtask.execute();
+                rate_progress_bar.setVisibility(INVISIBLE);
             }
             return false;
         }
@@ -317,55 +317,53 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
      *
      *
      */
-    class MyAsyncTask extends AsyncTask<Void,Integer,Void> {
-
-        @Override
-        protected void onPreExecute() {
-            // TODO Auto-generated method stub
-            // 这个方法是在执行异步任务之前的时候执行，并且是在UI Thread当中执行的，通常我们在这个方法里做一些UI控件的初始化的操作，
-            super.onPreExecute();
-            rate_progress_bar.setProgress(50);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            // TODO Auto-generated method stub
-            super.onProgressUpdate();
-            rate_progress_bar.setProgress(values[0]);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            // TODO Auto-generated method stub
-            float timePast = 5.0f;//假设过去了5秒
-            float timeLeft = 5.0f;//假设剩下五秒就会渲染成功，那么总时间就是10秒
-            while(true)
-            {
-                try
-                {
-                    Thread.sleep(100);
-                    timeLeft -= 0.1f;
-                    timePast += 0.1f;
-                    if(timeLeft < 2.5f && finalImageSet == false)
-                    {
-                        timeLeft += 1.0f;
-                    }
-                    if(timeLeft <0.0f)
-                        break;
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-                publishProgress((int)(timePast/(timeLeft+timePast)*100));
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            rate_progress_bar.setVisibility(INVISIBLE);
-        }
-
-    }
-
-
+//    class MyAsyncTask extends AsyncTask<Void,Integer,Void> {
+//
+//        @Override
+//        protected void onPreExecute() {
+//            // TODO Auto-generated method stub
+//            // 这个方法是在执行异步任务之前的时候执行，并且是在UI Thread当中执行的，通常我们在这个方法里做一些UI控件的初始化的操作，
+//            super.onPreExecute();
+//            rate_progress_bar.setProgress(50);
+//        }
+//
+//        @Override
+//        protected void onProgressUpdate(Integer... values) {
+//            // TODO Auto-generated method stub
+//            super.onProgressUpdate();
+//            rate_progress_bar.setProgress(values[0]);
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... params) {
+//            // TODO Auto-generated method stub
+//            float timePast = 5.0f;//假设过去了5秒
+//            float timeLeft = 5.0f;//假设剩下五秒就会渲染成功，那么总时间就是10秒
+//            while(true)
+//            {
+//                try
+//                {
+//                    Thread.sleep(100);
+//                    timeLeft -= 0.1f;
+//                    timePast += 0.1f;
+//                    if(timeLeft < 2.5f && finalImageSet == false)
+//                    {
+//                        timeLeft += 1.0f;
+//                    }
+//                    if(timeLeft <0.0f)
+//                        break;
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//                publishProgress((int)(timePast/(timeLeft+timePast)*100));
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void result) {
+//            rate_progress_bar.setVisibility(INVISIBLE);
+//        }
+//
+//    }
 }

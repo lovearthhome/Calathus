@@ -46,8 +46,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     /* bibi jkplayer */
 
-    /* compile 'com.facebook.fresco:fresco:0.9.0.+'*/
-
     // Glide's OkHttp3 Integration
     compile project(':articles')
     compile(name: 'duasdk-debug', ext: 'aar')
@@ -56,7 +54,7 @@ dependencies {
     compile project(':gallery')
     // facebook牛逼图片加载库
 
-    //compile 'com.facebook.fresco:fresco:0.9.0+'
+
     compile project(':commentviewlib')
     compile 'net.rimoto:intlphoneinput:0.9.3'
     compile 'cn.qqtheme.framework:WheelPicker:1.1.2'
@@ -83,8 +81,11 @@ dependencies {
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     compile 'com.github.jhw-dev:CircleLoadingView:v1.3'
     compile 'com.google.android.gms:play-services-ads:9.0.2'
+    compile 'com.google.firebase:firebase-ads:9.0.2'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    compile 'com.facebook.fresco:fresco:0.10.0'
-    compile 'com.facebook.fresco:animated-gif:0.10.0'
+    compile 'com.facebook.fresco:fresco:0.11.0'
+    compile 'com.facebook.fresco:animated-gif:0.11.0'
     compile project(':viewpagerindicator')
 }
+
+apply plugin: 'com.google.gms.google-services'
