@@ -1,4 +1,4 @@
-package com.lovearthstudio.articles.net;
+package com.lovearthstudio.articles.core;
 
 import org.json.JSONObject;
 

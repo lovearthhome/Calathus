@@ -1,23 +1,19 @@
-package com.lovearthstudio.articles.net;
+package com.lovearthstudio.articles.core;
 
 import java.util.Map;
 
 /**
  * Created by pro on 16/2/23.
  */
-public class GetArtParams {
+public class SetArtParams {
+
     public long dua_id;
-    public String channel;
+    public long tid;
     public String action;
     public String how;
-    public long tidref;
-    public String order;
-    public int rows;
-
-
+    public String field;
+    public int param;
     public Map<String, Object> filter;
-
-    public String[] fields;
 
     public class Filter {
         public String key;

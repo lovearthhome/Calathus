@@ -1,6 +1,6 @@
 package com.lovearthstudio.articles.service;
 
-import com.lovearthstudio.articles.net.MyCallBack;
+import com.lovearthstudio.articles.core.MyCallBack;
 
 /**
  * Created by zhaoliang on 16/4/30.

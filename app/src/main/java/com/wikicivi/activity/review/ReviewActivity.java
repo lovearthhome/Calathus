@@ -12,8 +12,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.lovearthstudio.articles.constant.Constant;
-import com.lovearthstudio.articles.net.GetArtParams;
-import com.lovearthstudio.articles.net.MyCallBack;
+import com.lovearthstudio.articles.core.GetArtParams;
+import com.lovearthstudio.articles.core.MyCallBack;
 import com.lovearthstudio.duasdk.util.JsonUtil;
 import com.lovearthstudio.duasdk.util.LogUtil;
 import com.wikicivi.R;

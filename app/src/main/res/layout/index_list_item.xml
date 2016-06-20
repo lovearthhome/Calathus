@@ -45,10 +45,10 @@
 
             <ImageView
                 android:id="@+id/iv_more"
-                android:layout_width="20dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
-                android:src="@mipmap/more" />
+                android:src="@mipmap/other" />
         </LinearLayout>
 
         <FrameLayout
@@ -82,7 +82,7 @@
                     <TextView
                         android:id="@+id/tv_arrow"
                         style="@style/ListImageTextStyle"
-                        android:drawableLeft="@mipmap/digg"
+                        android:drawableLeft="@mipmap/arrow"
                         android:text="1.2万" />
 
                     <TextView

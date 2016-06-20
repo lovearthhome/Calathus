@@ -21,7 +21,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
 import android.util.Log;
-
 import uk.co.senab.photoview.PhotoView;
 
 public class GifImageView extends PhotoView implements Runnable {

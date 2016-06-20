@@ -6,5 +6,10 @@
 .DS_Store
 /build
 /captures
-/viewpagerindicator/build
-/mpv/build
+viewpagerindicator/build
+mpv/build
+
+# Java class files
+*.class
+
+*.jar

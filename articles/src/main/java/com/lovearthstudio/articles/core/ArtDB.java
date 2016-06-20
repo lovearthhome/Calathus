@@ -1,10 +1,10 @@
-package com.lovearthstudio.articles.net;
+package com.lovearthstudio.articles.core;
 
 import android.util.Log;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONException;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -20,33 +20,63 @@ public class ArtDB {
 
     private Realm realm ;
 
-    public ArtDB() {
-        /*
-        realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.clear(ArtViewBlock.class);
-        realm.clear(ArtItem.class);
-        realm.commitTransaction();
-        */
+    public ArtDB() {}
 
-    }
-
+    /**
+     *  把从服务器获得的数据保存在本地realm数据库
+     *  @param channel 频道，这个参数是客户端本地的概念，不是服务器端传来的参数
+     *  @param rid,
+     *  @param data 以JSONArray方式存在的文章数据
+     *
+     *  下面这个接口假设了服务器回来的数据必须满足
+     *  1: data里，每一条数据都包含:inc,rid,tmpl,content,tags,comt,good,bad,share,star
+     *  2: 早期，广告是以tmpl=501存放在服务器端上发回来的，我们取消了这一功能，要求广告从客户端生成。
+     **/
     public boolean storeArticles(String channel,long rid, JSONArray data,long tidmax, long tidmin, int nomore)
     {
         try{
-            //System.out.println("---------beginn:" );
             realm = Realm.getDefaultInstance();
             for (int i = 0; i < data.length(); i++) {
-
                 String dataStr = data.get(i).toString();
                 JSONObject jsonItem = new JSONObject(dataStr);
+                long tid = jsonItem.optLong("inc");
+                rid = jsonItem.optLong("rid");
                 int tmpl = jsonItem.optInt("tmpl");
+                String content  = jsonItem.optString("content");
+                String tags     = jsonItem.optString("tags");
+                int comt = jsonItem.optInt("comt");
+                int good = jsonItem.optInt("good");
+                int bad  = jsonItem.optInt("bad");
+                int shar = jsonItem.optInt("shar");
+                int star = jsonItem.optInt("star");
 
-                //如果是广告的话，因为没有inc字段，所以在下一条解析inc的时候就出错了，这时候就没有调用后面的callback导致app一直在那旋转等待...
-                if(tmpl == 501)
-                    continue;
-                long tid = jsonItem.getLong("inc");
+
                 realm.beginTransaction();
+                /**
+                 *  第一步，更新artIndex表
+                 * */
+                ArtIndex artIndex = realm.where(ArtIndex.class)
+                        .equalTo("tid",tid)
+                        .equalTo("rid",rid)
+                        .equalTo("channel",channel)
+                        .findFirst();
+
+                if(artIndex !=null)
+                {
+                    artIndex.setChannel(channel);
+                    artIndex.setRid(rid);
+                    artIndex.setTid(tid);
+                    Log.e("update2realm",artIndex.toString());
+                }else{
+                    artIndex = realm.createObject(ArtIndex.class);
+                    artIndex.setChannel(channel);
+                    artIndex.setRid(rid);
+                    artIndex.setTid(tid);
+                    Log.e("insert2realm",artIndex.toString());
+                }
+                /**
+                 *  第二  步，更新artItem表
+                 * */
                 ArtItem dbitem = realm.where(ArtItem.class)
                         .equalTo("tid",tid)
                         .equalTo("channel",channel)

@@ -1,4 +1,4 @@
-package com.lovearthstudio.articles.net;
+package com.lovearthstudio.articles.core;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Required;

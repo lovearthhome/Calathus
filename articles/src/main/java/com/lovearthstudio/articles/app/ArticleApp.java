@@ -2,7 +2,7 @@ package com.lovearthstudio.articles.app;
 
 import android.app.Application;
 
-import com.lovearthstudio.articles.net.ArtModule;
+import com.lovearthstudio.articles.core.ArtModule;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;

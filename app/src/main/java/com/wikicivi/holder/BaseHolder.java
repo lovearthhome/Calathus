@@ -21,7 +21,6 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder implements Recy
 
     public Context context;
     private FrameLayout root_layout;
-
     /**
      * 头部信息
      */

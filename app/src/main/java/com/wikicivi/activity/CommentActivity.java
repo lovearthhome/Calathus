@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.chaowen.commentlibrary.CommentView;
 import com.lovearthstudio.articles.constant.Constant;
-import com.lovearthstudio.articles.net.MyCallBack;
+import com.lovearthstudio.articles.core.MyCallBack;
 import com.lovearthstudio.duasdk.Dua;
 import com.lovearthstudio.duasdk.ui.DuaActivityLogin;
 import com.wikicivi.R;

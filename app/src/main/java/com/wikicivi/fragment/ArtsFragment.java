@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.lovearthstudio.articles.constant.Constant;
-import com.lovearthstudio.articles.net.MyCallBack;
+import com.lovearthstudio.articles.core.MyCallBack;
 import com.wikicivi.R;
 import com.wikicivi.adapter.ArtsAdapter;
 

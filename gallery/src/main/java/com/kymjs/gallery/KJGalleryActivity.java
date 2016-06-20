@@ -17,9 +17,12 @@ package com.kymjs.gallery;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,9 +46,17 @@ public class KJGalleryActivity extends KJActivity {
     public static String URL_INDEX = "KJGalleryActivity_index";
 
     private TextView textView, downloadTv;
+    private ImageButton gobackIb;
 
     private String[] imageUrls;
     private int index;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //下面这句话可以让整个activity充斥整个屏幕
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
 
     @Override
     public void setRootView() {
@@ -63,7 +74,7 @@ public class KJGalleryActivity extends KJActivity {
     public void download(View v) {
         String url = imageUrls[0];
 
-        String appPath = "BaiSiBuDeJie";
+        String appPath = "Calathus";
 
         File file = Environment.getExternalStoragePublicDirectory(appPath);
         file.mkdirs();
@@ -99,6 +110,7 @@ public class KJGalleryActivity extends KJActivity {
         super.initWidget();
         textView = bindView(R.id.page_title);
         downloadTv = bindView(R.id.downloadTv);
+        gobackIb = bindView(R.id.gobackIB);
         if (imageUrls.length < 2) {
             textView.setVisibility(View.GONE);
         } else {
@@ -108,6 +120,12 @@ public class KJGalleryActivity extends KJActivity {
             @Override
             public void onClick(View view) {
                 download(view);
+            }
+        });
+        gobackIb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                aty.finish();
             }
         });
         HackyViewPager mViewPager = bindView(R.id.view_pager);

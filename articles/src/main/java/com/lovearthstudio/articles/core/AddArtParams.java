@@ -1,4 +1,4 @@
-package com.lovearthstudio.articles.net;
+package com.lovearthstudio.articles.core;
 
 /**
  * Created by pro on 16/2/23.

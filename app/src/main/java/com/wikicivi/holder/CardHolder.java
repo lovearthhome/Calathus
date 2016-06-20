@@ -2,6 +2,7 @@ package com.wikicivi.holder;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.lovearthstudio.articles.net.MyCallBack;
+import com.lovearthstudio.articles.core.MyCallBack;
 import com.lovearthstudio.duasdk.util.LogUtil;
 import com.wikicivi.R;
 import com.wikicivi.activity.CommentActivity;
@@ -92,11 +93,11 @@ public abstract class CardHolder extends BaseHolder {
         animation = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.applaud_animation);
         scaleAnimation = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5F, Animation.RELATIVE_TO_SELF, 0.5F);
         scaleAnimation.setDuration(1000);
-        rotateAnimation = new RotateAnimation(0F, 360F, Animation.RELATIVE_TO_SELF, 0.5F, Animation.RELATIVE_TO_SELF, 0.5F);
-        rotateAnimation.setDuration(1000);
+//        rotateAnimation = new RotateAnimation(0F, 360F, Animation.RELATIVE_TO_SELF, 0.5F, Animation.RELATIVE_TO_SELF, 0.5F);
+//        rotateAnimation.setDuration(1000);
         animationSet = new AnimationSet(false);
         animationSet.addAnimation(scaleAnimation);
-        animationSet.addAnimation(rotateAnimation);
+//        animationSet.addAnimation(rotateAnimation);
 
         arcStateParam = new ArcState();
         arcStateParam.dua_id = Constant.dua_id;
@@ -109,21 +110,15 @@ public abstract class CardHolder extends BaseHolder {
 
     @Event({R.id.tv_arrow, R.id.tv_narrow, R.id.tv_comment, R.id.tv_share, R.id.iv_more})
     private void click(View view) {
-        /*event.clear();
-        events.clear();
-        try {
-            event.put("tid", jsonObject.get("inc"));
-            //System.out.println(jsonObject.get("inc"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        event.put("param", 1);
-        event.put("time", 1000);
-        TextView textView = (TextView) view;
-        textView.setText(String.valueOf(Integer.parseInt(textView.getText().toString()) + 1));*/
         int id = view.getId();
         switch (id) {
             case R.id.tv_arrow:
+            {
+                //点击后换颜色
+                Drawable drawable= context.getResources().getDrawable(R.mipmap.goodred);
+                /// 这一步必须要做,否则不会显示.
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tv_arrow.setCompoundDrawables(drawable,null,null,null);
                 view.startAnimation(animationSet);
                 playAnimation(tv_arrow_animation);
                 //event.put("act", "good");
@@ -131,7 +126,16 @@ public abstract class CardHolder extends BaseHolder {
                     com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid, "View", "good", 1, setViewArticleCB);
                 }
                 break;
+            }
+
             case R.id.tv_narrow:
+            {
+                //点击后换颜色
+                Drawable drawable= context.getResources().getDrawable(R.mipmap.badred);
+                /// 这一步必须要做,否则不会显示.
+                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                tv_narrow.setCompoundDrawables(drawable,null,null,null);
+
                 view.startAnimation(animationSet);
                 playAnimation(tv_narrow_animation);
                 //event.put("act", "bad");
@@ -139,6 +143,9 @@ public abstract class CardHolder extends BaseHolder {
                     com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid, "View", "bad", 1, setViewArticleCB);
                 }
                 break;
+
+            }
+
             case R.id.tv_comment:
                 //event.put("act", "comt");
                 if (com.lovearthstudio.articles.constant.Constant.binder != null) {
@@ -161,7 +168,6 @@ public abstract class CardHolder extends BaseHolder {
         }
         events.add(event);
         arcStateParam.events = events;
-        //postArtState(arcStateParam);
     }
 
 

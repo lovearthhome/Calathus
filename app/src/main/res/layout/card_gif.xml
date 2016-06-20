@@ -54,6 +54,7 @@
             android:id="@+id/gif_view"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:scaleType="centerInside"
             fresco:placeholderImage="@drawable/post_placeholderimage" />
 
         <com.wikicivi.widget.circleprogressbar.RateTextCircularProgressBar
@@ -68,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:background="@color/card_largeimagenote_dark"
+            android:background="@drawable/big_image_mask"
             android:gravity="center"
             android:orientation="horizontal">
 

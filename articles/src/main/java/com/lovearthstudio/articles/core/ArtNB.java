@@ -1,4 +1,4 @@
-package com.lovearthstudio.articles.net;
+package com.lovearthstudio.articles.core;
 
 import android.util.Log;
 
@@ -29,9 +29,6 @@ public class ArtNB {
     */
     private OkHttpClient httpClient;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-
-
-
 
     public ArtNB() {
         httpClient = new OkHttpClient();

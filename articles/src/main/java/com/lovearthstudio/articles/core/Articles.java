@@ -1,4 +1,4 @@
-package com.lovearthstudio.articles.net;
+package com.lovearthstudio.articles.core;
 
 import android.app.Activity;
 import android.content.Context;
@@ -107,7 +107,6 @@ public class Articles {
                         if(Constant.artsSinceLastAd > Constant.ArtsPerAd)
                         {
                             /**在myArticles里插入ad*/
-
                             adarticles.put(makeAd());
                             Constant.artsSinceLastAd = 0;
                         }
@@ -129,7 +128,7 @@ public class Articles {
 
     /**
      * 请求数据
-     * 只有三种动作：
+     * 只有四种动作：
      * load: 一开始的加载
      * pull: 获取新的数据
      * push: 获取旧的数据

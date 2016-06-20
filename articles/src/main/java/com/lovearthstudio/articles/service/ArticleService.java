@@ -6,9 +6,9 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.lovearthstudio.articles.net.ArtDB;
-import com.lovearthstudio.articles.net.Articles;
-import com.lovearthstudio.articles.net.MyCallBack;
+import com.lovearthstudio.articles.core.ArtDB;
+import com.lovearthstudio.articles.core.Articles;
+import com.lovearthstudio.articles.core.MyCallBack;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
