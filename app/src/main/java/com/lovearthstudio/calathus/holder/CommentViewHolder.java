@@ -21,6 +21,7 @@ public class CommentViewHolder extends BaseHolder {
         super(itemView);
     }
 
+
     @Override
     public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
         bindHead(context, cardHolder, jsonStr);

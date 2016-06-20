@@ -171,6 +171,7 @@ public abstract class CardHolder extends BaseHolder {
     }
 
 
+
     class setViewArticleCallBack implements MyCallBack {
 
         @Override
