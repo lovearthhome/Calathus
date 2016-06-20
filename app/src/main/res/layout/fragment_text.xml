@@ -8,9 +8,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.wikicivi.widget.cardview.TextCard
+        <com.lovearthstudio.calathus.widget.cardview.TextCard
             android:id="@+id/text_card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></com.wikicivi.widget.cardview.TextCard>
+            android:layout_height="match_parent"></com.lovearthstudio.calathus.widget.cardview.TextCard>
     </LinearLayout>
 </ScrollView>

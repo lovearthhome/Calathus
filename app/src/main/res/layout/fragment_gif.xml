@@ -8,10 +8,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.wikicivi.widget.cardview.GifCard
+        <com.lovearthstudio.calathus.widget.cardview.GifCard
             android:id="@+id/gif_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </com.wikicivi.widget.cardview.GifCard>
+        </com.lovearthstudio.calathus.widget.cardview.GifCard>
     </LinearLayout>
 </ScrollView>

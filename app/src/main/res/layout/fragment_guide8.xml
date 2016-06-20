@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@drawable/guide_bg"
+    tools:context=".activity.guide.guidepages.GuideFragment1">
+
+    <!--<fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+    android:id="@+id/video_view2"
+    android:layout_width="match_parent"
+    android:layout_height="200dp" />-->
+
+
+    <VideoView
+        android:id="@+id/video_view"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_marginLeft="18dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="218dp"
+        />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="200dp"
+        android:background="@drawable/tvframe" />
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_bottom_click_look_bigimage"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:layout_marginLeft="20dp"-->
+    <!--android:gravity="center"-->
+    <!--android:text="1895年，我们录制了第一部视频：火车到站！"-->
+    <!--android:textColor="#ff0000"-->
+    <!--android:textSize="20dp" />-->
+
+
+</RelativeLayout>

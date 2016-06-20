@@ -1,0 +1,25 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/guide_bg"
+    tools:context=".activity.guide.guidepages.GuideFragment1">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:scaleType="fitCenter"
+        android:src = "@drawable/fisrt_camera_photo"
+        />
+
+    <TextView
+        android:id="@+id/tv_bottom_click_look_bigimage"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:text="1825年前，我们拍下了第一张照片！哈哈！"
+        android:textColor="#ff0000"
+        android:textSize="20dp" />
+
+</FrameLayout>

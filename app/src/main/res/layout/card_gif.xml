@@ -57,7 +57,7 @@
             android:scaleType="centerInside"
             fresco:placeholderImage="@drawable/post_placeholderimage" />
 
-        <com.wikicivi.widget.circleprogressbar.RateTextCircularProgressBar
+        <com.lovearthstudio.calathus.widget.circleprogressbar.RateTextCircularProgressBar
             android:id="@+id/rate_progress_bar"
             android:layout_width="100dp"
             android:layout_height="100dp"

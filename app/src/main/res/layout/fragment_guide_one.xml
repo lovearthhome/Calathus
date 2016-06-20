@@ -2,8 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/guidone"
-    tools:context="com.wikicivi.activity.guide.guidepages.GuideOneFragment">
+    android:background="@drawable/guide_bg"
+    tools:context=".activity.guide.guidepages.GuideFragment1">
 
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:scaleType="fitCenter"
+        android:src = "@drawable/hand_print"
+        />
+
+    <TextView
+        android:id="@+id/tv_bottom_click_look_bigimage"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:text="42000年前，西班牙，我们把手印印在墙壁上"
+        android:textColor="#ffffff"
+        android:textSize="20dp" />
 
 </FrameLayout>

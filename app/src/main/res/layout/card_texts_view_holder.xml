@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.wikicivi.widget.cardview.TextsCard
+    <com.lovearthstudio.calathus.widget.cardview.TextsCard
         android:id="@+id/texts_card"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.wikicivi.widget.cardview.TextsCard>
+        android:layout_height="match_parent"></com.lovearthstudio.calathus.widget.cardview.TextsCard>
 </LinearLayout>

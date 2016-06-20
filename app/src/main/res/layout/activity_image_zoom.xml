@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context="com.wikicivi.activity.LoginActivity">
+    tools:context=".calathus.activity.LoginActivity">
 
     <ImageView
         android:id="@+id/image_zoom"

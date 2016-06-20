@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.wikicivi.widget.RoundImageView
+            <com.lovearthstudio.calathus.widget.RoundImageView
                 android:id="@+id/editer_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

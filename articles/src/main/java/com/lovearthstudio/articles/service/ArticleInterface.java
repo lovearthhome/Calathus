@@ -38,7 +38,7 @@ public interface ArticleInterface {
 
     /**
      * 添加文章，在这个articles里要获取
-     * @param from 从哪个渠道添加的的. 因为添加的地方是安卓系统app，所以就通用添加为com.lovearthstudio.calathus
+     * @param from 从哪个渠道添加的的. 因为添加的地方是安卓系统app，所以就通用添加为com.lovearthstudio.lovearthstudio
      * @param rid 文章的关联id
      * @param cato 文章类别
      * @param media 文章的媒体类型： Text/Image/Video/Audio

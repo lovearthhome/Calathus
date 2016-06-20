@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.wikicivi.widget.cardview.VideoCard
+    <com.lovearthstudio.calathus.widget.cardview.VideoCard
         android:id="@+id/video_card"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.wikicivi.widget.cardview.VideoCard>
+        android:layout_height="match_parent"></com.lovearthstudio.calathus.widget.cardview.VideoCard>
 </LinearLayout>

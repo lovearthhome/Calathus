@@ -376,7 +376,7 @@ public class Articles {
             addArtParams.rid = rid;
             addArtParams.dua_id = Dua.getInstance().getCurrentDuaId();
             addArtParams.action = "add_article";
-            addArtParams.from = "com.lovearthstudio.calathus"; //"Review"
+            addArtParams.from = "com.lovearthstudio.lovearthstudio"; //"Review"
             addArtParams.cato = cato; // 1
             addArtParams.media = media; // 1
             addArtParams.flag = flag; // 1

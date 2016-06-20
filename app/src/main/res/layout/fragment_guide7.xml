@@ -1,0 +1,34 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/guide_bg"
+    tools:context=".activity.guide.guidepages.GuideFragment1">
+
+    <co.mobiwise.playerview.MusicPlayerView
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="200dp"
+        android:id="@+id/mpv"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        app:buttonColor="#99FF0028"
+        app:cover="@drawable/mycover"
+        app:progressEmptyColor="#20FFFFFF"
+        app:progressLoadingColor="#80FFFFFF"
+        app:progressLoadedColor="#99660066"
+        app:textColor="#80FFFFFF"
+        app:textSize="14sp" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv_bottom_click_look_bigimage"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="1860年，我们录制了第一张唱片：致月光！"-->
+        <!--android:textColor="#ff0000"-->
+        <!--android:textSize="20dp" />-->
+
+</RelativeLayout>

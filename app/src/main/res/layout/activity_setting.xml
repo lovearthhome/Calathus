@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.wikicivi.activity.menu.settings.SettingActivity">
+    tools:context=".calathus.activity.menu.settings.SettingActivity">
 
     <include layout="@layout/toolbar" />
 
     <fragment
         android:id="@+id/settings"
-        android:name="com.wikicivi.activity.menu.settings.SettingsFragment"
+        android:name="com.lovearthstudio.calathus.activity.menu.settings.SettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

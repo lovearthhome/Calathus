@@ -5,6 +5,6 @@
     android:id="@+id/rl_splash"
     android:layout_height="match_parent"
     android:background="@mipmap/splash"
-    tools:context="com.wikicivi.activity.guide.SplashActivity">
+    tools:context="com.lovearthstudio.calathus.activity.guide.SplashActivity">
 
 </RelativeLayout>

@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.wikicivi.widget.cardview.CommentCard
+    <com.lovearthstudio.calathus.widget.cardview.CommentCard
         android:id="@+id/comment_card"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.wikicivi.widget.cardview.CommentCard>
+        android:layout_height="match_parent"></com.lovearthstudio.calathus.widget.cardview.CommentCard>
 </LinearLayout>

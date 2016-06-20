@@ -8,9 +8,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.wikicivi.widget.cardview.ImageCard
+        <com.lovearthstudio.calathus.widget.cardview.ImageCard
             android:id="@+id/image_card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></com.wikicivi.widget.cardview.ImageCard>
+            android:layout_height="match_parent"></com.lovearthstudio.calathus.widget.cardview.ImageCard>
     </LinearLayout>
 </ScrollView>
