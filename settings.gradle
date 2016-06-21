@@ -1,1 +1,1 @@
-include ':app', ':articles', ':mpv', ':rxvolley', ':gallery', ':commentviewlib', ':viewpagerindicator', ':ShareSdk'
+include ':app', ':articles', ':mpv', ':rxvolley', ':gallery', ':commentviewlib', ':viewpagerindicator'

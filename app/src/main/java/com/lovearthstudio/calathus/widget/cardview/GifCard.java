@@ -113,8 +113,8 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
     }
 
     @Override
-    public void parseData(String jsonStr) throws JSONException {
-        JSONObject jsonObject = new JSONObject(jsonStr);
+    public void parseData(JSONObject jsonObject) throws JSONException {
+
         rate_progress_bar.setVisibility(VISIBLE);
         finalImageSet = false;
         ll_bootom_click_show_bigimage.setVisibility(INVISIBLE);

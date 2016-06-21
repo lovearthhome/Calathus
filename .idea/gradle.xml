@@ -9,7 +9,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ShareSdk" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/articles" />
             <option value="$PROJECT_DIR$/commentviewlib" />
@@ -22,7 +21,6 @@
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ShareSdk" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/articles" />
             <option value="$PROJECT_DIR$/commentviewlib" />

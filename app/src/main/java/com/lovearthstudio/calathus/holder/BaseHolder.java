@@ -42,9 +42,9 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder implements Recy
      *
      * @param context
      * @param cardHolder
-     * @param jsonStr
+     * @param jo
      */
-    public abstract void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException;
+    public abstract void bindView(Context context, BaseHolder cardHolder, JSONObject jo) throws JSONException;
 
     /**
      * 设置布局文件
@@ -58,9 +58,9 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder implements Recy
         root_layout.addView(view);
     }
 
-    public void bindHead(Context context, BaseHolder cardHolder, String jsonStr) {
+    public void bindHead(Context context, BaseHolder cardHolder, JSONObject jo) {
         try {
-            JSONObject jsonObject = new JSONObject(jsonStr);
+
             /**
              * 获取item需要的基本信息
              * */
@@ -68,8 +68,8 @@ public abstract class BaseHolder extends RecyclerView.ViewHolder implements Recy
             /**
              * 头部信息
              */
-            editer_name.setText(jsonObject.getString("editor_name"));
-            Picasso.with(context).load(jsonObject.getString("editor_avatar")).resize(60, 60).into(editer_icon);
+            editer_name.setText(jo.getString("ename"));
+            Picasso.with(context).load(jo.getString("avatar")).resize(60, 60).into(editer_icon);
         } catch (JSONException e) {
             e.printStackTrace();
         }

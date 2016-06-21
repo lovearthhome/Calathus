@@ -43,10 +43,10 @@ public class CommentCard extends BaseCardView {
     }
 
     @Override
-    public void parseData(String jsonStr) throws JSONException {
+    public void parseData(JSONObject jsonObject) throws JSONException {
         try {
 
-            JSONObject jsonObject = new JSONObject(jsonStr);
+
 
             /**
              * 获取item需要的基本信息

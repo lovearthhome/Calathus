@@ -40,13 +40,10 @@ public class ArtIndex extends RealmObject {
     }
 
     //文章根节点
-
     private long rid;
-
     public long getRid() {
         return rid;
     }
-
     public void setRid(long  rid) {
         this.rid = rid;
     }

@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * 基本的卡片父类,要想实现卡片扩展此类即可
@@ -40,7 +41,7 @@ public abstract class BaseCardView extends LinearLayout {
     /**
      * FIXME:这里解析json数据
      *
-     * @param jsonStr
+     * @param jo
      */
-    public abstract void parseData(String jsonStr) throws JSONException;
+    public abstract void parseData(JSONObject jo) throws JSONException;
 }

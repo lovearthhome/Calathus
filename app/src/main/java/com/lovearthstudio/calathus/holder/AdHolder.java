@@ -8,6 +8,7 @@ import com.google.android.gms.ads.AdView;
 import com.lovearthstudio.calathus.R;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.view.annotation.ViewInject;
 
 /**
@@ -22,8 +23,8 @@ public class AdHolder extends BaseHolder {
     }
 
     @Override
-    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
-        bindHead(context, cardHolder, jsonStr);
+    public void bindView(Context context, BaseHolder cardHolder, JSONObject jo) throws JSONException {
+        bindHead(context, cardHolder, jo);
         //System.out.println("---------------加载广告:");
         AdRequest adRequest = new AdRequest.Builder()
                 .build();

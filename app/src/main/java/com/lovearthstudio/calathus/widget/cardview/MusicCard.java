@@ -56,11 +56,7 @@ public class MusicCard extends BaseCardView implements View.OnClickListener {
         mpv.setOnClickListener(this);
     }
 
-    public void parseData(String jsonStr) throws JSONException {
-        Log.i(TAG, jsonStr);
-
-        JSONObject jsonObject = new JSONObject(jsonStr);
-
+    public void parseData(JSONObject jsonObject) throws JSONException {
 
         String content_str = jsonObject.optString("content");
         JSONObject content_obj = new JSONObject(content_str);

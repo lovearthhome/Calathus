@@ -117,10 +117,7 @@ public class ImageCard extends BaseCardView implements View.OnClickListener {
     }
 
     @Override
-    public void parseData(String jsonStr) throws JSONException {
-        Log.i(TAG, jsonStr);
-
-        JSONObject jsonObject = new JSONObject(jsonStr);
+    public void parseData(JSONObject jsonObject) throws JSONException {
         /*
         内容信息
         */

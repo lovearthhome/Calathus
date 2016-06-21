@@ -115,7 +115,7 @@ public class ArtsAdapter extends RecyclerView.Adapter<BaseHolder> {
     public void onBindViewHolder(BaseHolder holder, int position) {
         try {
             Log.e("RecyclerView", "onBindViewHolder:" + holder.getClass().getName() + "\n" + jsonArray.get(position).toString() + position);
-            holder.bindView(context, holder, jsonArray.get(position).toString());
+            holder.bindView(context, holder, jsonArray.optJSONObject(position));
         } catch (JSONException e) {
             e.printStackTrace();
         }

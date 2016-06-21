@@ -73,10 +73,8 @@ public class VideoCard extends BaseCardView {
     }
 
     @Override
-    public void parseData(String jsonStr) throws JSONException {
-        Log.i(TAG, jsonStr);
+    public void parseData(JSONObject jsonObject ) throws JSONException {
 
-        JSONObject jsonObject = new JSONObject(jsonStr);
             /*
             内容信息
             */

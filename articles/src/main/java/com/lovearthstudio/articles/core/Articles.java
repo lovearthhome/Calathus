@@ -78,12 +78,12 @@ public class Articles {
             int artCount = dbarticles.length();
             if (artCount > 0) {
                 Log.i("request", "jsonarray has articles:" + artCount);
-                JSONObject jsonObject = new JSONObject(dbarticles.get(0).toString());
-                long inc0 = jsonObject.optLong("inc");
+                JSONObject jsonObject = dbarticles.optJSONObject(0);
+                long inc0 = jsonObject.optLong("tid");
                 int maxi = dbarticles.length() - 1;
                 if (maxi < 0) maxi = 0;
-                jsonObject = new JSONObject(dbarticles.get(maxi).toString());
-                long inc1 = jsonObject.optLong("inc");
+                jsonObject = dbarticles.optJSONObject(maxi);
+                long inc1 = jsonObject.optLong("tid");
                 if(inc1 > inc0) {
                     inc_max = inc1;
                     inc_min = inc0;
@@ -92,7 +92,6 @@ public class Articles {
                     inc_min = inc1;
                 }
             }
-
 
             /**
              *  根据当前指针添加广告到结尾
@@ -161,35 +160,14 @@ public class Articles {
             //Fixme: 那么我们要从本地加载数据,加载数据只会加载数据库最新的20条数据
             JSONObject dbresult = new JSONObject();
             JSONArray dbarticles;
-            if ("load".equals(action)) {
-                dbarticles = artdb.loadArticles(channel, ridref, Constant.artdbArticleCountPerFetch);
+            dbarticles = artdb.loadArticles(channel,action, ridref,tidref, Constant.artdbArticleCountPerFetch);
+            if(dbarticles.length() >0)
+            {
                 myCallBack.onResponse(asmArticles(dbarticles));
                 return;
             }
 
-            if ("pull".equals(action)) {
-                dbarticles = artdb.pullArticles(channel, ridref, tidref, Constant.artdbArticleCountPerFetch);
-                if (dbarticles.length() != 0) {
-                    myCallBack.onResponse(asmArticles(dbarticles));
-                    return;
-                }
-            }
 
-            if ("push".equals(action)) {
-                dbarticles = artdb.pushArticles(channel, ridref, tidref, Constant.artdbArticleCountPerFetch);
-                if (dbarticles.length() != 0) {
-                    myCallBack.onResponse(asmArticles(dbarticles));
-                    return;
-                }
-            }
-
-            if ("next".equals(action)) {
-                dbarticles = artdb.nextArticles(channel, ridref, tidref, 1);
-                if (dbarticles.length() != 0) {
-                    myCallBack.onResponse(asmArticles(dbarticles));
-                    return;
-                }
-            }
 
             mMyCallBack = myCallBack;
             getArtParams.dua_id = Dua.getInstance().getCurrentDuaId();
@@ -257,18 +235,20 @@ public class Articles {
                         JSONObject result = jsonResponse.optJSONObject("result");
                         JSONArray data = result.getJSONArray("data");
                         int count = data.length();
-                        long new_inc_min = result.optLong("inc_min");
-                        long new_inc_max = result.optLong("inc_max");
-                        int nomore = result.optInt("nomore");
+                        int nomore = 0;
+                        if(count < Constant.artdbArticleCountPerFetch)
+                        {
+                            nomore = 1;
+                        }
 
                         //如果服务器返回的数据都是有意义的，不是广告，也有数据
                         if (count > 0) {
-                            artdb.storeArticles(channel, ridref, data, new_inc_max, new_inc_min, nomore);
+                            artdb.storeArticles(channel, ridref, data,  nomore);
                             JSONArray myArticles;
                             if ("pull".equals(action) || "push".equals(action) || "load".equals(action)) {
-                                myArticles = artdb.loadArticles(channel, ridref, new_inc_min, new_inc_max);
+                                myArticles = artdb.loadArticles(channel,action, ridref, tidref,Constant.artdbArticleCountPerFetch);
                             } else {
-                                myArticles = artdb.nextArticles(channel, ridref, tidref, 1);
+                                myArticles = artdb.loadArticles(channel,"next", ridref, tidref,1);
                             }
                             myCallBack.onResponse(asmArticles(myArticles));
                             long pmcOverTime = Calendar.getInstance().getTimeInMillis();

@@ -47,11 +47,8 @@ public class TextCard extends BaseCardView {
     }
 
     @Override
-    public void parseData(String jsonStr) throws JSONException {
+    public void parseData(JSONObject jsonObject) throws JSONException {
 
-        Log.i(TAG, jsonStr);
-
-        JSONObject jsonObject = new JSONObject(jsonStr);
         String content_str = jsonObject.getString("content");
         JSONObject content_obj = new JSONObject(content_str);
 
