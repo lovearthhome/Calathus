@@ -87,4 +87,6 @@ dependencies {
     compile 'com.facebook.fresco:fresco:0.10.0'
     compile 'com.facebook.fresco:animated-gif:0.10.0'
     compile project(':commentviewlib')
+    compile project(':viewpagerindicator')
+    compile project(':ShareSdk')
 }

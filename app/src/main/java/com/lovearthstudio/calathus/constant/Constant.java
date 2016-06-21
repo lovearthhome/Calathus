@@ -12,9 +12,9 @@ public class Constant {
     /*用户*/
     public static final String userUrl = "http://api.xdua.org/users";
     /* 项目基本地址 */
-    public static final String baseUrl = "http://api.lovearthstudio.com/articles";
+    public static final String baseUrl = "http://api.wikicivi.com/articles";
     /* 项目图片基本地址 */
-    public static final String baseFileUrl = "http://files.lovearthstudio.com/files/";
+    public static final String baseFileUrl = "http://files.wikicivi.com/files/";
     /*用户头像基本地址*/
     public static final String baseAvatarUrl = "http://files.xdua.org/files/avatar/";
     /*用户头像默认地址*/

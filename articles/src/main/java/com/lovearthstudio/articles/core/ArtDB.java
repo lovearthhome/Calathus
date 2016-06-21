@@ -55,25 +55,25 @@ public class ArtDB {
                 /**
                  *  第一步，更新artIndex表
                  * */
-                ArtIndex artIndex = realm.where(ArtIndex.class)
-                        .equalTo("tid",tid)
-                        .equalTo("rid",rid)
-                        .equalTo("channel",channel)
-                        .findFirst();
-
-                if(artIndex !=null)
-                {
-                    artIndex.setChannel(channel);
-                    artIndex.setRid(rid);
-                    artIndex.setTid(tid);
-                    Log.e("update2realm",artIndex.toString());
-                }else{
-                    artIndex = realm.createObject(ArtIndex.class);
-                    artIndex.setChannel(channel);
-                    artIndex.setRid(rid);
-                    artIndex.setTid(tid);
-                    Log.e("insert2realm",artIndex.toString());
-                }
+//                ArtIndex artIndex = realm.where(ArtIndex.class)
+//                        .equalTo("tid",tid)
+//                        .equalTo("rid",rid)
+//                        .equalTo("channel",channel)
+//                        .findFirst();
+//
+//                if(artIndex !=null)
+//                {
+//                    artIndex.setChannel(channel);
+//                    artIndex.setRid(rid);
+//                    artIndex.setTid(tid);
+//                    Log.e("update2realm",artIndex.toString());
+//                }else{
+//                    artIndex = realm.createObject(ArtIndex.class);
+//                    artIndex.setChannel(channel);
+//                    artIndex.setRid(rid);
+//                    artIndex.setTid(tid);
+//                    Log.e("insert2realm",artIndex.toString());
+//                }
                 /**
                  *  第二  步，更新artItem表
                  * */
