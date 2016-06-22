@@ -58,17 +58,26 @@ public class ArtItem extends RealmObject {
 
     public int getTmpl() {return tmpl;}
     public void setTmpl(int tmpl) {this.tmpl = tmpl;}
-
     //文章的点赞数目
     private int good;
 
     public int getGood() {return good;}
-    public void setGood(int good) {this.good = good;}
+    public void setGood(int good) {this.gooded = good;}
+    //文章的点赞数目
+    private int gooded;
+
+    public int getGooded() {return gooded;}
+    public void setGooded(int gooded) {this.gooded = gooded;}
     //文章的点踩数目
     private int bad;
-
     public int getBad() {return bad;}
     public void setBad(int bad) {this.bad = bad;}
+    //文章的点赞数目
+    private int baded;
+
+    public int getBaded() {return baded;}
+    public void setBaded(int baded) {this.baded = baded;}
+
     //文章的分享数目
     private int shar;
 
@@ -126,19 +135,7 @@ public class ArtItem extends RealmObject {
     public int getGoobad() {return goobad;}
     public void setGoobad(int tmpl) {this.goobad = goobad;}
 
-    //文章的创建时间
-    private Date ctime;
-    public Date getCtime() {return ctime;}
-    public void setCtime(Date ctime) {
-        this.ctime = ctime;
-    }
-    //文章的更新时间
-    private Date utime;
 
-    public Date getUtime() {return utime;}
-    public void setUtime(Date utime) {
-        this.utime = utime;
-    }
     /*
     //文章的FLAG. 2=审核中, 3=发布
     //@Required
@@ -172,7 +169,19 @@ public class ArtItem extends RealmObject {
     public int getHot() {return hot;}
     public void setHot(int hot) {this.hot = hot;}
 
+    //文章的创建时间
+    private Date ctime;
+    public Date getCtime() {return ctime;}
+    public void setCtime(Date ctime) {
+        this.ctime = ctime;
+    }
+    //文章的更新时间
+    private Date utime;
 
+    public Date getUtime() {return utime;}
+    public void setUtime(Date utime) {
+        this.utime = utime;
+    }
 
 
     */

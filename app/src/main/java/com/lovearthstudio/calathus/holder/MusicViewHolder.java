@@ -7,6 +7,7 @@ import com.lovearthstudio.calathus.R;
 import com.lovearthstudio.calathus.widget.cardview.MusicCard;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.view.annotation.ViewInject;
 
 
@@ -23,7 +24,7 @@ public class MusicViewHolder extends CardHolder {
     }
 
     @Override
-    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
+    public void bindView(Context context, BaseHolder cardHolder, JSONObject jsonStr) throws JSONException {
         super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
         musicCard.parseData(jsonStr);
     }

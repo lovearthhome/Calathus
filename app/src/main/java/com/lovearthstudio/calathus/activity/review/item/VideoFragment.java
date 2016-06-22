@@ -11,6 +11,7 @@ import com.lovearthstudio.calathus.fragment.BaseFragment;
 import com.lovearthstudio.calathus.widget.cardview.VideoCard;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
@@ -21,7 +22,7 @@ import org.xutils.view.annotation.ViewInject;
 @ContentView(R.layout.fragment_video)
 public class VideoFragment extends BaseFragment {
 
-    private String data;
+    private JSONObject data;
 
     @ViewInject(R.id.video_card)
     private VideoCard video_card;
@@ -34,7 +35,12 @@ public class VideoFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            data = getArguments().getString("json");
+            try{
+                data = new JSONObject(getArguments().getString("json"));
+            }catch (JSONException e){
+                e.printStackTrace();
+
+            }
         }
     }
 

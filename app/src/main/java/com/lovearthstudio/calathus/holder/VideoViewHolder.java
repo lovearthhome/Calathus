@@ -7,6 +7,7 @@ import com.lovearthstudio.calathus.R;
 import com.lovearthstudio.calathus.widget.cardview.VideoCard;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.view.annotation.ViewInject;
 
 /**
@@ -22,7 +23,7 @@ public class VideoViewHolder extends CardHolder {
     }
 
     @Override
-    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
+    public void bindView(Context context, BaseHolder cardHolder, JSONObject jsonStr) throws JSONException {
         super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
         video_card.parseData(jsonStr);
     }

@@ -82,6 +82,8 @@ public class ArtDB {
                     dbitem.setTags(tags);
                     dbitem.setTmpl(tmpl);
                     dbitem.setChannel(channel);
+                    dbitem.setGooded(0);
+                    dbitem.setBaded(0);
                     Log.e("insert2realm",dbitem.toString());
                 }
                 /**
@@ -90,7 +92,8 @@ public class ArtDB {
                 RealmResults<ArtItem> items = realm.where(ArtItem.class)
                         .equalTo("tid",tid)
                         .findAll();
-                for (ArtItem item : items) {
+                for (int k = 0; k < items.size(); k++) {
+                    ArtItem item= items.get(k);
                     item.setGood(good);
                     item.setBad(bad);
                     item.setComt(comt);
@@ -179,7 +182,7 @@ public class ArtDB {
         {
             //https://realm.io/docs/swift/latest/#limiting-results
             //上面这个网页解释了为什么realm没有limit这个选项
-            RealmResults<ArtItem> items = new RealmResults<ArtItem>(null);
+            RealmResults<ArtItem> items = null;
             if("load".equals(action))
             {
                 items = realm.where(ArtItem.class)
@@ -420,7 +423,8 @@ public class ArtDB {
             jo.put("shar",item.getShar());
             jo.put("star",item.getStar());
             jo.put("comt",item.getComt());
-            jo.put("goobad",item.getGoobad());
+            jo.put("gooded",item.getGooded());
+            jo.put("baded",item.getBaded());
             jo.put("tags",item.getTags());
         }catch(JSONException e){
 

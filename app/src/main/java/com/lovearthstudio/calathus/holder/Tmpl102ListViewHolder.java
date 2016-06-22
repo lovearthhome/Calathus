@@ -67,11 +67,11 @@ public class Tmpl102ListViewHolder extends CardHolder implements ShakeDetector.L
     }
 
     @Override
-    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
+    public void bindView(Context context, BaseHolder cardHolder, JSONObject jsonStr) throws JSONException {
 
         super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
 
-        JSONObject jsonObject = new JSONObject(jsonStr);
+        JSONObject jsonObject = jsonStr;
         JSONObject joke = new JSONObject(jsonObject.getString("content"));
 
         jokeTitle.setText(jsonObject.getString("title"));

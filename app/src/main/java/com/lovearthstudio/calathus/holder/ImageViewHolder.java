@@ -7,6 +7,7 @@ import com.lovearthstudio.calathus.R;
 import com.lovearthstudio.calathus.widget.cardview.ImageCard;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.view.annotation.ViewInject;
 
 /**
@@ -27,7 +28,7 @@ public class ImageViewHolder extends CardHolder {
     * 为了避免这种情况,我们需要对holder进行清理.
     * */
     @Override
-    public void bindView(final Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
+    public void bindView(final Context context, BaseHolder cardHolder, JSONObject jsonStr) throws JSONException {
         super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
         image_card.parseData(jsonStr);
     }

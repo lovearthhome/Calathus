@@ -270,15 +270,15 @@ public class Articles {
         }
     }
 
-    private  String makeAd() {
+    private  JSONObject makeAd() {
         JSONObject adjson = new JSONObject();
         try {
             adjson.put("tmpl",501);
-            adjson.put("editor_name","木瓜推广");
-            adjson.put("editor_sex","F");
-            adjson.put("editor_avatar","http://files.xdua.org/files/avatar/2016042382a703a15270d93ec34b724249450c5e.png");
+            adjson.put("ename","木瓜推广");
+            adjson.put("esex","F");
+            adjson.put("avatar","http://files.xdua.org/files/avatar/2016042382a703a15270d93ec34b724249450c5e.png");
         } catch (Exception e){}
-        return adjson.toString();
+        return adjson;
     }
 
     /**

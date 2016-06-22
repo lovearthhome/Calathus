@@ -10,6 +10,7 @@ import com.lovearthstudio.calathus.R;
 import com.lovearthstudio.calathus.widget.cardview.TextsCard;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.view.annotation.ViewInject;
 
 /**
@@ -28,7 +29,7 @@ public class TextsViewHolder extends CardHolder {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 
     @Override
-    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
+    public void bindView(Context context, BaseHolder cardHolder, JSONObject jsonStr) throws JSONException {
         super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
         texts_card.parseData(jsonStr);
     }

@@ -30,11 +30,11 @@ public class ProverbsListViewHolder extends CardHolder {
     }
 
     @Override
-    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
+    public void bindView(Context context, BaseHolder cardHolder, JSONObject jsonStr) throws JSONException {
         super.bindBaseView(context, (CardHolder) cardHolder, jsonStr);
 
         ProverbsListViewHolder holder = (ProverbsListViewHolder) cardHolder;
-        JSONObject jsonObject = new JSONObject(jsonStr);
+        JSONObject jsonObject = jsonStr;
         holder.tvTitle.setText(Html.fromHtml(jsonObject.getString("title")));
         JSONObject content=new JSONObject(jsonObject.getString("content"));
         holder.tvHeader.setText(content.getString("head"));

@@ -39,7 +39,7 @@ public class Constant {
     /**距离上次展示广告的文章数目*/
     public static int artsSinceLastAd = 0;
     /**平均多少文章展示一个广告*/
-    public static int ArtsPerAd = 10;
+    public static int ArtsPerAd = 5;
 
     public static ArticleService.ArticleBinder binder;
 

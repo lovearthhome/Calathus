@@ -7,6 +7,7 @@ import com.lovearthstudio.calathus.R;
 import com.lovearthstudio.calathus.widget.cardview.CommentCard;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.view.annotation.ViewInject;
 
 /**
@@ -23,7 +24,7 @@ public class CommentViewHolder extends BaseHolder {
 
 
     @Override
-    public void bindView(Context context, BaseHolder cardHolder, String jsonStr) throws JSONException {
+    public void bindView(Context context, BaseHolder cardHolder, JSONObject jsonStr) throws JSONException {
         bindHead(context, cardHolder, jsonStr);
         commentCard.parseData(jsonStr);
     }

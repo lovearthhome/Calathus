@@ -10,7 +10,9 @@ import com.lovearthstudio.calathus.R;
 import com.lovearthstudio.calathus.fragment.BaseFragment;
 import com.lovearthstudio.calathus.widget.cardview.MusicCard;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
@@ -21,7 +23,7 @@ import org.xutils.view.annotation.ViewInject;
 @ContentView(R.layout.fragment_music)
 public class MusicFragment extends BaseFragment {
 
-    private String data;
+    private JSONObject data;
 
     @ViewInject(R.id.music_card)
     private MusicCard music_card;
@@ -34,7 +36,12 @@ public class MusicFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            data = getArguments().getString("json");
+            try{
+                data = new JSONObject(getArguments().getString("json"));
+            }catch (JSONException e){
+                e.printStackTrace();
+
+            }
         }
     }
 

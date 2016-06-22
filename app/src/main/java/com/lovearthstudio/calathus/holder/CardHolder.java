@@ -71,14 +71,22 @@ public abstract class CardHolder extends BaseHolder {
     @ViewInject(R.id.tv_narrow_animation)
     private TextView tv_narrow_animation;
 
-    private JSONObject jsonObject;
+    private JSONObject mJO;
 
     /**
      * 文章的id
      */
     private long mTid;
+    /**
+     * 文章是否点赞
+     * */
+    private int mGooded;
+    /**
+     * 文章是否点踩
+     * */
+    private int mBaded;
 
-    // 点赞+1动画
+
     public Animation animation;
     public ScaleAnimation scaleAnimation;
     public RotateAnimation rotateAnimation;
@@ -89,13 +97,12 @@ public abstract class CardHolder extends BaseHolder {
 
     public CardHolder(View itemView) {
         super(itemView);
-
         /*
         动画
          */
         animation = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.applaud_animation);
-        scaleAnimation = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5F, Animation.RELATIVE_TO_SELF, 0.5F);
-        scaleAnimation.setDuration(1000);
+        scaleAnimation = new ScaleAnimation(1, 1.5F, 1, 1.5F, Animation.RELATIVE_TO_SELF, 0.5F, Animation.RELATIVE_TO_SELF, 0.5F);
+        scaleAnimation.setDuration(500);
 //        rotateAnimation = new RotateAnimation(0F, 360F, Animation.RELATIVE_TO_SELF, 0.5F, Animation.RELATIVE_TO_SELF, 0.5F);
 //        rotateAnimation.setDuration(1000);
         animationSet = new AnimationSet(false);
@@ -108,15 +115,23 @@ public abstract class CardHolder extends BaseHolder {
         event = new HashMap<>();
         events = new ArrayList<>();
         setViewArticleCB = new setViewArticleCallBack();
-
     }
 
     @Event({R.id.tv_arrow, R.id.tv_narrow, R.id.tv_comment, R.id.tv_share, R.id.iv_more})
     private void click(View view) {
+
         int id = view.getId();
         switch (id) {
             case R.id.tv_arrow:
             {
+                if(mGooded +mBaded> 0)
+                    return;
+                mGooded = 1;
+                try{
+                    mJO.put("good",mJO.optInt("good")+1);
+                    tv_arrow.setText(mJO.getString("good"));
+                }catch (JSONException e){e.printStackTrace();}
+
                 //点击后换颜色
                 Drawable drawable= context.getResources().getDrawable(R.mipmap.goodred);
                 /// 这一步必须要做,否则不会显示.
@@ -133,6 +148,13 @@ public abstract class CardHolder extends BaseHolder {
 
             case R.id.tv_narrow:
             {
+                if(mBaded +mGooded> 0)
+                    return;
+                mBaded = 1;
+                try{
+                    mJO.put("bad",mJO.optInt("bad")+1);
+                    tv_narrow.setText(mJO.getString("bad"));
+                }catch (JSONException e){e.printStackTrace();}
                 //点击后换颜色
                 Drawable drawable= context.getResources().getDrawable(R.mipmap.badred);
                 /// 这一步必须要做,否则不会显示.
@@ -230,21 +252,24 @@ public abstract class CardHolder extends BaseHolder {
 
 
 
-    public void bindBaseView(Context context, CardHolder cardHolder, String jsonStr) {
+    public void bindBaseView(Context context, CardHolder cardHolder, JSONObject jsonObject) {
 
         try {
-            JSONObject jsonObject = new JSONObject(jsonStr);
+
 
             /**
              * 获取item需要的基本信息
              * */
             //String editor_name = jsonObject.optString("editor_name");
-            mTid = jsonObject.optLong("inc");
+            mJO = jsonObject;
+            mTid = jsonObject.optLong("tid");
+            mBaded = jsonObject.optInt("baded");
+            mGooded = jsonObject.optInt("gooded");
             /**
              * 头部信息
              */
-            String editorName = jsonObject.getString("editor_name");
-            String avatarUrl = jsonObject.getString("editor_avatar");
+            String editorName = jsonObject.getString("ename");
+            String avatarUrl = jsonObject.getString("avatar");
             //***回来的Json数据里"editor_name":null,getString这个函数就会把null解释成带双音号的“null”
             if (editorName == null || editorName.equals("null") || TextUtils.isEmpty(editorName)) {
                 editorName = "匿名";
@@ -253,6 +278,29 @@ public abstract class CardHolder extends BaseHolder {
                 avatarUrl = Constant.defaultAvatarUrl;
             }
             cardHolder.editer_name.setText(editorName);
+            /**
+             * 绘制赞和踩的颜色
+             * */
+            Drawable drawable_good;
+            Drawable drawable_bad;
+            if(mGooded > 0){
+                drawable_good = context.getResources().getDrawable(R.mipmap.goodred);
+            }else{
+                drawable_good = context.getResources().getDrawable(R.mipmap.arrow);
+            }
+            if(mBaded > 0){
+                drawable_bad = context.getResources().getDrawable(R.mipmap.badred);
+            }else{
+                drawable_bad = context.getResources().getDrawable(R.mipmap.narrow);
+            }
+
+            /// 这一步必须要做,否则不会显示.
+            drawable_good.setBounds(0, 0, drawable_good.getMinimumWidth(), drawable_good.getMinimumHeight());
+            drawable_bad.setBounds(0, 0, drawable_bad.getMinimumWidth(), drawable_bad.getMinimumHeight());
+            tv_arrow.setCompoundDrawables(drawable_good,null,null,null);
+            tv_narrow.setCompoundDrawables(drawable_bad,null,null,null);
+
+
             LogUtil.e(avatarUrl);
             Glide.with(context)
                     .load(avatarUrl)
