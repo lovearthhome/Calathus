@@ -10,19 +10,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.lovearthstudio.calathus.activity.guide.guidepages.GuideFragment;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.lovearthstudio.calathus.R;
 import com.lovearthstudio.calathus.activity.BaseActivity;
 import com.lovearthstudio.calathus.activity.MainActivity;
-import com.lovearthstudio.calathus.activity.guide.guidepages.GuideFragment1;
-import com.lovearthstudio.calathus.activity.guide.guidepages.GuideFragment2;
-import com.lovearthstudio.calathus.activity.guide.guidepages.GuideFragment3;
-import com.lovearthstudio.calathus.activity.guide.guidepages.GuideFragment4;
-import com.lovearthstudio.calathus.activity.guide.guidepages.GuideFragment5;
-import com.lovearthstudio.calathus.activity.guide.guidepages.GuideFragment6;
-import com.lovearthstudio.calathus.activity.guide.guidepages.GuideFragment7;
-import com.lovearthstudio.calathus.activity.guide.guidepages.GuideFragment8;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;

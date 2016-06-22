@@ -46,9 +46,7 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     /* bibi jkplayer */
-
     /* compile 'com.facebook.fresco:fresco:0.9.0.+'*/
-
     // Glide's OkHttp3 Integration
     compile project(':articles')
     compile(name: 'duasdk-debug', ext: 'aar')

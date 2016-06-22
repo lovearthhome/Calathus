@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/guide_bg"
-    tools:context=".activity.guide.guidepages.GuideFragment1">
+    tools:context=".activity.guide.GuideFragment1">
 
     <co.mobiwise.playerview.MusicPlayerView
         android:layout_alignParentBottom="true"
