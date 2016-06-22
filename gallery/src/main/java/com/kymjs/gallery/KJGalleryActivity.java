@@ -44,12 +44,14 @@ public class KJGalleryActivity extends KJActivity {
 
     public static String URL_KEY = "KJGalleryActivity_url";
     public static String URL_INDEX = "KJGalleryActivity_index";
+    public static String SCREEN_WIDTH = "KJGalleryActivity_screen_width";
 
     private TextView textView, downloadTv;
     private ImageButton gobackIb;
 
     private String[] imageUrls;
     private int index;
+    private int screenWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class KJGalleryActivity extends KJActivity {
         Intent from = getIntent();
         imageUrls = from.getStringArrayExtra(URL_KEY);
         index = from.getIntExtra(URL_INDEX, 0);
+        screenWidth = from.getIntExtra(SCREEN_WIDTH, 720);
     }
 
     public void download(View v) {
@@ -129,7 +132,7 @@ public class KJGalleryActivity extends KJActivity {
             }
         });
         HackyViewPager mViewPager = bindView(R.id.view_pager);
-        mViewPager.setAdapter(new SamplePagerAdapter(aty, imageUrls));
+        mViewPager.setAdapter(new SamplePagerAdapter(aty, imageUrls, screenWidth));
         mViewPager.setCurrentItem(index);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -160,5 +163,20 @@ public class KJGalleryActivity extends KJActivity {
 
     public static void toGallery(Context cxt, String... urls) {
         toGallery(cxt, 0, urls);
+    }
+
+    public static void toGallery(Context cxt, String[] urls, int screenwith) {
+        toGallery(cxt, 0, urls, screenwith);
+    }
+
+    private static void toGallery(Context cxt, int index, String[] urls, int screenwith) {
+        if (!StringUtils.isEmpty(urls)) {
+            Intent intent = new Intent();
+            intent.putExtra(KJGalleryActivity.URL_INDEX, index);
+            intent.putExtra(KJGalleryActivity.URL_KEY, urls);
+            intent.putExtra(KJGalleryActivity.SCREEN_WIDTH, screenwith);
+            intent.setClass(cxt, KJGalleryActivity.class);
+            cxt.startActivity(intent);
+        }
     }
 }

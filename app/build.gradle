@@ -72,7 +72,7 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'tyrantgit:explosionfield:1.0.1'
     compile 'com.squareup:seismic:1.0.2'
-    compile 'com.commit451:PhotoView:1.2.5'
+    //compile 'com.commit451:PhotoView:1.2.5'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
     compile 'fm.jiecao:jiecaovideoplayer:3.0_preview'

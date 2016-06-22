@@ -19,6 +19,7 @@ import com.facebook.common.logging.FLog;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -45,8 +46,8 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
     // private GifImageView iv_gif;
 
     private SimpleDraweeView giv_view;
-//    private TextView tv_bottom_click_look_bigimage;
-     private LinearLayout ll_bootom_click_show_bigimage;
+    //    private TextView tv_bottom_click_look_bigimage;
+    private LinearLayout ll_bootom_click_show_bigimage;
 
     private RateTextCircularProgressBar rate_progress_bar;
 
@@ -100,9 +101,9 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
         rate_progress_bar = (RateTextCircularProgressBar) findViewById(R.id.rate_progress_bar);
         rate_progress_bar.setMax(100);
         rate_progress_bar.getCircularProgressBar().setCircleWidth(40);
-        rate_progress_bar.getCircularProgressBar().setBackgroundColor(Color.argb(255,232,232,232));//百思不得姐进度条背景色
-        rate_progress_bar.getCircularProgressBar().setPrimaryColor(Color.argb(255,217,217,217));//百思不得姐进度条前景色
-        rate_progress_bar.setTextColor(Color.argb(255,217,217,217));
+        rate_progress_bar.getCircularProgressBar().setBackgroundColor(Color.argb(255, 232, 232, 232));//百思不得姐进度条背景色
+        rate_progress_bar.getCircularProgressBar().setPrimaryColor(Color.argb(255, 217, 217, 217));//百思不得姐进度条前景色
+        rate_progress_bar.setTextColor(Color.argb(255, 217, 217, 217));
 
         ll_bootom_click_show_bigimage = (LinearLayout) findViewById(R.id.ll_bootom_click_show_bigimage);
     }
@@ -125,18 +126,16 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
         JSONObject content_obj = new JSONObject(content_str);
 
         String title = content_obj.getString("title");
-        if(title == null || title.equals("")  )
-        {
+        if (title == null || title.equals("")) {
             layout_titleframe.setVisibility(View.GONE);
-        }else{
+        } else {
             tv_title.setText(title);
         }
 
         String brief = content_obj.getString("brief");
-        if(brief == null || brief.equals("")  )
-        {
+        if (brief == null || brief.equals("")) {
             layout_titleframe.setVisibility(View.GONE);
-        }else{
+        } else {
             tv_brief.setText(brief);
         }
 
@@ -164,6 +163,9 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
         if (height > 1500) {
             height = 1200;
             ll_bootom_click_show_bigimage.setVisibility(VISIBLE);
+            GenericDraweeHierarchy hierarchy = giv_view.getHierarchy();
+            hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.FOCUS_CROP);
+            giv_view.setHierarchy(hierarchy);
         }
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT, height);
@@ -233,7 +235,7 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
     public void onClick(View v) {
         String[] urls = new String[1];
         urls[0] = gif_url;
-        KJGalleryActivity.toGallery(context, urls);
+        KJGalleryActivity.toGallery(context, urls, Constant.screenwith);
     }
 
     class CustomProgressBar extends Drawable {
@@ -265,10 +267,9 @@ public class GifCard extends BaseCardView implements View.OnClickListener {
 
             // your app's logic to change the drawable's
             // appearance here based on progress
-            rate_progress_bar.setProgress(level/100);
+            rate_progress_bar.setProgress(level / 100);
             //System.out.println("--------:" + level);
-            if(level >= 10000)
-            {
+            if (level >= 10000) {
 //                MyAsyncTask pbtask = new MyAsyncTask();
 //                pbtask.execute();
                 rate_progress_bar.setVisibility(INVISIBLE);

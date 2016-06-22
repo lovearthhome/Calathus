@@ -3,6 +3,7 @@ package com.kymjs.gallery;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +34,19 @@ public class SamplePagerAdapter extends PagerAdapter {
     public static int TYPE_JPG = 1;
     public static int TYPE_PNG = 2;
 
+    private int screen_width;
+
     public SamplePagerAdapter(Activity aty, String[] imageUrls) {
         this.aty = aty;
         this.imageUrls = imageUrls;
         kjh = new KJHttp();
+    }
+
+    public SamplePagerAdapter(Activity aty, String[] imageUrls, int screenWidth) {
+        this.aty = aty;
+        this.imageUrls = imageUrls;
+        kjh = new KJHttp();
+        this.screen_width = screenWidth;
     }
 
     @Override
@@ -113,7 +123,9 @@ public class SamplePagerAdapter extends PagerAdapter {
         if (bitmap == null) {
             photoView.setImageResource(R.mipmap.default_img_rect);
         } else {
-            photoView.setImageBitmap(bitmap);
+            //System.out.println(bitmap.getWidth() + ":" + bitmap.getHeight() + ":" + screen_width);
+            //photoView.setImageBitmap(bitmap);
+            photoView.setImageBitmap(resizeBitmap(bitmap));
         }
 
         photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
@@ -121,7 +133,22 @@ public class SamplePagerAdapter extends PagerAdapter {
             public void onPhotoTap(View view, float x, float y) {
                 aty.finish();
             }
+
+            @Override
+            public void onOutsidePhotoTap() {
+                aty.finish();
+            }
         });
+    }
+
+    private Bitmap resizeBitmap(Bitmap bitmap) {
+        Matrix matrix = new Matrix();
+        float scale = screen_width / bitmap.getWidth();
+        // matrix.postScale(1.5f, 1.5f); //长和宽放大缩小的比例
+        System.out.println(scale);
+        matrix.postScale(scale, 1); //长和宽放大缩小的比例
+        Bitmap resizeBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        return resizeBmp;
     }
 
     @Override
