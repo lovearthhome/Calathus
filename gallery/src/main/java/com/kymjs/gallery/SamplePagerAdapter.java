@@ -124,8 +124,8 @@ public class SamplePagerAdapter extends PagerAdapter {
             photoView.setImageResource(R.mipmap.default_img_rect);
         } else {
             //System.out.println(bitmap.getWidth() + ":" + bitmap.getHeight() + ":" + screen_width);
-            //photoView.setImageBitmap(bitmap);
-            photoView.setImageBitmap(resizeBitmap(bitmap));
+            photoView.setImageBitmap(bitmap);
+            //photoView.setImageBitmap(resizeBitmap(bitmap));
         }
 
         photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
@@ -146,7 +146,7 @@ public class SamplePagerAdapter extends PagerAdapter {
         float scale = screen_width / bitmap.getWidth();
         // matrix.postScale(1.5f, 1.5f); //长和宽放大缩小的比例
         System.out.println(scale);
-        matrix.postScale(scale, 1); //长和宽放大缩小的比例
+        matrix.postScale(1, 1); //长和宽放大缩小的比例
         Bitmap resizeBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         return resizeBmp;
     }

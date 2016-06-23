@@ -3,13 +3,15 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:background="@android:color/black">
-
+    <!--I did use PhotoView. my need is when imageHeight not scale, just wrap_content, when imageHeight>screenHeight CENTER_CROP-->
+	<!--宽度使用match_parent,高度使用wrap_content,scaletype使用centerCrop,这样对于长度-->
+	<!--layout_centerInParent="true"让整个photoview滑动区域置于屏幕中间-->
 	<uk.co.senab.photoview.PhotoView
 		android:id="@+id/images"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
+		android:layout_height="wrap_content"
 		android:layout_centerInParent="true"
-		android:scaleType="fitCenter"
+		android:scaleType="centerCrop"
 		android:background="@android:color/black"
 		android:visibility="gone"/>
 

@@ -49,7 +49,7 @@
              android:background="@color/image_default"
              android:scaleType="centerInside"
              android:src="@mipmap/gif_defualt" />-->
-
+        <!--对于小图片（不需要详情界面打开的图片），scaletype应该是fitXY,就是图片铺满控件，如果是fitCenter,那么图片图片只有中间对着控件中间，图片该多大还是多大，有可能控件窄，也有可能比控件宽-->
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/gif_view"
             android:layout_width="match_parent"

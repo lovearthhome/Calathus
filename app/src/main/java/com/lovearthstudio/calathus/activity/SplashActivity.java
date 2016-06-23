@@ -2,6 +2,7 @@ package com.lovearthstudio.calathus.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -26,7 +27,20 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //splash的动画
-        initAnimator();
+        //initAnimator();
+        new Handler().postDelayed(new Runnable() {
+
+            public void run() {
+                // TODO 自动生成的方法存根
+                boolean isFirstStart = getSharedPreferences("config", MODE_PRIVATE).getBoolean("isfirststart", true);
+                if (isFirstStart) {
+                    startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                }
+                finish();
+            }
+        }, 2000); //持续2s
     }
 
     private void initAnimator() {
