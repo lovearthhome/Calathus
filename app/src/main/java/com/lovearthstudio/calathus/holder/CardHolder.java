@@ -15,14 +15,16 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.lovearthstudio.articles.core.MyCallBack;
-import com.lovearthstudio.duasdk.util.LogUtil;
 import com.lovearthstudio.calathus.R;
 import com.lovearthstudio.calathus.activity.CommentActivity;
 import com.lovearthstudio.calathus.activity.MoreActivity;
 import com.lovearthstudio.calathus.constant.Constant;
 import com.lovearthstudio.calathus.domain.ArcState;
 import com.lovearthstudio.calathus.widget.RoundImageView;
+import com.lovearthstudio.duasdk.util.LogUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,6 +73,15 @@ public abstract class CardHolder extends BaseHolder {
     @ViewInject(R.id.tv_narrow_animation)
     private TextView tv_narrow_animation;
 
+    @ViewInject(R.id.star_button)
+    private LikeButton star_button;
+    @ViewInject(R.id.heart_button)
+    private LikeButton heart_button;
+    @ViewInject(R.id.thumb_button)
+    private LikeButton thumb_button;
+    @ViewInject(R.id.smile_button)
+    private LikeButton smile_button;
+
     private JSONObject mJO;
 
     /**
@@ -79,11 +90,11 @@ public abstract class CardHolder extends BaseHolder {
     private long mTid;
     /**
      * 文章是否点赞
-     * */
+     */
     private int mGooded;
     /**
      * 文章是否点踩
-     * */
+     */
     private int mBaded;
 
 
@@ -115,6 +126,8 @@ public abstract class CardHolder extends BaseHolder {
         event = new HashMap<>();
         events = new ArrayList<>();
         setViewArticleCB = new setViewArticleCallBack();
+
+
     }
 
     @Event({R.id.tv_arrow, R.id.tv_narrow, R.id.tv_comment, R.id.tv_share, R.id.iv_more})
@@ -122,21 +135,22 @@ public abstract class CardHolder extends BaseHolder {
 
         int id = view.getId();
         switch (id) {
-            case R.id.tv_arrow:
-            {
-                if(mGooded +mBaded> 0)
+            case R.id.tv_arrow: {
+                if (mGooded + mBaded > 0)
                     return;
                 mGooded = 1;
-                try{
-                    mJO.put("good",mJO.optInt("good")+1);
+                try {
+                    mJO.put("good", mJO.optInt("good") + 1);
                     tv_arrow.setText(mJO.getString("good"));
-                }catch (JSONException e){e.printStackTrace();}
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 //点击后换颜色
-                Drawable drawable= context.getResources().getDrawable(R.mipmap.goodred);
+                Drawable drawable = context.getResources().getDrawable(R.mipmap.goodred);
                 /// 这一步必须要做,否则不会显示.
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                tv_arrow.setCompoundDrawables(drawable,null,null,null);
+                tv_arrow.setCompoundDrawables(drawable, null, null, null);
                 view.startAnimation(animationSet);
                 playAnimation(tv_arrow_animation);
                 //event.put("act", "good");
@@ -146,20 +160,21 @@ public abstract class CardHolder extends BaseHolder {
                 break;
             }
 
-            case R.id.tv_narrow:
-            {
-                if(mBaded +mGooded> 0)
+            case R.id.tv_narrow: {
+                if (mBaded + mGooded > 0)
                     return;
                 mBaded = 1;
-                try{
-                    mJO.put("bad",mJO.optInt("bad")+1);
+                try {
+                    mJO.put("bad", mJO.optInt("bad") + 1);
                     tv_narrow.setText(mJO.getString("bad"));
-                }catch (JSONException e){e.printStackTrace();}
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 //点击后换颜色
-                Drawable drawable= context.getResources().getDrawable(R.mipmap.badred);
+                Drawable drawable = context.getResources().getDrawable(R.mipmap.badred);
                 /// 这一步必须要做,否则不会显示.
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                tv_narrow.setCompoundDrawables(drawable,null,null,null);
+                tv_narrow.setCompoundDrawables(drawable, null, null, null);
 
                 view.startAnimation(animationSet);
                 playAnimation(tv_narrow_animation);
@@ -178,7 +193,7 @@ public abstract class CardHolder extends BaseHolder {
                 }
                 Intent intent = new Intent(context, CommentActivity.class);
                 intent.putExtra("channel", "Comment");
-                intent.putExtra("tid",mTid);
+                intent.putExtra("tid", mTid);
                 context.startActivity(intent);
                 break;
             case R.id.tv_share:
@@ -195,7 +210,6 @@ public abstract class CardHolder extends BaseHolder {
         events.add(event);
         arcStateParam.events = events;
     }
-
 
 
     private void showShare(Context context) {
@@ -251,8 +265,9 @@ public abstract class CardHolder extends BaseHolder {
     }
 
 
-
     public void bindBaseView(Context context, CardHolder cardHolder, JSONObject jsonObject) {
+
+        setOnLikeListener();
 
         try {
 
@@ -283,22 +298,22 @@ public abstract class CardHolder extends BaseHolder {
              * */
             Drawable drawable_good;
             Drawable drawable_bad;
-            if(mGooded > 0){
+            if (mGooded > 0) {
                 drawable_good = context.getResources().getDrawable(R.mipmap.goodred);
-            }else{
+            } else {
                 drawable_good = context.getResources().getDrawable(R.mipmap.arrow);
             }
-            if(mBaded > 0){
+            if (mBaded > 0) {
                 drawable_bad = context.getResources().getDrawable(R.mipmap.badred);
-            }else{
+            } else {
                 drawable_bad = context.getResources().getDrawable(R.mipmap.narrow);
             }
 
             /// 这一步必须要做,否则不会显示.
             drawable_good.setBounds(0, 0, drawable_good.getMinimumWidth(), drawable_good.getMinimumHeight());
             drawable_bad.setBounds(0, 0, drawable_bad.getMinimumWidth(), drawable_bad.getMinimumHeight());
-            tv_arrow.setCompoundDrawables(drawable_good,null,null,null);
-            tv_narrow.setCompoundDrawables(drawable_bad,null,null,null);
+            tv_arrow.setCompoundDrawables(drawable_good, null, null, null);
+            tv_narrow.setCompoundDrawables(drawable_bad, null, null, null);
 
 
             LogUtil.e(avatarUrl);
@@ -323,5 +338,58 @@ public abstract class CardHolder extends BaseHolder {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 设置 likeListener
+     */
+    private void setOnLikeListener() {
+        star_button.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+            }
+        });
+
+        heart_button.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+            }
+        });
+
+        thumb_button.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+            }
+        });
+
+        smile_button.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+            }
+        });
     }
 }

@@ -90,6 +90,7 @@ dependencies {
     //compile 'com.google.firebase:firebase-core:9.0.2'
     //compile 'com.google.android.gms:play-services-ads:9.0.0'
     compile   'com.google.android.gms:play-services:6.+'
+    compile 'com.github.jd-alexander:LikeButton:0.2.0'
 }
 //如果想要跑旧版的广告，不要下面这句话，就可以使用6.+
 //apply plugin: 'com.google.gms.google-services'
