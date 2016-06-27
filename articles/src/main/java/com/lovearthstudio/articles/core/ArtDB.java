@@ -84,6 +84,7 @@ public class ArtDB {
                     dbitem.setChannel(channel);
                     dbitem.setGooded(0);
                     dbitem.setBaded(0);
+                    dbitem.setStared(0);
                     Log.e("insert2realm",dbitem.toString());
                 }
                 /**
@@ -425,6 +426,7 @@ public class ArtDB {
             jo.put("comt",item.getComt());
             jo.put("gooded",item.getGooded());
             jo.put("baded",item.getBaded());
+            jo.put("stared",item.getStared());
             jo.put("tags",item.getTags());
         }catch(JSONException e){
 

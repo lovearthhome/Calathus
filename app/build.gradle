@@ -46,7 +46,9 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     /* bibi jkplayer */
+
     /* compile 'com.facebook.fresco:fresco:0.9.0.+'*/
+
     // Glide's OkHttp3 Integration
     compile project(':articles')
     compile(name: 'duasdk-debug', ext: 'aar')
@@ -82,15 +84,18 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     compile 'com.github.jhw-dev:CircleLoadingView:v1.3'
-
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.facebook.fresco:fresco:0.11.0'
     compile 'com.facebook.fresco:animated-gif:0.11.0'
     compile project(':sharesdk')
     //compile 'com.google.firebase:firebase-core:9.0.2'
+
     //compile 'com.google.android.gms:play-services-ads:9.0.0'
-    compile   'com.google.android.gms:play-services:6.+'
+    compile 'com.google.android.gms:play-services:6.+'
     compile 'com.github.jd-alexander:LikeButton:0.2.0'
+    //飞动的文字
+    compile 'com.ufreedom.uikit:FloatingTextLibrary:0.2.0'
+    compile project(':popup')
 }
 //如果想要跑旧版的广告，不要下面这句话，就可以使用6.+
 //apply plugin: 'com.google.gms.google-services'

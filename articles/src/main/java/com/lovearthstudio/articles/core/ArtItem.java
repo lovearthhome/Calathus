@@ -77,7 +77,11 @@ public class ArtItem extends RealmObject {
 
     public int getBaded() {return baded;}
     public void setBaded(int baded) {this.baded = baded;}
+    //用户自己是否收藏，是本地数据库功能
+    private int stared;
 
+    public int getStared() {return stared;}
+    public void setStared(int baded) {this.stared = stared;}
     //文章的分享数目
     private int shar;
 
@@ -88,7 +92,7 @@ public class ArtItem extends RealmObject {
 
     public int getComt() {return comt;}
     public void setComt(int comt) {this.comt = comt;}
-    //文章的收藏数目
+    //文章的收藏数目:0
     private int star;
     public int getStar() {return star;}
     public void setStar(int star) {this.star = star;}

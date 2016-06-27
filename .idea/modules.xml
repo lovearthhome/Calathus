@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/commentviewlib/commentviewlib.iml" filepath="$PROJECT_DIR$/commentviewlib/commentviewlib.iml" />
       <module fileurl="file://$PROJECT_DIR$/gallery/gallery.iml" filepath="$PROJECT_DIR$/gallery/gallery.iml" />
       <module fileurl="file://$PROJECT_DIR$/mpv/mpv.iml" filepath="$PROJECT_DIR$/mpv/mpv.iml" />
+      <module fileurl="file://$PROJECT_DIR$/popup/popup.iml" filepath="$PROJECT_DIR$/popup/popup.iml" />
       <module fileurl="file://$PROJECT_DIR$/rxvolley/rxvolley.iml" filepath="$PROJECT_DIR$/rxvolley/rxvolley.iml" />
       <module fileurl="file://$PROJECT_DIR$/sharesdk/sharesdk.iml" filepath="$PROJECT_DIR$/sharesdk/sharesdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/viewpagerindicator/viewpagerindicator.iml" filepath="$PROJECT_DIR$/viewpagerindicator/viewpagerindicator.iml" />

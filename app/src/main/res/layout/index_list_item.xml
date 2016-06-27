@@ -67,7 +67,7 @@
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
                 android:background="@android:color/darker_gray" />
-
+            <!--旧版的操作条，隐藏为gone-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -113,7 +113,7 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/tv_comment"
+                        android:id="@+id/tv_comment0"
                         style="@style/ListImageTextStyle"
                         android:drawableLeft="@mipmap/comment"
                         android:text="6万" />
@@ -125,7 +125,7 @@
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/tv_share"
+                        android:id="@+id/tv_share0"
                         style="@style/ListImageTextStyle"
                         android:drawableLeft="@mipmap/share"
                         android:text="55万" />
@@ -133,63 +133,20 @@
                     <TextView style="@style/ListItemAddOne" />
                 </FrameLayout>
             </LinearLayout>
-
+            <!--采用了LikeButton的操作条-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
+                <!--按钮：赞-->
+                <!-- android:layout_weight="1".只要让个按钮的权重相同就可以. layout就可以平均布局-->
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1">
 
                     <com.like.LikeButton
-                        android:id="@+id/star_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:icon_size="22dp"
-                        app:icon_type="star"
-                        app:liked="true" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="44dp"
-                        android:text="100万"
-                        android:textSize="6sp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <com.like.LikeButton
-                        android:id="@+id/heart_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:icon_size="22dp"
-                        app:icon_type="heart"
-                        app:liked="true" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="44dp"
-                        android:text="100万"
-                        android:textSize="6sp" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <com.like.LikeButton
-                        android:id="@+id/thumb_button"
+                        android:id="@+id/good_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:circle_end_color="@android:color/holo_blue_dark"
@@ -197,42 +154,165 @@
                         app:dots_primary_color="@android:color/holo_blue_light"
                         app:dots_secondary_color="@android:color/holo_blue_dark"
                         app:icon_size="22dp"
-                        app:like_drawable="@drawable/thumb_on"
-                        app:unlike_drawable="@drawable/thumb_off" />
+                        app:liked="false"
+                        app:like_drawable="@drawable/good_on"
+                        app:unlike_drawable="@drawable/good_off"
+                        />
 
                     <TextView
+                        android:id="@+id/tv_good"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="44dp"
+                        android:textAlignment="textStart"
+                        android:gravity="center_vertical|start"
                         android:text="100万"
-                        android:textSize="6sp" />
+                        android:textSize="12sp" />
                 </RelativeLayout>
-
-
+                <!--按钮：踩-->
                 <RelativeLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1">
 
                     <com.like.LikeButton
-                        android:id="@+id/smile_button"
+                        android:id="@+id/bad_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:circle_end_color="@android:color/holo_purple"
-                        app:circle_start_color="@android:color/holo_purple"
-                        app:dots_primary_color="@android:color/holo_blue_dark"
-                        app:dots_secondary_color="@android:color/holo_blue_light"
-                        app:icon_size="22dp" />
+                        app:circle_end_color="@android:color/holo_blue_dark"
+                        app:circle_start_color="@android:color/holo_blue_bright"
+                        app:dots_primary_color="@android:color/holo_blue_light"
+                        app:dots_secondary_color="@android:color/holo_blue_dark"
+                        app:icon_size="22dp"
+                        app:liked="false"
+                        app:like_drawable="@drawable/bad_on"
+                        app:unlike_drawable="@drawable/bad_off"
+                        />
 
                     <TextView
+                        android:id="@+id/tv_bad"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="44dp"
+                        android:textAlignment="textStart"
+                        android:gravity="center_vertical|start"
                         android:text="100万"
-                        android:textSize="6sp" />
+                        android:textSize="12sp"
+                        />
                 </RelativeLayout>
+                <!--按钮：分享-->
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    >
+
+                    <com.like.LikeButton
+                        android:id="@+id/share_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:circle_end_color="@android:color/holo_blue_dark"
+                        app:circle_start_color="@android:color/holo_blue_bright"
+                        app:dots_primary_color="@android:color/holo_blue_light"
+                        app:dots_secondary_color="@android:color/holo_blue_dark"
+                        app:icon_size="22dp"
+                        app:liked="false"
+                        app:like_drawable="@drawable/share"
+                        app:unlike_drawable="@drawable/share"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_share"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="44dp"
+                        android:textAlignment="textStart"
+                        android:gravity="center_vertical|start"
+                        android:text="100万"
+                        android:textSize="12sp"
+                        />
+                </RelativeLayout>
+                <!--按钮：评论-->
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    >
+
+                    <com.like.LikeButton
+                        android:id="@+id/comment_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:circle_end_color="@android:color/holo_blue_dark"
+                        app:circle_start_color="@android:color/holo_blue_bright"
+                        app:dots_primary_color="@android:color/holo_blue_light"
+                        app:dots_secondary_color="@android:color/holo_blue_dark"
+                        app:icon_size="22dp"
+                        app:liked="false"
+                        app:like_drawable="@drawable/comment"
+                        app:unlike_drawable="@drawable/comment"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="44dp"
+                        android:textAlignment="textStart"
+                        android:gravity="center_vertical|start"
+                        android:text="100万"
+                        android:textSize="12sp"
+                        />
+                </RelativeLayout>
+                <!--按钮：分享,旧的版本-->
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_comment1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/comment"
+                        android:layout_centerVertical="true"
+                        android:textAlignment="textStart"
+                        android:gravity="center_vertical|start"
+                        android:text="100万"
+                        android:textSize="12sp"
+                        />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_share1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:drawableLeft="@drawable/share"
+                        android:layout_centerVertical="true"
+                        android:textAlignment="textStart"
+                        android:gravity="center_vertical|start"
+                        android:text="100万"
+                        android:textSize="12sp"
+                        />
+
+                    <TextView style="@style/ListItemAddOne" />
+                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

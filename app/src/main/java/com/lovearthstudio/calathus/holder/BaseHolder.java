@@ -1,5 +1,6 @@
 package com.lovearthstudio.calathus.holder;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,7 +19,7 @@ import org.xutils.view.annotation.ViewInject;
  * Created by zhaoliang on 16/4/23.
  */
 public abstract class BaseHolder extends RecyclerView.ViewHolder implements RecyclerView.OnChildAttachStateChangeListener {
-
+    protected Activity mActivity;
     public Context context;
     private FrameLayout root_layout;
     /**
