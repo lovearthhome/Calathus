@@ -46,7 +46,8 @@ import razerdp.popup.ReportPopup;
  */
 public abstract class CardHolder extends BaseHolder {
 
-    private static final int SHOW_POP = 1;
+    private static final int MOREPOP_CLICK = 1;
+    private static final int REPORTPOP_CLICK = 2;
     private ArcState arcStateParam;
     private List<Map<String, Object>> events;
     private Map<String, Object> event;
@@ -113,15 +114,70 @@ public abstract class CardHolder extends BaseHolder {
      *  2： comment->举报
      * */
     private MorePopup mMorePopup;
+    /**
+     *  cardhouder自带的举报界面
+     *  1： 各种举报理由
+     *
+     * */
+    private ReportPopup reportPopup;
 
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case SHOW_POP:
-                    ReportPopup reportPopup = new ReportPopup((Activity)context);
-                    View view = ((Activity) context).findViewById(R.id.iv_more) ;
-                    reportPopup.showPopupWindow(view);
+                case MOREPOP_CLICK:
+                    if("collect".equals(msg.obj))
+                    {
+                        if(mStared > 0){
+                            if (com.lovearthstudio.articles.constant.Constant.binder != null) {
+                                com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid, "View", "star", 0, setViewArticleCB);
+                            }
+                        }else{
+                            if (com.lovearthstudio.articles.constant.Constant.binder != null) {
+                                com.lovearthstudio.articles.constant.Constant.binder.setArticle(mTid, "View", "star", 1, setViewArticleCB);
+                            }
+                        }
+                    }else if ("report".equals(msg.obj)){
+                        reportPopup = new ReportPopup((Activity)context);
+                        reportPopup.setClickListener(new ReportPopup.OnClickListener(){
+                            @Override
+                            public void onItemClick(String which) {
+                                Message obtain = Message.obtain();
+                                obtain.what = REPORTPOP_CLICK;
+                                obtain.obj = which;
+                                mHandler.sendMessage(obtain);
+                            }
+                        });
+                        View view = ((Activity) context).findViewById(R.id.iv_more) ;
+                        reportPopup.showPopupWindow(view);
+                    }
+                    break;
+                case REPORTPOP_CLICK:
+                    if(!"cancel".equals(msg.obj)  && !"report".equals(msg.obj))
+                    {
+                        /**
+                         * 举报，在report里被当作一个和评论一样的级别
+                         * 1： rid是文章id
+                         * 2:  comment
+                         * 3:  举报的类别放在title域
+                         */                        if (com.lovearthstudio.articles.constant.Constant.binder != null) {
+                            String jsonStr = "{\"title\":\""+msg.obj+"\",\"brief\":\"\",\"texts\":[],\"files\":[]}";//text的两边必须有双引号，否则在数据库里是: "brief":我是评论
+                            com.lovearthstudio.articles.constant.Constant.binder.addArticle(/*rid*/mTid,"Report","Text",101,700     /*举报占的号*/,jsonStr, new reportArticleCallBack());
+                        }
+                    }else if ("report".equals(msg.obj)){
+                        reportPopup = new ReportPopup((Activity)context);
+                        reportPopup.setClickListener(new ReportPopup.OnClickListener(){
+                            @Override
+                            public void onItemClick(String which) {
+                                Message obtain = Message.obtain();
+                                obtain.what = REPORTPOP_CLICK;
+                                obtain.obj = which;
+                                mHandler.sendMessage(obtain);
+                            }
+                        });
+                        View view = ((Activity) context).findViewById(R.id.iv_more) ;
+                        reportPopup.showPopupWindow(view);
+                    }
                     break;
             }
         }
@@ -151,45 +207,12 @@ public abstract class CardHolder extends BaseHolder {
         mMorePopup.setClickListener(new MorePopup.OnClickListener(){
             @Override
             public void onItemClick(String which) {
-                if("report".equals(which))
-                {
-                    Message obtain = Message.obtain();
-                    obtain.what = SHOW_POP;
-                    obtain.obj = "na";
-                    mHandler.sendMessage(obtain);
-                }
+                Message obtain = Message.obtain();
+                obtain.what = MOREPOP_CLICK;
+                obtain.obj = which;
+                mHandler.sendMessage(obtain);
             }
         });
-//        mMorePopup = new CommentPopup((Activity) context);
-//        mMorePopup.setOnCommentPopupClickListener(new CommentPopup.OnClickListener() {
-//            @Override
-//            public void onLikeClick(View v, TextView likeText) {
-//                if (v.getTag() == null) {
-//                    v.setTag(1);
-//                    likeText.setText("取消");
-//                }
-//                else {
-//                    switch ((int) v.getTag()) {
-//                        case 0:
-//                            v.setTag(1);
-//                            likeText.setText("取消");
-//                            break;
-//                        case 1:
-//                            v.setTag(0);
-//                            likeText.setText("赞  ");
-//                            break;
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCommentClick(View v) {
-//                ToastUtils.ToastMessage(mContext, "评论");
-//            }
-//        });
-
-
-
     }
 
     @Event({R.id.tv_arrow, R.id.tv_narrow, R.id.tv_comment, R.id.tv_share, R.id.iv_more})
@@ -502,5 +525,16 @@ public abstract class CardHolder extends BaseHolder {
 //        });
 
     }
+    class reportArticleCallBack implements MyCallBack {
 
+        @Override
+        public void onFailure(JSONObject reason) {
+            System.out.println("举报文章成功" + reason.toString());
+        }
+
+        @Override
+        public void onResponse(JSONObject result) {
+            System.out.println("举报文章失败" + result.toString());
+        }
+    }
 }

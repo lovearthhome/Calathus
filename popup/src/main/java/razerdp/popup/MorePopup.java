@@ -101,6 +101,5 @@ public class MorePopup extends BasePopupWindow implements View.OnClickListener{
     //=============================================================InterFace
     public interface OnClickListener {
         void onItemClick(String which);
-
     }
 }

@@ -56,6 +56,10 @@ public class ReportPopup extends BasePopupWindow implements View.OnClickListener
             popupView.findViewById(R.id.tx_1).setOnClickListener(this);
             popupView.findViewById(R.id.tx_2).setOnClickListener(this);
             popupView.findViewById(R.id.tx_3).setOnClickListener(this);
+            popupView.findViewById(R.id.tx_4).setOnClickListener(this);
+            popupView.findViewById(R.id.tx_5).setOnClickListener(this);
+            popupView.findViewById(R.id.tx_6).setOnClickListener(this);
+            popupView.findViewById(R.id.tx_7).setOnClickListener(this);
         }
 
     }
@@ -64,32 +68,27 @@ public class ReportPopup extends BasePopupWindow implements View.OnClickListener
     public void onClick(View v) {
         int i = v.getId();
         if (i == R.id.tx_1) {
-            mClickListener.onItemClick("collect");
-        } else if (i == R.id.tx_2) {
             mClickListener.onItemClick("report");
-        } else if (i == R.id.tx_3) {
+        }else if (i == R.id.tx_2) {
+            mClickListener.onItemClick("eroticism");
+        }else if (i == R.id.tx_3) {
+            mClickListener.onItemClick("advertisement");
+        }else if (i == R.id.tx_4) {
+            mClickListener.onItemClick("politics");
+        }else if (i == R.id.tx_5) {
+            mClickListener.onItemClick("copyright");
+        }else if (i == R.id.tx_6) {
+            mClickListener.onItemClick("other");
+        }else if (i == R.id.tx_7) {
             mClickListener.onItemClick("cancel");
-        } else {
         }
-        dismiss();
+        if(i != R.id.tx_1)
+        {
+            dismiss();
+        }
     }
 
-    /**
-     * 设置收藏的状态
-     * flag: true 已收藏
-     * flag: false 已取消收藏
-     * */
-    public void setStar(Boolean flag)
-    {
-        mFlag = flag;
-        TextView tv_star =  (TextView)popupView.findViewById(R.id.tx_1);
-        if(flag == true)
-        {
-            tv_star.setText("收藏");
-        }else{
-            tv_star.setText("取消收藏");
-        }
-    }
+
 
     //=============================================================Getter/Setter
     private OnClickListener mClickListener;
@@ -103,6 +102,5 @@ public class ReportPopup extends BasePopupWindow implements View.OnClickListener
     //=============================================================InterFace
     public interface OnClickListener {
         void onItemClick(String which);
-
     }
 }
