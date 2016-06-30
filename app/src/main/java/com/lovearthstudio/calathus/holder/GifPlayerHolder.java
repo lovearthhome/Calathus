@@ -32,7 +32,7 @@ public class GifPlayerHolder extends CardHolder {
 
     @Override
     public int setLayoutFile() {
-        return R.layout.card_gif_view_holder;
+        return R.layout.card_gif_holder;
     }
 
     @Override

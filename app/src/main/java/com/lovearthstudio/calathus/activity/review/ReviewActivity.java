@@ -31,7 +31,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-@ContentView(R.layout.activity_review2)
+@ContentView(R.layout.activity_review)
 public class ReviewActivity extends BaseActivity {
 
     @ViewInject(R.id.other_toolbar)

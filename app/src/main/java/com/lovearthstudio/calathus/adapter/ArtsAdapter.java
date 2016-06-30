@@ -63,13 +63,13 @@ public class ArtsAdapter extends RecyclerView.Adapter<BaseHolder> {
         System.out.println("--------------" + viewType);
         switch (viewType) {
             case 501:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adindex_list_item, parent, false);
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_wrapper_ad, parent, false);
                 break;
             case 601:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_index_list_item, parent, false);
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_wrapper_cmt, parent, false);
                 break;
             default:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.index_list_item, parent, false);
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_wrapper_art, parent, false);
                 break;
         }
         BaseHolder holder = null;

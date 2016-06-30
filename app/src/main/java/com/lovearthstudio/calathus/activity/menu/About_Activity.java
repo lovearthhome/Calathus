@@ -11,7 +11,7 @@ import com.lovearthstudio.calathus.activity.BaseActivity;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
-@ContentView(R.layout.about_activity)
+@ContentView(R.layout.activity_about)
 public class About_Activity extends BaseActivity {
 
     @ViewInject(R.id.other_toolbar)

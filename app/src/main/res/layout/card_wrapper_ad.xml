@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--这个layout专门为没有工具条(点赞，踩)的card用的-->
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:zhy="http://schemas.android.com/apk/res-auto"
@@ -51,7 +52,7 @@
                 android:src="@mipmap/more" />
         </LinearLayout>
 
-
+        <!--这个framelayout在后来java代码里把各个card的layout嵌套到这个里面-->
         <FrameLayout
             android:id="@+id/root_layout"
             android:layout_width="match_parent"

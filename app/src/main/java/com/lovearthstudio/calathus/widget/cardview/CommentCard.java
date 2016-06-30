@@ -29,7 +29,7 @@ public class CommentCard extends BaseCardView {
 
     @Override
     public void inflaterLayout(Context context) {
-        LayoutInflater.from(context).inflate(R.layout.comment_card, this, true);
+        LayoutInflater.from(context).inflate(R.layout.card_comment, this, true);
     }
 
     @Override

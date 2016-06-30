@@ -17,7 +17,9 @@
         android:orientation="vertical"
         android:paddingLeft="@dimen/main_item_padding_left_right"
         android:paddingRight="@dimen/main_item_padding_left_right"
-        android:paddingTop="@dimen/main_item_padding_top">
+        android:paddingTop="@dimen/main_item_padding_top"
+        android:background="#FFFFFF"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -219,6 +221,7 @@
                         app:dots_secondary_color="@android:color/holo_blue_dark"
                         app:icon_size="22dp"
                         app:liked="false"
+                        app:is_enabled="false"
                         app:like_drawable="@drawable/share"
                         app:unlike_drawable="@drawable/share"
                         />
@@ -240,6 +243,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="visible"
                     >
 
                     <com.like.LikeButton
@@ -252,6 +256,7 @@
                         app:dots_secondary_color="@android:color/holo_blue_dark"
                         app:icon_size="22dp"
                         app:liked="false"
+                        app:is_enabled="false"
                         app:like_drawable="@drawable/comment"
                         app:unlike_drawable="@drawable/comment"
                         />

@@ -31,9 +31,6 @@
 
         </activity>
         <activity
-            android:name=".activity.MoreActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.MusicPalyerActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -30,7 +30,7 @@ public class VideoViewHolder extends CardHolder {
 
     @Override
     public int setLayoutFile() {
-        return R.layout.card_video_view_holder;
+        return R.layout.card_video_holder;
     }
 
     @Override

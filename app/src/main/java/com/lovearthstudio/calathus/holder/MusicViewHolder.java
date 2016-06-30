@@ -32,7 +32,7 @@ public class MusicViewHolder extends CardHolder {
 
     @Override
     public int setLayoutFile() {
-        return R.layout.card_music_view_holder;
+        return R.layout.card_music_holder;
     }
 
     @Override

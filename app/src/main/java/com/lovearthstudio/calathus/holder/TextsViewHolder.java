@@ -36,7 +36,7 @@ public class TextsViewHolder extends CardHolder {
 
     @Override
     public int setLayoutFile() {
-        return R.layout.card_texts_view_holder;
+        return R.layout.card_texts_holder;
     }
 
     @Override

@@ -11,7 +11,7 @@ import org.xutils.view.annotation.ContentView;
 /**
  * A simple {@link Fragment} subclass.
  */
-@ContentView(R.layout.fragment_guide_three)
+@ContentView(R.layout.fragment_guide3)
 public class GuideFragment3 extends GuideFragment {
 
 

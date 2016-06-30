@@ -31,7 +31,7 @@ public class CommentViewHolder extends BaseHolder {
 
     @Override
     public int setLayoutFile() {
-        return R.layout.comment_view_holder;
+        return R.layout.card_comment_holder;
     }
 
     @Override

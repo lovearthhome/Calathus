@@ -35,7 +35,7 @@ public class ImageViewHolder extends CardHolder {
 
     @Override
     public int setLayoutFile() {
-        return R.layout.card_image_view_holder;
+        return R.layout.card_image_holder;
     }
 
     @Override
